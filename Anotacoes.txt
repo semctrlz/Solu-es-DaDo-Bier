@@ -1,0 +1,3 @@
+Criar tabela de Beckup de itens da seguinte forma:
+
+Criar o item padrão e adicionar outros itens como beckup. Itens esses que serão somados à quantidade inventariada.
