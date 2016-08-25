@@ -202,17 +202,18 @@ namespace GUI
             }
         }
 
-        private DALConexao conexao;
-
         private void LocalizarSenha(int codigo)
         {
 
+            DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
 
             DTOUsuario modelo = new DTOUsuario();
+
+
             SqlCommand cmd = new SqlCommand();
-            cmd.Connection = conexao.ObjetoConexao;
+            cmd.Connection = cx.ObjetoConexao;
             cmd.CommandText = "select * from usuario where (id_usuario) =" + codigo.ToString();
-            conexao.Conectar();
+            cx.Conectar();
             SqlDataReader registro = cmd.ExecuteReader();
             if (registro.HasRows)
             {

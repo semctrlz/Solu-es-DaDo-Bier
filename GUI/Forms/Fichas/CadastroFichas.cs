@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,12 +18,10 @@ namespace GUI.Forms.Fichas
     {
 
         #region Variáveis
-
+        public string foto = "";
         int unidade, idUsuario;
         bool herdado = false;
-        string operacao = "";
-        double CustoFicha = 0;
-        string CodigoProdutoN;
+        string operacao = "consultar";
         string CodigoEdicaoProduto = "";
         bool liberado = false;
 
@@ -53,17 +52,19 @@ namespace GUI.Forms.Fichas
             if(CodigoEdicaoProduto == "")
             {
             DefaultValues();
-                operacao = "inserir";
+                
+                
             }
             else
             {
                 CarregaFicha(CodigoEdicaoProduto);
-                operacao = "consultar";
+                
             }
 
             AlteraBotoes();
-            txtNome.Focus();
-            txtNome.Select();
+            
+
+            liberado = true;
         }
 
         #endregion
@@ -143,10 +144,15 @@ namespace GUI.Forms.Fichas
 
         private void zerarPagina()
         {
+            DTOCaminhos dto = new DTOCaminhos();
+
+
             liberado = false;
+            pbFoto.Load(dto.Produtos + "0.jpg");
             txtCodItem.Clear();
             txtNomeItem.Clear();
             txtQuant.Clear();
+            txtPreparo.Clear();
             txtUm.Clear();
             txtFc.Clear();
             txtCodItem.Focus();
@@ -158,13 +164,17 @@ namespace GUI.Forms.Fichas
             txtCodigoPrato.Clear();
             gbFicha.Enabled = true;
             gbIngredientes.Enabled = false;
-            operacao = "inserir";
             DefaultValues();
             txtDescricao.Clear();
             AlteraBotoes();
+            liberado = true;
         }
+
         private void AlteraBotoes()
         {
+
+            liberado = false;
+
             btNovo.Enabled = false;
             btEditar.Enabled = false;
             btSalvar.Enabled = false;
@@ -177,6 +187,10 @@ namespace GUI.Forms.Fichas
             cbSubCategoria.Enabled = false;
             cbCategoria.Enabled = false;
             txtQuant.Enabled = false;
+            txtPreparo.Enabled = false;
+            dgvFicha.Enabled = false;
+            txtDescricao.Enabled = false;
+            gbImagem.Enabled = false;
             
 
             if (operacao == "inserir")
@@ -191,6 +205,10 @@ namespace GUI.Forms.Fichas
                 cbSetor.Enabled = true;
                 cbSubCategoria.Enabled = true;
                 cbCategoria.Enabled = true;
+                txtPreparo.Enabled = true;
+                dgvFicha.Enabled = true;
+                txtDescricao.Enabled = true;
+                gbImagem.Enabled = true;
             }
             else if(operacao == "editar")
             {
@@ -204,17 +222,24 @@ namespace GUI.Forms.Fichas
                 cbSetor.Enabled = true;
                 cbSubCategoria.Enabled = true;
                 cbCategoria.Enabled = true;
+                txtPreparo.Enabled = true;
+                dgvFicha.Enabled = true;
+                txtDescricao.Enabled = true;
+                gbImagem.Enabled = true;
             }
             else if(operacao == "consultar")
             {
                 btExcluir.Enabled = true;
                 btLocalizar.Enabled = true;
                 btEditar.Enabled = true;
+                btNovo.Enabled = true;
             }
             else
             {
                 
             }
+
+            liberado = true;
         }
 
         private void VerificarNomePrato()
@@ -223,7 +248,7 @@ namespace GUI.Forms.Fichas
             BLLPratos bll = new BLLPratos(cx);
             DataTable tabela = bll.LocalizarNome(txtNome.Text);
 
-            if (tabela.Rows.Count > 0)
+            if (tabela.Rows.Count > 0 && liberado)
             {
                 MessageBox.Show("Já existe um prato chamado \"" + txtNome.Text.Trim().ToUpper() + "\".");
             }
@@ -251,7 +276,6 @@ namespace GUI.Forms.Fichas
             unidade = Convert.ToInt32(cbUnidade.SelectedValue);
             LimpaCampos();
             AlteraBotoes();
-            CustoFicha = 0;
             dgvFicha.Rows.Clear();
             CarregaCat();
             
@@ -319,6 +343,7 @@ namespace GUI.Forms.Fichas
 
                 txtRendimento.Text = rendimento.ToString("#,0.00");
 
+
                 //Carrega setor, categoria e subcategoria
 
                 BLLBuffet bllsetor = new BLLBuffet(cx);
@@ -344,6 +369,20 @@ namespace GUI.Forms.Fichas
 
                 CarregarIngredientesPorCodigo(cod);
 
+                DTOCaminhos dtocaminhos = new DTOCaminhos();
+
+                try
+                {
+                    pbFoto.Load(dtocaminhos.FT + cod + ".jpg");
+
+                }
+                catch
+                {
+                    pbFoto.Load(dtocaminhos.Produtos + "0.jpg");
+                    btDeletaFoto.Enabled = false;
+                }
+                                
+
             }
         }        
 
@@ -365,13 +404,14 @@ namespace GUI.Forms.Fichas
             if (txtRendimento.Text == "")
             {
                 txtRendimento.Text = "0,0000";
+                RecalcularCusto();
             }
             string txt = txtPeso.Text;
 
             if (Double.TryParse(txt, out doubleValue))
             {
                 txtPeso.Text = doubleValue.ToString("#,0.0000");
-
+                RecalcularCusto();
             }
 
             else if (txtPeso.Text == "")
@@ -392,80 +432,17 @@ namespace GUI.Forms.Fichas
 
             DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
             BLLIngredientes bll = new BLLIngredientes(cx);
-            DataTable tabela01, tabelage;
-            bool tabela1, tabelag;
-            double custo1, custo2;
-
-            try
-            {
-                tabela01 = bll.Custo01(txtCodItem.Text, Convert.ToInt32(cbUnidade.SelectedValue));
-                custo1 = Convert.ToDouble(tabela01.Rows[0][1]);
-                tabela1 = true;
-            }
-            catch
-            {
-                custo1 = 0;
-                tabela1 = false;
-
-            }
-            try
-            {
-                tabelage = bll.CustoGeral(txtCodItem.Text, Convert.ToInt32(cbUnidade.SelectedValue));
-                custo2 = Convert.ToDouble(tabelage.Rows[0][1]);
-                tabelag = true;
-            }
-            catch
-            {
-                tabelag = false;
-                custo2 = 0;
-            }
-
-            if (tabela1)
-            {
-                custoUnit = custo1;
-            }
-            else if (tabelag)
-            {
-                custoUnit = custo2;
-            }
-            else
-            {
-                custoUnit = 0;
-            }
-
-            custoTotal = Convert.ToDouble(txtQuant.Text) * custoUnit;
-            CustoFicha += custoTotal;
+            
+            Augoritmos a = new Augoritmos();
+            
+                custoUnit = a.CustoIngrediente(txtCodItem.Text, Convert.ToInt32(cbUnidade.SelectedValue));
+            
+            custoTotal = custoUnit * Convert.ToDouble(txtQuant.Text);
 
             String[] V = new string[] { txtCodItem.Text, txtNomeItem.Text, txtQuant.Text, txtUm.Text, txtFc.Text, custoUnit.ToString("#,0.00"), custoTotal.ToString("#,0.00") };
             dgvFicha.Rows.Add(V);
 
-            lbCustoTotal2.Text = CustoFicha.ToString("#,0.00");
-
-            try
-            {
-                if (Convert.ToDouble(txtPeso.Text) > 0)
-                {
-                    lbCustoKg2.Text = (CustoFicha / Convert.ToDouble(txtPeso.Text)).ToString("#,0.00");
-                } else
-                {
-                    lbCustoKg2.Text = "0,00";
-
-                }
-            }
-            catch
-            {
-                lbCustoKg2.Text = "0,00";
-            }
-
-            try
-            {
-                lbCustoPorcao2.Text = (CustoFicha / Convert.ToDouble(txtRendimento.Text)).ToString("#,0.00");
-            }
-            catch
-            {
-                lbCustoPorcao2.Text = "0,00";
-            }
-
+            RecalcularCusto();
             txtCodItem.Clear();
             txtNomeItem.Clear();
             txtQuant.Clear();
@@ -483,7 +460,7 @@ namespace GUI.Forms.Fichas
             // Salvar dados da ficha
 
             DTOPratos dto = new DTOPratos();
-
+            Augoritmos a = new Augoritmos();
             DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
             BLLPratos bll = new BLLPratos(cx);
 
@@ -507,19 +484,34 @@ namespace GUI.Forms.Fichas
 
             }
 
+            //Dados de AEB
+
+            DTOAeB dtoaeb = new DTOAeB();
+            BLLAeB bllaeb = new BLLAeB(cx);
+
+            dtoaeb.CodAeb = dto.CodPrato;
+            dtoaeb.NomeAeb = dto.NomePrato;
+            dtoaeb.UmAeb = "KG";
+            dtoaeb.Fc = 0;
+
+
             if (operacao == "inserir")
             {
                 try
                 {
                     bll.Incluir(dto);
+                    bllaeb.Incluir(dtoaeb);
                     SalvarIngredientes();
+                    
+                    a.IncluiFoto(txtCodigoPrato.Text, foto);
+
                     MessageBox.Show($"Ficha técnica {dto.CodPrato} - {dto.NomePrato} salva com sucesso.");
                     operacao = "consultar";
                     AlteraBotoes();
                 }
-                catch
+                catch (Exception e)
                 {
-                    MessageBox.Show("Erro ao salvar a ficha técnica.");
+                    MessageBox.Show("Erro ao salvar a ficha.\n" + e.ToString());
                 }
             }
             else if(operacao == "editar")
@@ -527,7 +519,10 @@ namespace GUI.Forms.Fichas
                 try
                 {
                     bll.Alterar(dto);
+                    bllaeb.AlterarPorCod(dtoaeb);
                     SalvarIngredientes();
+
+                    a.IncluiFoto(txtCodigoPrato.Text, foto);
 
                     MessageBox.Show($"Ficha técnica {dto.CodPrato} - {dto.NomePrato} alterada com sucesso.");
                     operacao = "consultar";
@@ -600,27 +595,25 @@ namespace GUI.Forms.Fichas
             
         }        
 
-        private void GeraCodigo()
+        private string CodigoNovo()
         {
-
             DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
             BLLPratos bllCod = new BLLPratos(cx);
 
             DataTable tabela = bllCod.ListarCodigos();
 
-            //Prefixo
+            string codigo = "";
             string prefixo = "20.01.";
 
-            // Preenche produtos
             for (int i = 0; i < tabela.Rows.Count + 1; i++)
             {
 
                 try
                 {
-                    CodigoProdutoN = prefixo + (i + 1).ToString("0000");
+                    codigo = prefixo + (i + 1).ToString("0000");
                     string CodigoProdutoE = tabela.Rows[i][0].ToString();
-                    
-                    if (CodigoProdutoN != CodigoProdutoE)
+
+                    if (codigo != CodigoProdutoE)
                     {
                         i = tabela.Rows.Count + 1;
                     }
@@ -632,8 +625,8 @@ namespace GUI.Forms.Fichas
                 }
 
             }
-
-
+            
+            return codigo;
         }
 
         private void SalvarIngredientes()
@@ -684,7 +677,6 @@ namespace GUI.Forms.Fichas
 
             Augoritmos a = new Augoritmos();
 
-            double TotalFicha = 0;
 
             if (tabelaIngredientes.Rows.Count > 0)
             {
@@ -718,22 +710,55 @@ namespace GUI.Forms.Fichas
                     String[] V = new string[] { codIngrediente, nomeingrediente, quant.ToString("#,0.0000"), um, fc.ToString("#,0.0000"), custoUnit.ToString("#,0.00"), custoTotal.ToString("#,0.00") };
                     dgvFicha.Rows.Add(V);
 
-                    TotalFicha += custoTotal;
                 }
+                RecalcularCusto();
 
-                lbCustoTotal2.Text = TotalFicha.ToString("#0,0.00");
-
-                if(Convert.ToDouble(txtPeso.Text) > 0)
-                {
-                    lbCustoKg2.Text = (TotalFicha / Convert.ToDouble(txtPeso.Text)).ToString("#0,00");
-                }
-                else
-                {
-                    lbCustoKg2.Text = "0,00";
-                }
-
-                lbCustoPorcao2.Text = (TotalFicha / Convert.ToDouble(txtRendimento.Text)).ToString("#,0.00");
             }
+
+
+        }
+
+        private void RecalcularCusto()
+        {
+            double total = 0;
+            double peso = 0;
+            double porcao = 0;
+            if (dgvFicha.Rows.Count > 0)
+            {
+                for (int i = 0; i < dgvFicha.Rows.Count; i++)
+                {
+                    total += Convert.ToDouble(dgvFicha.Rows[i].Cells[6].Value);
+                }
+            }
+            if(txtPeso.Text.Trim() != "")
+            {
+                peso = Convert.ToDouble(txtPeso.Text);
+
+            }
+            if (txtRendimento.Text.Trim() != "")
+            {
+                porcao = Convert.ToDouble(txtRendimento.Text);
+            }
+
+            if (peso > 0)
+            {
+                lbCustoKg2.Text = (total / peso).ToString("#,0.00");
+            }
+            else
+            {
+                lbCustoKg2.Text = 0.ToString("#,0.00");
+            }
+
+            if (porcao > 0)
+            {
+                lbCustoPorcao2.Text = (total / porcao).ToString("#,0.00");
+            }
+            else
+            {
+                lbCustoPorcao2.Text = 0.ToString("#,0.00");
+            }
+
+            lbCustoTotal2.Text = total.ToString("#,0.00");
 
 
         }
@@ -748,13 +773,14 @@ namespace GUI.Forms.Fichas
             if(txtRendimento.Text == "")
             {
                 txtRendimento.Text = "0,00";
+                RecalcularCusto();
             }
             string txt = txtRendimento.Text;
 
             if (Double.TryParse(txt, out doubleValue))
             {
                 txtRendimento.Text = doubleValue.ToString("#,0.00");
-
+                RecalcularCusto();
             }
 
             else if (txtRendimento.Text == "")
@@ -867,7 +893,7 @@ namespace GUI.Forms.Fichas
             frmConsultaFichas cf = new frmConsultaFichas(idUsuario, true);
             cf.ShowDialog();
 
-            if(cf.fichaSelecionada != "")
+            if(cf.fichaSelecionada != "" && !string.IsNullOrEmpty(cf.fichaSelecionada))
             {
 
                 CarregaFicha(cf.fichaSelecionada);
@@ -916,12 +942,38 @@ namespace GUI.Forms.Fichas
 
         private void btNovo_Click(object sender, EventArgs e)
         {
-            txtId.Clear();
+            operacao = "inserir";
+            zerarPagina();
+            txtNome.Focus();
+            txtNome.Select();
+
         }
 
         private void btAddIngrediente_Click(object sender, EventArgs e)
         {
-            AddIngrediente();
+            if(txtCodItem.Text.Trim() == txtCodigoPrato.Text.Trim())
+            {
+                MessageBox.Show("Impossível adicinar uma ficha técnica dentro dela mesma.");
+                txtNomeItem.Clear();
+                txtUm.Clear();
+                txtFc.Clear();
+                txtQuant.Clear();
+                txtCodItem.Clear();
+                txtCodItem.Focus();
+                txtCodItem.Select();
+            }else
+            {
+                if (txtCodigoPrato.Text.Trim() == ".  .")
+                {
+                    MessageBox.Show("Antes de acrescentar o ingrediente, determine um nome para o prato.");
+                    txtNome.Focus();
+                    txtNome.Select();
+                }
+                else
+                {
+                    AddIngrediente();
+                }
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -929,6 +981,7 @@ namespace GUI.Forms.Fichas
             DialogResult d = MessageBox.Show("ATENÇÃO! Ao cancelar esta operação os dados não salvos serão perdidos. Continuar?", "Aviso", MessageBoxButtons.YesNo);
             if (d.ToString() == "Yes")
             {
+                operacao = "consultar";
                 zerarPagina();
                 liberado = true;
                 if (herdado)
@@ -945,7 +998,6 @@ namespace GUI.Forms.Fichas
             {
                 if (e.RowIndex >= 0)
                 {
-                    CustoFicha -= Convert.ToDouble(dgvFicha.Rows[e.RowIndex].Cells[6].Value);
 
                     txtCodItem.Text = Convert.ToString(dgvFicha.Rows[e.RowIndex].Cells[0].Value);
                     txtQuant.Text = Convert.ToDouble(dgvFicha.Rows[e.RowIndex].Cells[2].Value).ToString("#,0.0000");
@@ -955,32 +1007,7 @@ namespace GUI.Forms.Fichas
 
                     dgvFicha.Rows.RemoveAt(e.RowIndex);
 
-                    lbCustoTotal2.Text = CustoFicha.ToString("#,0.00");
-                    
-                    try
-                    {
-                        if (Convert.ToDouble(txtPeso.Text) > 0)
-                        {
-                            lbCustoKg2.Text = (CustoFicha / Convert.ToDouble(txtPeso.Text)).ToString("#,0.00");
-                        }else
-                        {
-                            lbCustoKg2.Text = "0,00";
-
-                        }
-                    }
-                    catch
-                    {
-                        lbCustoKg2.Text = "0,00";
-                    }
-
-                    try
-                    {
-                        lbCustoPorcao2.Text = (CustoFicha / Convert.ToDouble(txtRendimento.Text)).ToString("#,0.00");
-                    }
-                    catch
-                    {
-                        lbCustoKg2.Text = "0,00";
-                    }
+                    RecalcularCusto();
 
                     txtCodItem.Focus();
                     
@@ -996,13 +1023,37 @@ namespace GUI.Forms.Fichas
         {
             if(txtNome.Text.Trim() != "")
             {
-                txtNome.Text = txtNome.Text.Trim().ToUpper();
-                if(txtCodigoPrato.Text.Trim() == ".  .")
+                DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
+                BLLPratos bll = new BLLPratos(cx);
+
+                DataTable tabela = bll.LocalizarNome(txtNome.Text.Trim());
+
+                if (tabela.Rows.Count == 0)
                 {
-                    GeraCodigo();
-                    txtCodigoPrato.Text = CodigoProdutoN;
+
+                    txtNome.Text = txtNome.Text.Trim().ToUpper();
+                    if (txtCodigoPrato.Text.Trim() == ".  .")
+                    {
+                        txtCodigoPrato.Text = CodigoNovo();
+                        
+                    }
+                }
+                else
+                {
+                    if (liberado && tabela.Rows[0][0].ToString() != txtCodigoPrato.Text )
+                    {
+                        MessageBox.Show($"Já existe um prato chamado {txtNome.Text}.");
+                        txtNome.Focus();
+                        txtNome.Select();
+
+                    }else
+                    {
+
+                    }
                 }
 
+            }else
+            {
             }
 
             
@@ -1104,9 +1155,47 @@ namespace GUI.Forms.Fichas
 
         private void btExcluir_Click(object sender, EventArgs e)
         {
-            Augoritmos au = new Augoritmos();
-            au.ExcluirPrato(txtCodigoPrato.Text);
-            zerarPagina();
+            DialogResult d = MessageBox.Show($"Deseja realmente excluir a ficha tédnica {txtNome.Text}?", "ATENÇÃO!", MessageBoxButtons.YesNo);
+            if (d.ToString() == "Yes")
+            {
+
+                Augoritmos au = new Augoritmos();
+                au.ExcluirPrato(txtCodigoPrato.Text);
+                zerarPagina();
+            }
+
+        }        
+
+        private void btCarregaFoto_Click(object sender, EventArgs e)
+        {
+
+            
+            // Mostra uma caixa de diálogo para salvar a imagem
+
+
+            OpenFileDialog saveFileDialog1 = new OpenFileDialog();
+            saveFileDialog1.Filter = "JPeg Image|*.jpg";
+            saveFileDialog1.Title = "Salvar uma imagem.";
+            saveFileDialog1.ShowDialog();
+
+            foto = saveFileDialog1.FileName;
+            if (foto != "")
+            {
+                pbFoto.Load(foto);
+                
+            }
+            // If the file name is not an empty string open it for saving.
+            btDeletaFoto.Enabled = true;
+        }
+
+        private void btDeletaFoto_Click(object sender, EventArgs e)
+        {
+            
+            DTOCaminhos dto = new DTOCaminhos();
+            pbFoto.Load(dto.Produtos + "0.jpg");
+            foto = "del";
+           
+            btDeletaFoto.Enabled = false;
 
         }
 

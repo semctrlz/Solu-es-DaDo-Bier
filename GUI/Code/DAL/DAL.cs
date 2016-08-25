@@ -152,6 +152,15 @@ namespace GUI.Code.DAL
             return tabela;
         }
 
+        public DataTable LocalizarPorId(int id)
+        {
+            DataTable tabela = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter($"select nome_usuario, login_usuario, " +
+                $"id_unidade, permissao_usuario, email_usuario FROM usuario WHERE id_usuario = {id}", conexao.StringConexao);
+            da.Fill(tabela);
+            return tabela;
+        }
+
         public DataTable LocalizarLogin(String usuario, string senha)
         {
             DataTable tabela = new DataTable();
@@ -3174,6 +3183,7 @@ namespace GUI.Code.DAL
 
             conexao.Conectar();
             modelo.IdProduto = Convert.ToInt32(cmd.ExecuteScalar());
+
             DTOCaminhos mc = new DTOCaminhos();
 
             if (foto != "")
@@ -3614,7 +3624,7 @@ namespace GUI.Code.DAL
         public DataTable ListaCodigos()
         {
             DataTable tabela = new DataTable();
-            SqlDataAdapter da = new SqlDataAdapter($"select cod_prato from prato;", conexao.StringConexao);
+            SqlDataAdapter da = new SqlDataAdapter($"select cod_prato from prato order by cod_prato;", conexao.StringConexao);
             da.Fill(tabela);
             return tabela;
         }

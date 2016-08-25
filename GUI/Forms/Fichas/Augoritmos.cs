@@ -1,8 +1,10 @@
 ﻿using GUI.Code.BLL;
 using GUI.Code.DAL;
+using GUI.Code.DTO;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,23 +15,35 @@ namespace GUI.Forms.Fichas
     {
         public double CustoIngrediente(string codigo, int unidade)
         {
+            DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
+            BLLPratos bll = new BLLPratos(cx);
+            DataTable tabela = new DataTable();
+            DataTable tabela2 = new DataTable();
+            
+
             double CustoTotal = 0;
 
             //Se for Prato
             if (codigo.Substring(0, 2) == "20")
             {
-                CustoTotal += CalculaCustoFicha(codigo, unidade);
+                tabela2 = bll.LocalizarPorCod(codigo);
+                try
+                {
+                    CustoTotal += CalculaCustoFicha(codigo, unidade) / Convert.ToDouble(tabela2.Rows[0][7]); ;
+                }
+                catch
+                {
+                    CustoTotal += 0;
+                }
             }
 
             //Se for ingrediente
             else
             {
-                DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
-                BLLIngredientes blli = new BLLIngredientes(cx);
-                DataTable tabela = blli.Custo01(codigo, unidade);
-                CustoTotal += Convert.ToDouble(tabela.Rows[0][1]);
-            }
 
+                CustoTotal += UltimaBaixaItem(codigo, unidade);
+
+            }
 
             return CustoTotal;
         }
@@ -41,9 +55,9 @@ namespace GUI.Forms.Fichas
             DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
             BLLPratos bll = new BLLPratos(cx);
 
-            DataTable tabela = new DataTable();
-            DataTable Tabela2 = new DataTable();
-
+            DataTable tabela = new DataTable();            
+            DataTable tabela3 = new DataTable();
+             
             tabela = bll.ListarIngredientes(codigo);
 
             for (int i = 0; i < tabela.Rows.Count; i++)
@@ -53,14 +67,23 @@ namespace GUI.Forms.Fichas
                 //Se for Prato
                 if(codItem.Substring(0,2) == "20")
                 {
-                    CustoTotal += CalculaCustoFicha2(codItem, unidade);
+                    tabela3 = bll.LocalizarPorCod(codItem);
+                    try
+                    {
+                        CustoTotal += ((CalculaCustoFicha2(codItem, unidade) / Convert.ToDouble(tabela3.Rows[0][7])) * Convert.ToDouble(tabela.Rows[i][1].ToString()));
+                    }
+                    catch
+                    {
+                        CustoTotal += 0;
+                    }
+                    
                 }
 
                 //Se for ingrediente
                 else
                 {
-                Tabela2 = bll.CustoIngrediente(codItem, unidade);
-                CustoTotal += Convert.ToDouble(Tabela2.Rows[0][0]) * Convert.ToDouble(tabela.Rows[i][1]);
+                    CustoTotal += (UltimaBaixaItem(codItem, unidade) * Convert.ToDouble(tabela.Rows[i][1].ToString()));
+
                 }
 
             }
@@ -77,6 +100,7 @@ namespace GUI.Forms.Fichas
 
             DataTable tabela = new DataTable();
             DataTable Tabela2 = new DataTable();
+            DataTable tabela3 = new DataTable();
 
             tabela = bll.ListarIngredientes(codigo);
 
@@ -87,14 +111,23 @@ namespace GUI.Forms.Fichas
                 //Se for Prato
                 if (codItem.Substring(0, 2) == "20")
                 {
-                    CustoTotal2 += CalculaCustoFicha3(codItem, unidade);
+                    tabela3 = bll.LocalizarPorCod(codItem);
+                    try
+                    {
+                        CustoTotal2 += ((CalculaCustoFicha3(codItem, unidade) / Convert.ToDouble(tabela3.Rows[0][7])) * Convert.ToDouble(tabela.Rows[i][1].ToString()));
+                    }
+                    catch
+                    {
+                        CustoTotal2 += 0;
+                    }
                 }
 
                 //Se for ingrediente
                 else
                 {
-                    Tabela2 = bll.CustoIngrediente(codItem, unidade);
-                    CustoTotal2 += Convert.ToDouble(Tabela2.Rows[0][0]) * Convert.ToDouble(tabela.Rows[i][1]);
+                    CustoTotal2 += (UltimaBaixaItem(codItem, unidade) * Convert.ToDouble(tabela.Rows[i][1].ToString()));
+
+
                 }
 
             }
@@ -111,6 +144,7 @@ namespace GUI.Forms.Fichas
 
             DataTable tabela = new DataTable();
             DataTable Tabela2 = new DataTable();
+            DataTable tabela3 = new DataTable();
 
             tabela = bll.ListarIngredientes(codigo);
 
@@ -121,14 +155,14 @@ namespace GUI.Forms.Fichas
                 //Se for Prato
                 if (codItem.Substring(0, 2) == "20")
                 {
-                    CustoTotal3 += CalculaCustoFicha3(codItem, unidade);
+                    CustoTotal3 += 0;
                 }
 
                 //Se for ingrediente
                 else
                 {
-                    Tabela2 = bll.CustoIngrediente(codItem, unidade);
-                    CustoTotal3 += Convert.ToDouble(Tabela2.Rows[0][0]) * Convert.ToDouble(tabela.Rows[i][1]);
+                    CustoTotal3 += (UltimaBaixaItem(codItem, unidade) * Convert.ToDouble(tabela.Rows[i][1].ToString()));
+
                 }
 
             }
@@ -176,10 +210,73 @@ namespace GUI.Forms.Fichas
             }
 
             //Exclui imagem referente ao prato (se houver)
-
+            IncluiFoto(cod, "del");
 
         }
 
+        public void IncluiFoto(String cod, string foto)
+        {
+            DTOCaminhos mc = new DTOCaminhos();
+
+            if (foto != "")
+            {
+                if (foto == "del")
+                {
+                    if (File.Exists(mc.FT + cod + ".jpg"))
+                    {
+                        File.Delete(mc.FT + cod + ".jpg");
+                    }
+                }
+                else
+                {
+                    try
+                    {
+                        var path = Path.Combine(mc.FT, Path.GetFileName(foto));
+
+                        if (!Directory.Exists(mc.FT))
+
+                        {
+                            Directory.CreateDirectory(mc.FT);
+
+                            File.Copy(foto, mc.FT + cod + Path.GetExtension(foto));
+                        }
+                        else
+                        {
+                            if (File.Exists(mc.FT + cod + Path.GetExtension(foto)))
+                            {
+                                File.Delete(mc.FT + cod + Path.GetExtension(foto));
+                            }
+
+                            File.Copy(foto, mc.FT + cod + Path.GetExtension(foto));
+                        }
+                    }
+                    catch { }
+
+                }
+
+            }
+        }
+
+        private Double UltimaBaixaItem(string codigo, int unidade)
+        {
+            double custoMedio = 0;
+            DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
+            BLLIngredientes blli = new BLLIngredientes(cx);
+            DataTable tabela = new DataTable();
+
+            tabela = blli.Custo01(codigo, unidade);
+            try
+            {
+                custoMedio = Convert.ToDouble(tabela.Rows[0][1]);
+            }
+            catch
+            {
+                custoMedio = 0;
+            }
+            
+            return custoMedio;
+
+        }
 
     }
 

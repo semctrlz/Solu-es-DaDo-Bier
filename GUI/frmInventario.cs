@@ -27,7 +27,6 @@ namespace GUI
         int iCellHeight = 0; //Used to get/set the datagridview cell height
         int iTotalWidth = 0; //
         int iRow = 0;//Used as counter
-        int iCount = 0;
         bool bFirstPage = false; //Used to check whether we are printing first page
         bool bNewPage = false;// Used to check whether we are printing a new page
         int iHeaderHeight = 0; //Used for the header height
@@ -38,7 +37,6 @@ namespace GUI
         int unidade;
         string busca;
         string operacao;
-        private DALConexao conexao;
         int nrInventario;
         #endregion
 
@@ -1170,7 +1168,6 @@ namespace GUI
                     arrColumnLefts.Clear();
                     arrColumnWidths.Clear();
                     iCellHeight = 0;
-                    iCount = 0;
                     bFirstPage = true;
                     bNewPage = true;
 

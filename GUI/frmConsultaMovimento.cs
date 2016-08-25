@@ -16,7 +16,6 @@ namespace GUI
     public partial class frmConsultaMovimento : Form
     {
         int idUsuario;
-        string op = "inicial";
 
         public frmConsultaMovimento(int usuario)
         {

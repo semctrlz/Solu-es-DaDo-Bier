@@ -75,8 +75,6 @@
             this.chart4 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.lbTitulo = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.pnLoading = new System.Windows.Forms.Panel();
-            this.label3 = new System.Windows.Forms.Label();
             this.lbG1 = new System.Windows.Forms.Label();
             this.lbG2 = new System.Windows.Forms.Label();
             this.lbG3 = new System.Windows.Forms.Label();
@@ -90,7 +88,6 @@
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart3)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart4)).BeginInit();
-            this.pnLoading.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnTopo
@@ -546,28 +543,6 @@
             this.label2.Text = "Comparativo Custo/Receita";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // pnLoading
-            // 
-            this.pnLoading.Controls.Add(this.label3);
-            this.pnLoading.Location = new System.Drawing.Point(8, 68);
-            this.pnLoading.Name = "pnLoading";
-            this.pnLoading.Size = new System.Drawing.Size(1332, 627);
-            this.pnLoading.TabIndex = 11;
-            this.pnLoading.Visible = false;
-            // 
-            // label3
-            // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.label3.Font = new System.Drawing.Font("Segoe UI Semibold", 20F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(0, 242);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(1329, 37);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Por favor, aguarde";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // lbG1
             // 
             this.lbG1.BackColor = System.Drawing.SystemColors.ActiveBorder;
@@ -615,7 +590,6 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoScroll = true;
             this.ClientSize = new System.Drawing.Size(1350, 707);
-            this.Controls.Add(this.pnLoading);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lbTitulo);
             this.Controls.Add(this.chart4);
@@ -651,7 +625,6 @@
             this.groupBox2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chart3)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chart4)).EndInit();
-            this.pnLoading.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -686,8 +659,6 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label lbTitulo;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Panel pnLoading;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label lbG1;
         private System.Windows.Forms.Label lbG2;
         private System.Windows.Forms.Label lbG3;

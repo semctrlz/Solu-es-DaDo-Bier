@@ -21,6 +21,11 @@ namespace GUI.Code.DTO
             get { return Rede + @"ControleDeMateriais\"; }
         }
 
+        public string BakcupDatabase
+        {
+            get { return this.Pasta + @"Backup Database\"; }
+        }
+
         public string Imagem
         {
             get { return this.Pasta + @"Imagens\"; }
@@ -38,11 +43,24 @@ namespace GUI.Code.DTO
 
         }
 
+        public string FT
+        {
+            get { return this.Imagem + @"Fichas\"; }
+
+        }
+
         public string Icones
         {
             get { return this.Imagem + @"Icones\"; }
 
         }
+
+        public string Wallpaper
+        {
+            get { return this.Imagem + @"Wallpaper\"; }
+
+        }
+
 
     }
 

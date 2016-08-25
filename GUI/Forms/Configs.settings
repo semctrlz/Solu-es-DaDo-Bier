@@ -1,0 +1,12 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="GUI.Forms" GeneratedClassName="Configs">
+  <Profiles />
+  <Settings>
+    <Setting Name="Titulo1" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Titulo da pagina</Value>
+    </Setting>
+    <Setting Name="BGCollor" Type="System.Drawing.Color" Scope="User">
+      <Value Profile="(Default)">Control</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

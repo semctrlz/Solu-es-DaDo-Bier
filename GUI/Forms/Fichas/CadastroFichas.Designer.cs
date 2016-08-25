@@ -32,6 +32,10 @@
             this.cbUnidade = new System.Windows.Forms.ComboBox();
             this.lbUnidade = new System.Windows.Forms.Label();
             this.gb1 = new System.Windows.Forms.GroupBox();
+            this.gbImagem = new System.Windows.Forms.GroupBox();
+            this.btCarregaFoto = new System.Windows.Forms.Button();
+            this.btDeletaFoto = new System.Windows.Forms.Button();
+            this.pbFoto = new System.Windows.Forms.PictureBox();
             this.gbIngredientes = new System.Windows.Forms.GroupBox();
             this.label13 = new System.Windows.Forms.Label();
             this.txtDescricao = new System.Windows.Forms.TextBox();
@@ -65,7 +69,6 @@
             this.txtQuant = new System.Windows.Forms.TextBox();
             this.btNovo = new System.Windows.Forms.Button();
             this.btExcluir = new System.Windows.Forms.Button();
-            this.label12 = new System.Windows.Forms.Label();
             this.btCancelar = new System.Windows.Forms.Button();
             this.gbFicha = new System.Windows.Forms.GroupBox();
             this.lbNome = new System.Windows.Forms.Label();
@@ -82,17 +85,17 @@
             this.cbSubCategoria = new System.Windows.Forms.ComboBox();
             this.txtPeso = new System.Windows.Forms.TextBox();
             this.txtRendimento = new System.Windows.Forms.TextBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.btEditar = new System.Windows.Forms.Button();
             this.btLocalizar = new System.Windows.Forms.Button();
             this.btSalvar = new System.Windows.Forms.Button();
             this.txtId = new System.Windows.Forms.TextBox();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.gb1.SuspendLayout();
+            this.gbImagem.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbFoto)).BeginInit();
             this.gbIngredientes.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFicha)).BeginInit();
             this.gbFicha.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // cbUnidade
@@ -115,13 +118,12 @@
             // 
             // gb1
             // 
+            this.gb1.Controls.Add(this.gbImagem);
             this.gb1.Controls.Add(this.gbIngredientes);
             this.gb1.Controls.Add(this.btNovo);
             this.gb1.Controls.Add(this.btExcluir);
-            this.gb1.Controls.Add(this.label12);
             this.gb1.Controls.Add(this.btCancelar);
             this.gb1.Controls.Add(this.gbFicha);
-            this.gb1.Controls.Add(this.pictureBox1);
             this.gb1.Controls.Add(this.btEditar);
             this.gb1.Controls.Add(this.btLocalizar);
             this.gb1.Controls.Add(this.btSalvar);
@@ -130,6 +132,54 @@
             this.gb1.Size = new System.Drawing.Size(1323, 656);
             this.gb1.TabIndex = 4;
             this.gb1.TabStop = false;
+            // 
+            // gbImagem
+            // 
+            this.gbImagem.Controls.Add(this.btCarregaFoto);
+            this.gbImagem.Controls.Add(this.btDeletaFoto);
+            this.gbImagem.Controls.Add(this.pbFoto);
+            this.gbImagem.Location = new System.Drawing.Point(711, 19);
+            this.gbImagem.Name = "gbImagem";
+            this.gbImagem.Size = new System.Drawing.Size(606, 573);
+            this.gbImagem.TabIndex = 22;
+            this.gbImagem.TabStop = false;
+            this.gbImagem.Text = "Imagem";
+            // 
+            // btCarregaFoto
+            // 
+            this.btCarregaFoto.Image = global::GUI.Properties.Resources.camera_slr_2x;
+            this.btCarregaFoto.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btCarregaFoto.Location = new System.Drawing.Point(362, 44);
+            this.btCarregaFoto.Name = "btCarregaFoto";
+            this.btCarregaFoto.Size = new System.Drawing.Size(116, 24);
+            this.btCarregaFoto.TabIndex = 20;
+            this.btCarregaFoto.Text = "Carregar Imagem";
+            this.btCarregaFoto.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btCarregaFoto.UseVisualStyleBackColor = true;
+            this.btCarregaFoto.Click += new System.EventHandler(this.btCarregaFoto_Click);
+            // 
+            // btDeletaFoto
+            // 
+            this.btDeletaFoto.Image = global::GUI.Properties.Resources.fire_2x;
+            this.btDeletaFoto.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btDeletaFoto.Location = new System.Drawing.Point(484, 44);
+            this.btDeletaFoto.Name = "btDeletaFoto";
+            this.btDeletaFoto.Size = new System.Drawing.Size(116, 24);
+            this.btDeletaFoto.TabIndex = 21;
+            this.btDeletaFoto.Text = "Deletar Imagem";
+            this.btDeletaFoto.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btDeletaFoto.UseVisualStyleBackColor = true;
+            this.btDeletaFoto.Click += new System.EventHandler(this.btDeletaFoto_Click);
+            // 
+            // pbFoto
+            // 
+            this.pbFoto.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pbFoto.Location = new System.Drawing.Point(15, 79);
+            this.pbFoto.Name = "pbFoto";
+            this.pbFoto.Size = new System.Drawing.Size(585, 394);
+            this.pbFoto.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbFoto.TabIndex = 9;
+            this.pbFoto.TabStop = false;
             // 
             // gbIngredientes
             // 
@@ -177,7 +227,7 @@
             this.txtDescricao.MaxLength = 65;
             this.txtDescricao.Name = "txtDescricao";
             this.txtDescricao.Size = new System.Drawing.Size(569, 20);
-            this.txtDescricao.TabIndex = 16;
+            this.txtDescricao.TabIndex = 13;
             // 
             // label3
             // 
@@ -191,7 +241,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 349);
+            this.label5.Location = new System.Drawing.Point(6, 327);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(88, 13);
             this.label5.TabIndex = 2;
@@ -223,7 +273,7 @@
             this.btAddIngrediente.Location = new System.Drawing.Point(615, 28);
             this.btAddIngrediente.Name = "btAddIngrediente";
             this.btAddIngrediente.Size = new System.Drawing.Size(24, 24);
-            this.btAddIngrediente.TabIndex = 13;
+            this.btAddIngrediente.TabIndex = 11;
             this.btAddIngrediente.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btAddIngrediente.UseVisualStyleBackColor = true;
             this.btAddIngrediente.Click += new System.EventHandler(this.btAddIngrediente_Click);
@@ -274,7 +324,7 @@
             this.txtCodItem.Name = "txtCodItem";
             this.txtCodItem.PromptChar = ' ';
             this.txtCodItem.Size = new System.Drawing.Size(68, 20);
-            this.txtCodItem.TabIndex = 8;
+            this.txtCodItem.TabIndex = 6;
             this.txtCodItem.Enter += new System.EventHandler(this.txtCodItem_Enter);
             this.txtCodItem.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCodItem_KeyDown);
             this.txtCodItem.Leave += new System.EventHandler(this.txtCodItem_Leave);
@@ -407,15 +457,16 @@
             this.txtUm.Location = new System.Drawing.Point(440, 31);
             this.txtUm.Name = "txtUm";
             this.txtUm.Size = new System.Drawing.Size(33, 20);
-            this.txtUm.TabIndex = 10;
+            this.txtUm.TabIndex = 8;
             // 
             // txtPreparo
             // 
-            this.txtPreparo.Location = new System.Drawing.Point(9, 365);
+            this.txtPreparo.Location = new System.Drawing.Point(9, 355);
             this.txtPreparo.Multiline = true;
             this.txtPreparo.Name = "txtPreparo";
-            this.txtPreparo.Size = new System.Drawing.Size(669, 97);
-            this.txtPreparo.TabIndex = 14;
+            this.txtPreparo.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtPreparo.Size = new System.Drawing.Size(669, 107);
+            this.txtPreparo.TabIndex = 12;
             // 
             // txtFc
             // 
@@ -423,7 +474,7 @@
             this.txtFc.Location = new System.Drawing.Point(479, 31);
             this.txtFc.Name = "txtFc";
             this.txtFc.Size = new System.Drawing.Size(62, 20);
-            this.txtFc.TabIndex = 11;
+            this.txtFc.TabIndex = 9;
             // 
             // txtNomeItem
             // 
@@ -431,14 +482,14 @@
             this.txtNomeItem.Location = new System.Drawing.Point(83, 32);
             this.txtNomeItem.Name = "txtNomeItem";
             this.txtNomeItem.Size = new System.Drawing.Size(351, 20);
-            this.txtNomeItem.TabIndex = 9;
+            this.txtNomeItem.TabIndex = 7;
             // 
             // txtQuant
             // 
             this.txtQuant.Location = new System.Drawing.Point(547, 31);
             this.txtQuant.Name = "txtQuant";
             this.txtQuant.Size = new System.Drawing.Size(62, 20);
-            this.txtQuant.TabIndex = 12;
+            this.txtQuant.TabIndex = 10;
             this.txtQuant.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtQuant_KeyDown);
             this.txtQuant.Validating += new System.ComponentModel.CancelEventHandler(this.txtQuant_Validating);
             // 
@@ -450,7 +501,7 @@
             this.btNovo.Location = new System.Drawing.Point(561, 19);
             this.btNovo.Name = "btNovo";
             this.btNovo.Size = new System.Drawing.Size(24, 24);
-            this.btNovo.TabIndex = 3;
+            this.btNovo.TabIndex = 14;
             this.btNovo.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btNovo.UseVisualStyleBackColor = true;
             this.btNovo.Click += new System.EventHandler(this.btNovo_Click);
@@ -463,20 +514,10 @@
             this.btExcluir.Location = new System.Drawing.Point(561, 79);
             this.btExcluir.Name = "btExcluir";
             this.btExcluir.Size = new System.Drawing.Size(24, 24);
-            this.btExcluir.TabIndex = 7;
+            this.btExcluir.TabIndex = 18;
             this.btExcluir.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btExcluir.UseVisualStyleBackColor = true;
             this.btExcluir.Click += new System.EventHandler(this.btExcluir_Click);
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Location = new System.Drawing.Point(714, 64);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(394, 13);
-            this.label12.TabIndex = 11;
-            this.label12.Text = "Acrescentar tabela de fator de correção e adicionar pratos dentro de outros prato" +
-    "s";
             // 
             // btCancelar
             // 
@@ -485,7 +526,7 @@
             this.btCancelar.Location = new System.Drawing.Point(591, 79);
             this.btCancelar.Name = "btCancelar";
             this.btCancelar.Size = new System.Drawing.Size(96, 24);
-            this.btCancelar.TabIndex = 15;
+            this.btCancelar.TabIndex = 19;
             this.btCancelar.Text = "Cancelar";
             this.btCancelar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btCancelar.UseVisualStyleBackColor = true;
@@ -541,6 +582,7 @@
             this.txtCodigoPrato.PromptChar = ' ';
             this.txtCodigoPrato.Size = new System.Drawing.Size(68, 20);
             this.txtCodigoPrato.TabIndex = 8;
+            this.txtCodigoPrato.TabStop = false;
             this.txtCodigoPrato.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCodItem_KeyDown);
             // 
             // label16
@@ -604,7 +646,7 @@
             this.cbCategoria.Location = new System.Drawing.Point(393, 55);
             this.cbCategoria.Name = "cbCategoria";
             this.cbCategoria.Size = new System.Drawing.Size(124, 21);
-            this.cbCategoria.TabIndex = 3;
+            this.cbCategoria.TabIndex = 4;
             this.cbCategoria.SelectedIndexChanged += new System.EventHandler(this.cbCategoria_SelectedIndexChanged);
             // 
             // txtNome
@@ -623,7 +665,7 @@
             this.cbSubCategoria.Location = new System.Drawing.Point(393, 82);
             this.cbSubCategoria.Name = "cbSubCategoria";
             this.cbSubCategoria.Size = new System.Drawing.Size(124, 21);
-            this.cbSubCategoria.TabIndex = 3;
+            this.cbSubCategoria.TabIndex = 5;
             this.cbSubCategoria.SelectedIndexChanged += new System.EventHandler(this.cbSubCategoria_SelectedIndexChanged);
             // 
             // txtPeso
@@ -642,15 +684,6 @@
             this.txtRendimento.TabIndex = 2;
             this.txtRendimento.Validating += new System.ComponentModel.CancelEventHandler(this.txtRendimento_Validating);
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Location = new System.Drawing.Point(726, 127);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(585, 394);
-            this.pictureBox1.TabIndex = 9;
-            this.pictureBox1.TabStop = false;
-            // 
             // btEditar
             // 
             this.btEditar.Enabled = false;
@@ -659,7 +692,7 @@
             this.btEditar.Location = new System.Drawing.Point(663, 49);
             this.btEditar.Name = "btEditar";
             this.btEditar.Size = new System.Drawing.Size(24, 24);
-            this.btEditar.TabIndex = 6;
+            this.btEditar.TabIndex = 17;
             this.btEditar.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.btEditar.UseVisualStyleBackColor = true;
             this.btEditar.Click += new System.EventHandler(this.btEditar_Click);
@@ -672,7 +705,7 @@
             this.btLocalizar.Location = new System.Drawing.Point(591, 19);
             this.btLocalizar.Name = "btLocalizar";
             this.btLocalizar.Size = new System.Drawing.Size(96, 24);
-            this.btLocalizar.TabIndex = 5;
+            this.btLocalizar.TabIndex = 15;
             this.btLocalizar.Text = "Buscar";
             this.btLocalizar.UseVisualStyleBackColor = true;
             this.btLocalizar.Click += new System.EventHandler(this.btLocalizar_Click);
@@ -685,7 +718,7 @@
             this.btSalvar.Location = new System.Drawing.Point(561, 49);
             this.btSalvar.Name = "btSalvar";
             this.btSalvar.Size = new System.Drawing.Size(96, 24);
-            this.btSalvar.TabIndex = 4;
+            this.btSalvar.TabIndex = 16;
             this.btSalvar.Text = "Salvar";
             this.btSalvar.UseVisualStyleBackColor = true;
             this.btSalvar.Click += new System.EventHandler(this.btSalvar_Click);
@@ -696,6 +729,7 @@
             this.txtId.Name = "txtId";
             this.txtId.Size = new System.Drawing.Size(13, 20);
             this.txtId.TabIndex = 8;
+            this.txtId.TabStop = false;
             this.txtId.Visible = false;
             // 
             // dataGridViewImageColumn1
@@ -703,6 +737,7 @@
             this.dataGridViewImageColumn1.HeaderText = "del";
             this.dataGridViewImageColumn1.Image = global::GUI.Properties.Resources.trash_2x;
             this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
+            this.dataGridViewImageColumn1.ReadOnly = true;
             this.dataGridViewImageColumn1.Width = 26;
             // 
             // CadastroFichas
@@ -720,13 +755,13 @@
             this.Text = "Cadastro de fichas técnicas";
             this.Load += new System.EventHandler(this.CadastroFichas_Load);
             this.gb1.ResumeLayout(false);
-            this.gb1.PerformLayout();
+            this.gbImagem.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbFoto)).EndInit();
             this.gbIngredientes.ResumeLayout(false);
             this.gbIngredientes.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFicha)).EndInit();
             this.gbFicha.ResumeLayout(false);
             this.gbFicha.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -761,13 +796,12 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pbFoto;
         private System.Windows.Forms.Button btExcluir;
         private System.Windows.Forms.Button btSalvar;
         private System.Windows.Forms.Button btEditar;
         private System.Windows.Forms.GroupBox gbFicha;
         private System.Windows.Forms.Button btLocalizar;
-        private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox txtFc;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.TextBox txtUm;
@@ -793,5 +827,8 @@
         private System.Windows.Forms.Label lbCustoTotal2;
         private System.Windows.Forms.Label lbCustoKg2;
         private System.Windows.Forms.Label lbCustoPorcao2;
+        private System.Windows.Forms.Button btDeletaFoto;
+        private System.Windows.Forms.Button btCarregaFoto;
+        private System.Windows.Forms.GroupBox gbImagem;
     }
 }

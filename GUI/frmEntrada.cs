@@ -18,7 +18,6 @@ namespace GUI
     {
         #region(Variáveis)
 
-        private DALConexao conexao = null;
         private string operacao = "";
         private int idUsuario = 0;
         int idLancamento = 0;
@@ -293,6 +292,35 @@ namespace GUI
             ((TextBox)sender).SelectAll();
         }
 
+        private void txtCodProduto_Leave(object sender, EventArgs e)
+        {
+            if (txtCodProduto.Text.Trim() != ".")
+            {
+               
+                DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
+                BLLProduto bll = new BLLProduto(cx);
+                DataTable tabela = bll.LocalizarCod(txtCodProduto.Text.Trim().ToString());
+
+                if (tabela.Rows.Count > 0)
+                {
+
+                    txtCodProduto.Text = tabela.Rows[0]["cod_produto"].ToString();
+                    txtProdutoNome.Text = tabela.Rows[0]["nome_produto"].ToString();
+                    txtProdId.Text = tabela.Rows[0]["id_produto"].ToString();
+
+                }
+                else
+                {
+                    MessageBox.Show("Código de produto inválido.");
+
+                    txtCodProduto.Focus();
+
+                }
+                    
+                
+            }
+        }
+
         #endregion
 
         #region(Comandos CLICK, KEYDOWN E KEYPRESS)
@@ -477,8 +505,8 @@ namespace GUI
                     }
                     else
                     {
-
-                        txtLancamento.Text = nf.lancamento.ToString("00000000");
+                        int nflancamento = nf.lancamento;
+                        txtLancamento.Text = nflancamento.ToString("00000000");
                         this.CarregarDados(nf.lancamento);
 
 
@@ -933,34 +961,5 @@ namespace GUI
         }
 
         #endregion
-
-        private void txtCodProduto_Leave(object sender, EventArgs e)
-        {
-            if (txtCodProduto.Text.Trim() != ".")
-            {
-               
-                DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
-                BLLProduto bll = new BLLProduto(cx);
-                DataTable tabela = bll.LocalizarCod(txtCodProduto.Text.Trim().ToString());
-
-                if (tabela.Rows.Count > 0)
-                {
-
-                    txtCodProduto.Text = tabela.Rows[0]["cod_produto"].ToString();
-                    txtProdutoNome.Text = tabela.Rows[0]["nome_produto"].ToString();
-                    txtProdId.Text = tabela.Rows[0]["id_produto"].ToString();
-
-                }
-                else
-                {
-                    MessageBox.Show("Código de produto inválido.");
-
-                    txtCodProduto.Focus();
-
-                }
-                    
-                
-            }
-        }
     }
 }

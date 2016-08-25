@@ -46,8 +46,18 @@ namespace GUI.Forms.CMV
 
         private void frmSinteticoPorGrupo_Load(object sender, EventArgs e)
         {
-            pnLoading.Location = new Point(9, 70);
-            pnLoading.Visible = true;
+            
+            
+            Comuns.loading ld = new Comuns.loading();
+            ld.SetMessage("CARREGANDO...\n Por favor, aguarde."); // "Loading data. Please wait..."
+            ld.TopMost = true;
+            ld.StartPosition = FormStartPosition.CenterScreen;
+            ld.WindowState = FormWindowState.Maximized;
+            
+            ld.Show();
+            ld.Refresh();
+
+    
 
             DALConexao con = new DALConexao(DadosDaConexao.StringDaConexao);
             BLLUsuario bllu = new BLLUsuario(con);
@@ -57,10 +67,10 @@ namespace GUI.Forms.CMV
             this.Text = this.Text + " - " + modelou.LoginUsuario.ToString() + " (" + modelou.IniciaisUsuario.ToString() + ")";
 
             DafaultValues();
+            ld.Close();
 
-            pnLoading.Visible = false;
         }
-        
+
         private void DafaultValues()
         {
             liberado = false;
@@ -1639,6 +1649,6 @@ namespace GUI.Forms.CMV
             }
             liberado = true;
         }
-
+               
     }
 }

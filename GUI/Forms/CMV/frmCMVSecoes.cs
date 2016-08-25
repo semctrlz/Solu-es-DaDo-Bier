@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
 
-namespace GUI
+namespace GUI.Forms.CMV
 {
     public partial class frmCMVSecoes : Form
     {
@@ -35,7 +35,6 @@ namespace GUI
         {
             idUsuario = Convert.ToInt32(id);
 
-            InitializeComponent();
         }
 
         private void frmCMVSecoes_Load(object sender, EventArgs e)

@@ -243,6 +243,26 @@ namespace GUI.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap camera_slr_2x {
+            get {
+                object obj = ResourceManager.GetObject("camera-slr-2x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap camera_slr_4x {
+            get {
+                object obj = ResourceManager.GetObject("camera-slr-4x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap camera_slr_8x {
             get {
                 object obj = ResourceManager.GetObject("camera-slr-8x", resourceCulture);
@@ -476,6 +496,16 @@ namespace GUI.Properties {
         internal static System.Drawing.Bitmap document_2x1 {
             get {
                 object obj = ResourceManager.GetObject("document-2x1", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap fire_2x {
+            get {
+                object obj = ResourceManager.GetObject("fire-2x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -916,6 +946,16 @@ namespace GUI.Properties {
         internal static System.Drawing.Bitmap x_4x {
             get {
                 object obj = ResourceManager.GetObject("x-4x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap x_4x1 {
+            get {
+                object obj = ResourceManager.GetObject("x-4x1", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

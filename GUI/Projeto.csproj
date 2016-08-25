@@ -28,8 +28,8 @@
     <PublisherName>ZSolutions</PublisherName>
     <SuiteName>Soluções DaDo Bier</SuiteName>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>15</ApplicationRevision>
-    <ApplicationVersion>0.0.0.%2a</ApplicationVersion>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>0.1.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -144,6 +144,24 @@
     <Compile Include="Forms\CMV\frmRELSinteticoGrupos.Designer.cs">
       <DependentUpon>frmRELSinteticoGrupos.cs</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Comuns\Config.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Comuns\Config.Designer.cs">
+      <DependentUpon>Config.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Comuns\loading.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Comuns\loading.Designer.cs">
+      <DependentUpon>loading.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Configs.cs" />
+    <Compile Include="Forms\Configs.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Configs.settings</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Fichas\Augoritmos.cs" />
     <Compile Include="Forms\Fichas\CadastroFichas.cs">
       <SubType>Form</SubType>
@@ -162,6 +180,18 @@
     </Compile>
     <Compile Include="Forms\Fichas\frmConsultaFichas.Designer.cs">
       <DependentUpon>frmConsultaFichas.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Fichas\frmImpressaoFicha.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Fichas\frmImpressaoFicha.Designer.cs">
+      <DependentUpon>frmImpressaoFicha.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Fichas\VisualizaFichaTecnica.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\Fichas\VisualizaFichaTecnica.Designer.cs">
+      <DependentUpon>VisualizaFichaTecnica.cs</DependentUpon>
     </Compile>
     <Compile Include="frmAlteraSenha.cs">
       <SubType>Form</SubType>
@@ -408,6 +438,12 @@
     <EmbeddedResource Include="Forms\CMV\frmRELSinteticoGrupos.resx">
       <DependentUpon>frmRELSinteticoGrupos.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Comuns\Config.resx">
+      <DependentUpon>Config.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Comuns\loading.resx">
+      <DependentUpon>loading.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\Fichas\CadastroFichas.resx">
       <DependentUpon>CadastroFichas.cs</DependentUpon>
     </EmbeddedResource>
@@ -416,6 +452,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Fichas\frmConsultaFichas.resx">
       <DependentUpon>frmConsultaFichas.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Fichas\frmImpressaoFicha.resx">
+      <DependentUpon>frmImpressaoFicha.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\Fichas\VisualizaFichaTecnica.resx">
+      <DependentUpon>VisualizaFichaTecnica.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmAlteraSenha.resx">
       <DependentUpon>frmAlteraSenha.cs</DependentUpon>
@@ -533,6 +575,10 @@
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="Forms\Configs.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Configs.Designer.cs</LastGenOutput>
+    </None>
     <None Include="GUI_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
@@ -662,6 +708,10 @@
   <ItemGroup>
     <Content Include="DaDo.ico" />
     <Content Include="favicon.ico" />
+    <None Include="Resources\x-4x1.png" />
+    <None Include="Resources\fire-2x1.png" />
+    <None Include="Resources\camera-slr-2x1.png" />
+    <None Include="Resources\camera-slr-4x1.png" />
     <None Include="Resources\document-2x2.png" />
     <None Include="Resources\arrow-circle-top-2x2.png" />
     <None Include="Resources\WallpaperPadrao.jpg" />
@@ -734,7 +784,6 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Forms\Comuns\" />
     <Folder Include="Forms\Materiais\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

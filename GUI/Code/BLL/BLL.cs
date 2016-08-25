@@ -141,6 +141,13 @@ namespace GUI.Code.BLL
             return DALobj.Localizar(valor);
         }
 
+        public DataTable LocalizarPorId(int id)
+        {
+            DALUsuario DALobj = new DALUsuario(conexao);
+            return DALobj.LocalizarPorId(id);
+        }
+
+
         public DataTable ListarConexoes(int id)
         {
             DALUsuario DALobj = new DALUsuario(conexao);
@@ -2213,6 +2220,8 @@ namespace GUI.Code.BLL
 
 
             //Tratamento dos dados
+            modelo.NomePrato = modelo.NomePrato.Replace("\'", "");
+            modelo.NomePrato = modelo.NomePrato.Replace("\"", "");
 
             modelo.NomePrato = modelo.NomePrato.Trim().ToUpper();
             modelo.ModoPreparoPrato = modelo.ModoPreparoPrato.Trim();
@@ -2243,6 +2252,9 @@ namespace GUI.Code.BLL
             }
 
             //Tratamento dos dados
+
+            modelo.NomePrato = modelo.NomePrato.Replace("\'", "");
+            modelo.NomePrato = modelo.NomePrato.Replace("\"", "");
 
             modelo.NomePrato = modelo.NomePrato.Trim().ToUpper();
             modelo.ModoPreparoPrato = modelo.ModoPreparoPrato.Trim();

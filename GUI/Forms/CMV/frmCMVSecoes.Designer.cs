@@ -1,4 +1,4 @@
-﻿namespace GUI
+﻿namespace GUI.Forms.CMV
 {
     partial class frmCMVSecoes
     {

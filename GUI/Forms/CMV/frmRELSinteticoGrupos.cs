@@ -17,8 +17,6 @@ namespace GUI.Forms.CMV
     {
         int unidade, idUsuario;
         bool liberado = false;
-        Point? prevPosition = null;
-        ToolTip tooltip = new ToolTip();
         DateTime DiaI, DiaF, DiaA;
 
         public frmRELSinteticoGrupos(int id)
@@ -29,6 +27,16 @@ namespace GUI.Forms.CMV
 
         private void frmRELSinteticoGrupos_Load(object sender, EventArgs e)
         {
+            
+            Comuns.loading ld = new Comuns.loading();
+            ld.SetMessage("CARREGANDO...\n Por favor, aguarde."); // "Loading data. Please wait..."
+            ld.TopMost = true;
+            ld.StartPosition = FormStartPosition.CenterScreen;
+            ld.WindowState = FormWindowState.Maximized;
+
+            ld.Show();
+            ld.Refresh();
+            
             DALConexao con = new DALConexao(DadosDaConexao.StringDaConexao);
             BLLUsuario bllu = new BLLUsuario(con);
 
@@ -36,6 +44,7 @@ namespace GUI.Forms.CMV
 
             this.Text = this.Text + " - " + modelou.LoginUsuario.ToString() + " (" + modelou.IniciaisUsuario.ToString() + ")";
             DafaultValues();
+            ld.Close();
             
         }
 

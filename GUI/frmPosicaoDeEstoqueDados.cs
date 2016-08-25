@@ -14,7 +14,6 @@ namespace GUI
     public partial class frmPosicaoDeEstoqueDados : Form
     {
 
-        string consulta = "";
         int unidade = 0;
         int quant = 0;
         DateTime data;

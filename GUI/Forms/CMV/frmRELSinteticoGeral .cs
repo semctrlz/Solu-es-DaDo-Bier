@@ -17,8 +17,6 @@ namespace GUI.Forms.CMV
     {
         int unidade, idUsuario;
         bool liberado = false;
-        Point? prevPosition = null;
-        ToolTip tooltip = new ToolTip();
         DateTime DiaI, DiaF, DiaA;
 
         public frmRELSinteticoGeral(int id)

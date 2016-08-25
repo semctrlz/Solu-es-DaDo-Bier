@@ -211,7 +211,7 @@
             this.pn01.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 209F));
             this.pn01.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 209F));
             this.pn01.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 209F));
-            this.pn01.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 215F));
+            this.pn01.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 216F));
             this.pn01.Controls.Add(this.dgvTotal, 6, 1);
             this.pn01.Controls.Add(this.dgvGrupo05, 5, 1);
             this.pn01.Controls.Add(this.dgvGrupo04, 4, 1);
@@ -266,7 +266,7 @@
             this.dgvTotal.RowHeadersVisible = false;
             this.dgvTotal.RowTemplate.Height = 19;
             this.dgvTotal.ScrollBars = System.Windows.Forms.ScrollBars.None;
-            this.dgvTotal.Size = new System.Drawing.Size(215, 643);
+            this.dgvTotal.Size = new System.Drawing.Size(216, 643);
             this.dgvTotal.TabIndex = 13;
             this.dgvTotal.SelectionChanged += new System.EventHandler(this.dgvTotal_SelectionChanged);
             // 
@@ -641,7 +641,7 @@
             this.lbTotal.Font = new System.Drawing.Font("Segoe UI Semibold", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbTotal.Location = new System.Drawing.Point(1141, 1);
             this.lbTotal.Name = "lbTotal";
-            this.lbTotal.Size = new System.Drawing.Size(209, 28);
+            this.lbTotal.Size = new System.Drawing.Size(210, 28);
             this.lbTotal.TabIndex = 7;
             this.lbTotal.Text = "Total";
             this.lbTotal.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;

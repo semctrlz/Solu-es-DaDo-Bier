@@ -16,7 +16,7 @@ namespace GUI.Forms.Fichas
 {
     public partial class frmConsultaFichas : Form
     {
-        int idUsuario;
+        int idUsuario, permissao;
         bool herdada;
         public string fichaSelecionada;
 
@@ -32,7 +32,12 @@ namespace GUI.Forms.Fichas
             DefaultValues();
             CarregaDgv();
 
-        }
+            DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
+            BLLUsuario bll = new BLLUsuario(cx);
+            DataTable tabela = bll.LocalizarPorId(idUsuario);
+            permissao = Convert.ToInt32(tabela.Rows[0][3].ToString());
+            
+                }
 
         private void DefaultValues()
         {
@@ -87,9 +92,6 @@ namespace GUI.Forms.Fichas
             {
                 dataSource1.Add(new Language() { setor = tabelaSetor.Rows[i][1].ToString(), Value = Convert.ToInt32(tabelaSetor.Rows[i][0]).ToString() });
             }
-
-            dataSource1.Add(new Language() { setor = "**Cadastrar**", Value = "-1" });
-
             var dataSource2 = new List<Language>();
             dataSource2.Add(new Language() { cat = "", Value1 = "0" });
 
@@ -97,17 +99,12 @@ namespace GUI.Forms.Fichas
             {
                 dataSource2.Add(new Language() { cat = tabelaCat.Rows[i][1].ToString(), Value1 = Convert.ToInt32(tabelaCat.Rows[i][0]).ToString() });
             }
-
-            dataSource2.Add(new Language() { cat = "**Cadastrar**", Value1 = "-1" });
-
             var dataSource3 = new List<Language>();
             dataSource3.Add(new Language() { scat = "", Value2 = "0" });
             for (int i = 0; i < tabelaSCat.Rows.Count; i++)
             {
                 dataSource3.Add(new Language() { scat = tabelaSCat.Rows[i][1].ToString(), Value2 = Convert.ToInt32(tabelaSCat.Rows[i][0]).ToString() });
             }
-            dataSource3.Add(new Language() { scat = "**Cadastrar**", Value2 = "-1" });
-
 
             //Atualiza Combobox Setor
             this.cbSetor.DataSource = dataSource1;
@@ -153,6 +150,9 @@ namespace GUI.Forms.Fichas
             BLLPratos bll = new BLLPratos(cx);
             DataTable tabela = bll.BuscaFichas(busca);
 
+            this.dgvFichas.Columns[9].ValueType = typeof(double);
+
+
             for (int i = 0; i < tabela.Rows.Count; i++)
             {
                 string categoria = "";
@@ -197,13 +197,20 @@ namespace GUI.Forms.Fichas
                 {
                     subcategoria = tabela.Rows[i][4].ToString();
                 }
-
-                String[] V = new string[] { tabela.Rows[i][0].ToString(), tabela.Rows[i][1].ToString(), tabela.Rows[i][2].ToString(), categoria, subcategoria, peso.ToString("#,0.0000"), rendimento.ToString("#,0.0000"), custoPorKg.ToString("#,0.00"), custoPorPorcao.ToString("#,0.00"), custo.ToString("#,0.00"), tabela.Rows[i][7].ToString() };
-                dgvFichas.Rows.Add(V);
-
+                dgvFichas.Rows.Add();
+                dgvFichas.Rows[i].Cells[0].Value = tabela.Rows[i][0].ToString();
+                dgvFichas.Rows[i].Cells[1].Value = tabela.Rows[i][1].ToString();
+                dgvFichas.Rows[i].Cells[2].Value = tabela.Rows[i][2].ToString();
+                dgvFichas.Rows[i].Cells[3].Value = categoria;
+                dgvFichas.Rows[i].Cells[4].Value = subcategoria;
+                dgvFichas.Rows[i].Cells[5].Value = peso;
+                dgvFichas.Rows[i].Cells[6].Value = rendimento;
+                dgvFichas.Rows[i].Cells[7].Value = custoPorKg;
+                dgvFichas.Rows[i].Cells[8].Value = custoPorPorcao;
+                dgvFichas.Rows[i].Cells[9].Value = custo;
+               
             }
-
-
+            
         }
 
         private void btConsulta_Click(object sender, EventArgs e)
@@ -241,7 +248,6 @@ namespace GUI.Forms.Fichas
             dgvFichas.ClearSelection();
         }
 
-
         private void dgvFichas_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             Augoritmos au = new Augoritmos();
@@ -249,11 +255,17 @@ namespace GUI.Forms.Fichas
             {
                 if (e.RowIndex >= 0)
                 {
-                    DialogResult d = MessageBox.Show("Deseja realmente excluir a ficha técnica de " + dgvFichas.Rows[e.RowIndex].Cells[1].Value.ToString() + "?", "ATENÇÃO!", MessageBoxButtons.YesNo);
-                    if (d.ToString() == "Yes")
+                    if (permissao >= 3)
                     {
-                        au.ExcluirPrato(dgvFichas.Rows[e.RowIndex].Cells[0].Value.ToString());
-                        CarregaDgv();
+                        DialogResult d = MessageBox.Show("Deseja realmente excluir a ficha técnica de " + dgvFichas.Rows[e.RowIndex].Cells[1].Value.ToString() + "?", "ATENÇÃO!", MessageBoxButtons.YesNo);
+                        if (d.ToString() == "Yes")
+                        {
+                            au.ExcluirPrato(dgvFichas.Rows[e.RowIndex].Cells[0].Value.ToString());
+                            CarregaDgv();
+                        }
+                    }else
+                    {
+                        MessageBox.Show("Você não tem permissões necessárias para deletar esta ficha técnica.");
                     }
                 }
             }
@@ -270,10 +282,31 @@ namespace GUI.Forms.Fichas
                     }
                     else
                     {
-                        CadastroFichas cf = new CadastroFichas(idUsuario, dgvFichas.Rows[e.RowIndex].Cells[0].Value.ToString(), true);
-                        cf.ShowDialog();
-                        CarregaDgv();
+                        if (permissao >= 3)
+                        {
+                            CadastroFichas cf = new CadastroFichas(idUsuario, dgvFichas.Rows[e.RowIndex].Cells[0].Value.ToString(), true);
+                            cf.ShowDialog();
+                            cf.Dispose();
+                            CarregaDgv();
+                        }else
+                        {
+                            MessageBox.Show("Você não tem permissões necessárias para editar esta ficha técnica.");
+
+                        }
+
                     }
+                }
+            }
+
+            if (e.ColumnIndex == 11)
+            {
+                if (e.RowIndex >= 0)
+                {
+
+                    VisualizaFichaTecnica vf = new VisualizaFichaTecnica(Convert.ToInt32(cbUnidade.SelectedValue), idUsuario, dgvFichas.Rows[e.RowIndex].Cells[0].Value.ToString());
+                    vf.ShowDialog();
+                    vf.Dispose();
+
                 }
             }
         }

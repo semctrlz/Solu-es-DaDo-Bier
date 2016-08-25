@@ -28,6 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmConsultaFichas));
             this.gbFiltros = new System.Windows.Forms.GroupBox();
             this.cbUnidade = new System.Windows.Forms.ComboBox();
@@ -43,6 +48,9 @@
             this.lbNome = new System.Windows.Forms.Label();
             this.bgDados = new System.Windows.Forms.GroupBox();
             this.dgvFichas = new System.Windows.Forms.DataGridView();
+            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
+            this.dataGridViewImageColumn3 = new System.Windows.Forms.DataGridViewImageColumn();
             this.cod_ficha = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.nome_ficha = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.setor = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -57,9 +65,6 @@
             this.detalhes = new System.Windows.Forms.DataGridViewImageColumn();
             this.editar = new System.Windows.Forms.DataGridViewImageColumn();
             this.delete = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.dataGridViewImageColumn3 = new System.Windows.Forms.DataGridViewImageColumn();
             this.gbFiltros.SuspendLayout();
             this.bgDados.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFichas)).BeginInit();
@@ -229,6 +234,27 @@
             this.dgvFichas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFichas_CellContentClick);
             this.dgvFichas.SelectionChanged += new System.EventHandler(this.dgvFichas_SelectionChanged);
             // 
+            // dataGridViewImageColumn1
+            // 
+            this.dataGridViewImageColumn1.HeaderText = "";
+            this.dataGridViewImageColumn1.Image = global::GUI.Properties.Resources.document_2x1;
+            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
+            this.dataGridViewImageColumn1.Width = 26;
+            // 
+            // dataGridViewImageColumn2
+            // 
+            this.dataGridViewImageColumn2.HeaderText = "";
+            this.dataGridViewImageColumn2.Image = global::GUI.Properties.Resources.pencil_2x;
+            this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
+            this.dataGridViewImageColumn2.Width = 26;
+            // 
+            // dataGridViewImageColumn3
+            // 
+            this.dataGridViewImageColumn3.HeaderText = "";
+            this.dataGridViewImageColumn3.Image = global::GUI.Properties.Resources.trash_2x;
+            this.dataGridViewImageColumn3.Name = "dataGridViewImageColumn3";
+            this.dataGridViewImageColumn3.Width = 26;
+            // 
             // cod_ficha
             // 
             this.cod_ficha.HeaderText = "CODIGO";
@@ -266,6 +292,9 @@
             // 
             // peso_ficha
             // 
+            dataGridViewCellStyle1.Format = "#,#0.0000";
+            dataGridViewCellStyle1.NullValue = null;
+            this.peso_ficha.DefaultCellStyle = dataGridViewCellStyle1;
             this.peso_ficha.HeaderText = "PESO";
             this.peso_ficha.Name = "peso_ficha";
             this.peso_ficha.ReadOnly = true;
@@ -273,6 +302,8 @@
             // 
             // rendimento_ficha
             // 
+            dataGridViewCellStyle2.Format = "#,#0.##";
+            this.rendimento_ficha.DefaultCellStyle = dataGridViewCellStyle2;
             this.rendimento_ficha.HeaderText = "REND.";
             this.rendimento_ficha.Name = "rendimento_ficha";
             this.rendimento_ficha.ReadOnly = true;
@@ -280,6 +311,8 @@
             // 
             // custo_kg
             // 
+            dataGridViewCellStyle3.Format = "#,#0.00";
+            this.custo_kg.DefaultCellStyle = dataGridViewCellStyle3;
             this.custo_kg.HeaderText = "CUSTO KG";
             this.custo_kg.Name = "custo_kg";
             this.custo_kg.ReadOnly = true;
@@ -287,6 +320,8 @@
             // 
             // custo_porcao
             // 
+            dataGridViewCellStyle4.Format = "#,#0.00";
+            this.custo_porcao.DefaultCellStyle = dataGridViewCellStyle4;
             this.custo_porcao.HeaderText = "CUSTO PORÇÃO";
             this.custo_porcao.Name = "custo_porcao";
             this.custo_porcao.ReadOnly = true;
@@ -294,6 +329,9 @@
             // 
             // custo_total
             // 
+            dataGridViewCellStyle5.Format = "#,#0.00";
+            dataGridViewCellStyle5.NullValue = null;
+            this.custo_total.DefaultCellStyle = dataGridViewCellStyle5;
             this.custo_total.HeaderText = "CUSTO TOTAL";
             this.custo_total.Name = "custo_total";
             this.custo_total.ReadOnly = true;
@@ -330,35 +368,16 @@
             this.delete.ReadOnly = true;
             this.delete.Width = 26;
             // 
-            // dataGridViewImageColumn1
-            // 
-            this.dataGridViewImageColumn1.HeaderText = "";
-            this.dataGridViewImageColumn1.Image = global::GUI.Properties.Resources.document_2x1;
-            this.dataGridViewImageColumn1.Name = "dataGridViewImageColumn1";
-            this.dataGridViewImageColumn1.Width = 26;
-            // 
-            // dataGridViewImageColumn2
-            // 
-            this.dataGridViewImageColumn2.HeaderText = "";
-            this.dataGridViewImageColumn2.Image = global::GUI.Properties.Resources.pencil_2x;
-            this.dataGridViewImageColumn2.Name = "dataGridViewImageColumn2";
-            this.dataGridViewImageColumn2.Width = 26;
-            // 
-            // dataGridViewImageColumn3
-            // 
-            this.dataGridViewImageColumn3.HeaderText = "";
-            this.dataGridViewImageColumn3.Image = global::GUI.Properties.Resources.trash_2x;
-            this.dataGridViewImageColumn3.Name = "dataGridViewImageColumn3";
-            this.dataGridViewImageColumn3.Width = 26;
-            // 
             // frmConsultaFichas
             // 
+            this.AcceptButton = this.btConsulta;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1350, 707);
             this.Controls.Add(this.bgDados);
             this.Controls.Add(this.gbFiltros);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.KeyPreview = true;
             this.Name = "frmConsultaFichas";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Consulta de fichas técnicas";
@@ -388,6 +407,9 @@
         private System.Windows.Forms.Button btConsulta;
         private System.Windows.Forms.ComboBox cbUnidade;
         private System.Windows.Forms.Label lbUnidade;
+        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
+        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
+        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn cod_ficha;
         private System.Windows.Forms.DataGridViewTextBoxColumn nome_ficha;
         private System.Windows.Forms.DataGridViewTextBoxColumn setor;
@@ -402,8 +424,5 @@
         private System.Windows.Forms.DataGridViewImageColumn detalhes;
         private System.Windows.Forms.DataGridViewImageColumn editar;
         private System.Windows.Forms.DataGridViewImageColumn delete;
-        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
-        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
-        private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn3;
     }
 }

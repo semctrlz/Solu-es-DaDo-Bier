@@ -23,7 +23,6 @@ namespace GUI
         
         public string Caminho = "Arquivos\\";
         public string CaminhoLog = "Arquivos\\Log.txt";
-        int idUsuarioLogado = 0;
         
         #endregion
 
@@ -79,13 +78,36 @@ namespace GUI
             frmLogin log = new frmLogin();
             log.ShowDialog();
             log.Dispose();
-                       
-            if (log.IdUsuarioLogado.ToString() != "")
+
+
+            int idusuario = 0;
+            int idunidade = 0;
+            int nvusuario = 0;
+
+            try
+            {
+               idusuario =  Convert.ToInt32(log.IdUsuarioLogado);
+            }
+            catch { }
+
+            try
+            {
+                idunidade = Convert.ToInt32(log.UnidadeUsuarioLogado);
+            }
+            catch { }
+
+            try
+            {
+                nvusuario = Convert.ToInt32(log.NvUsuarioLogado);
+            }
+            catch { }
+
+            if (idusuario.ToString() != "")
             {
                 #region Se Login Adm
                 if (log.IdUsuarioLogado == -1)
                 {
-                    txtId.Text = log.IdUsuarioLogado.ToString();
+                    txtId.Text = idusuario.ToString();
                     txtUsuario.Text = "Administrador";
                     txtLogin.Text = "Admin";
                     txtSenha.Text = "";
@@ -105,13 +127,13 @@ namespace GUI
 
                 else
                 {
-                    txtId.Text = log.IdUsuarioLogado.ToString();
+                    txtId.Text = idusuario.ToString();
                     txtUsuario.Text = log.NomeUsuarioLogado.ToString();
                     txtLogin.Text = log.LoginUsuarioLogado.ToString();
                     txtSenha.Text = log.SenhaUsuarioLogado.ToString();
                     txtIniciais.Text = log.IniciaisUsuarioLogado.ToString();
-                    txtUnidade.Text = log.UnidadeUsuarioLogado.ToString();
-                    txtPermissao.Text = log.NvUsuarioLogado.ToString();
+                    txtUnidade.Text = idunidade.ToString();
+                    txtPermissao.Text = nvusuario.ToString();
                     txtEmail.Text = log.EmailUsuarioLogado.ToString();
                     txtNomeUnidade.Text = log.NomeUnidade.ToString();
 
@@ -163,7 +185,9 @@ namespace GUI
             //Altera o titulo do Form
 
             this.Text += $" - {txtLogin.Text} ({txtIniciais.Text})";
+
             
+
             this.BloqueioTela(Convert.ToInt32(txtPermissao.Text));
 
             this.LimpaTela(Convert.ToInt32(txtPermissao.Text));
@@ -196,10 +220,29 @@ namespace GUI
             {
             lbUsuarioLogado.Text = txtUsuario.Text + " (" + txtIniciais.Text + ") - " + txtNomeUnidade.Text + " - "+ AcessoUsuario.ToUpper();
             }
-            
+
+            DTOCaminhos dt = new DTOCaminhos();
+
+            if (File.Exists(dt.Wallpaper + txtId.Text + ".jpg"))
+            {
+                pbWallpaper.Load(dt.Wallpaper + txtId.Text + ".jpg");
+            }
+            else
+            {
+                try
+                {
+                    pbWallpaper.Load(dt.Wallpaper + "default.jpg");
+                }
+                catch
+                {
+
+                }
+
+            }
+
             AcessoUsuario = null;
         }
-
+        
         private void BloqueioTela(int acesso)
         {
             if(acesso == 0)
@@ -224,7 +267,12 @@ namespace GUI
                 
                 admnistradorToolStripMenuItem.Enabled = false;
                 movimentoToolStripMenuItem.Enabled = false;
-                
+                cadastrosToolStripMenuItem1.Enabled = false;
+                suprirDadosToolStripMenuItem.Enabled = false;
+                cadastroToolStripMenuItem1.Enabled = false;
+                configuraçõesToolStripMenuItem1.Enabled = false;
+
+
             }
             else if(acesso == 2)
             {
@@ -241,7 +289,11 @@ namespace GUI
 
                 //Desabilita alguns
                 //cadastroToolStripMenuItem.Enabled = false;
-                admnistradorToolStripMenuItem.Enabled = false;   
+                admnistradorToolStripMenuItem.Enabled = false;
+                cadastrosToolStripMenuItem1.Enabled = false;
+                suprirDadosToolStripMenuItem.Enabled = false;
+                cadastroToolStripMenuItem1.Enabled = false;
+                configuraçõesToolStripMenuItem1.Enabled = false;
             }
 
             else if (acesso == 3)
@@ -256,7 +308,7 @@ namespace GUI
                 relatóriosToolStripMenuItem.Enabled = true;
                 ajudaToolStripMenuItem.Enabled = true;
                 admnistradorToolStripMenuItem.Enabled = true;
-
+                cadastrosToolStripMenuItem1.Enabled = true;
                 //Desabilita alguns
                 admnistradorToolStripMenuItem.Enabled = false;
             }
@@ -272,6 +324,7 @@ namespace GUI
                 relatóriosToolStripMenuItem.Enabled = true;
                 ajudaToolStripMenuItem.Enabled = true;
                 admnistradorToolStripMenuItem.Enabled = true;
+                cadastrosToolStripMenuItem1.Enabled = true;
             }
         }
 
@@ -302,7 +355,7 @@ namespace GUI
 
         private void logoffToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Text = "";
+            this.Text = "Soluções DaDo Bier";
 
             this.BloqueioTela(0);
 
@@ -347,12 +400,7 @@ namespace GUI
             f.Dispose();
         }
 
-        private void configuraçõesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmConfig f = new frmConfig();
-            f.ShowDialog();
-            f.Dispose();
-        }
+       
 
         private void alterarSenhaToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -446,11 +494,11 @@ namespace GUI
 
         private void dadosToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmCMVSecoes f = new frmCMVSecoes(Convert.ToUInt32(Convert.ToInt32(txtId.Text)));
+            Forms.CMV.frmCMVSecoes fs = new Forms.CMV.frmCMVSecoes(Convert.ToUInt32(Convert.ToInt32(txtId.Text)));
             this.Hide();
-            f.ShowDialog();
+            fs.ShowDialog();
             this.Show();
-            f.Dispose();
+            fs.Dispose();
         }
         
         #region Menu / Materiais / Cadastros
@@ -641,6 +689,50 @@ namespace GUI
             f.ShowDialog();
             f.Dispose();
             this.Show();
+        }
+
+        private void backupDoBancoDeDadosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmConfig f = new frmConfig();
+            f.ShowDialog();
+            f.Dispose();
+        }
+
+        private void configuraçõesToolStripMenuItem2_Click(object sender, EventArgs e)
+        {
+            DTOCaminhos dt = new DTOCaminhos();
+
+            Forms.Comuns.Config f = new Forms.Comuns.Config(Convert.ToInt32(txtId.Text));
+            this.Hide();
+            pbWallpaper.Load(dt.Wallpaper + "default.jpg");
+            f.ShowDialog();
+            f.Dispose();
+            if (File.Exists(dt.Wallpaper + txtId.Text + ".jpg"))
+            {
+                pbWallpaper.Load(dt.Wallpaper + txtId.Text + ".jpg");
+            }
+            else
+            {
+                try
+                {
+                    pbWallpaper.Load(dt.Wallpaper + "default.jpg");
+                }
+                catch
+                {
+
+                }
+
+            }
+            this.Show();
+        }
+
+        private void colarDoExcelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmExcelToDB f = new frmExcelToDB(Convert.ToUInt32(txtId.Text));
+            this.Hide();
+            f.ShowDialog();
+            this.Show();
+            f.Dispose();
         }
     }
 }

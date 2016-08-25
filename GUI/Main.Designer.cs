@@ -95,6 +95,8 @@
             this.buffetsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.categoriasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.subCategoriasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
+            this.consultaFichasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.admnistradorToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cadastrosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.usuárioToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -105,6 +107,8 @@
             this.configuraçõesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cMVToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.excessõesDeCustoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator13 = new System.Windows.Forms.ToolStripSeparator();
+            this.backupDoBancoDeDadosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.pnBarraInferior = new System.Windows.Forms.Panel();
             this.txtIniciais = new System.Windows.Forms.TextBox();
             this.txtSenha = new System.Windows.Forms.TextBox();
@@ -118,11 +122,14 @@
             this.lbUsuarioLogado = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.toolStripSeparator12 = new System.Windows.Forms.ToolStripSeparator();
-            this.consultaFichasToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pbWallpaper = new System.Windows.Forms.PictureBox();
+            this.toolStripSeparator14 = new System.Windows.Forms.ToolStripSeparator();
+            this.colarDoExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.msMain.SuspendLayout();
             this.pnBarraInferior.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbWallpaper)).BeginInit();
             this.SuspendLayout();
             // 
             // msMain
@@ -212,6 +219,7 @@
             this.configuraçõesToolStripMenuItem2.Name = "configuraçõesToolStripMenuItem2";
             this.configuraçõesToolStripMenuItem2.Size = new System.Drawing.Size(217, 22);
             this.configuraçõesToolStripMenuItem2.Text = "Configurações";
+            this.configuraçõesToolStripMenuItem2.Click += new System.EventHandler(this.configuraçõesToolStripMenuItem2_Click);
             // 
             // consultaToolStripMenuItem
             // 
@@ -421,15 +429,17 @@
             // suprirDadosToolStripMenuItem
             // 
             this.suprirDadosToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.dadosToolStripMenuItem});
+            this.dadosToolStripMenuItem,
+            this.toolStripSeparator14,
+            this.colarDoExcelToolStripMenuItem});
             this.suprirDadosToolStripMenuItem.Name = "suprirDadosToolStripMenuItem";
-            this.suprirDadosToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.suprirDadosToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.suprirDadosToolStripMenuItem.Text = "Suprir dados";
             // 
             // dadosToolStripMenuItem
             // 
             this.dadosToolStripMenuItem.Name = "dadosToolStripMenuItem";
-            this.dadosToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.dadosToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.dadosToolStripMenuItem.Text = "Dados";
             this.dadosToolStripMenuItem.Click += new System.EventHandler(this.dadosToolStripMenuItem_Click);
             // 
@@ -441,7 +451,7 @@
             this.toolStripSeparator6,
             this.excessõesCustoToolStripMenuItem});
             this.cadastroToolStripMenuItem1.Name = "cadastroToolStripMenuItem1";
-            this.cadastroToolStripMenuItem1.Size = new System.Drawing.Size(151, 22);
+            this.cadastroToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.cadastroToolStripMenuItem1.Text = "Cadastros";
             // 
             // produtosToolStripMenuItem1
@@ -471,19 +481,19 @@
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(148, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(149, 6);
             // 
             // relatóriosToolStripMenuItem1
             // 
             this.relatóriosToolStripMenuItem1.Name = "relatóriosToolStripMenuItem1";
-            this.relatóriosToolStripMenuItem1.Size = new System.Drawing.Size(151, 22);
+            this.relatóriosToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.relatóriosToolStripMenuItem1.Text = "Relatórios";
             this.relatóriosToolStripMenuItem1.Click += new System.EventHandler(this.relatóriosToolStripMenuItem1_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(148, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(149, 6);
             // 
             // gestãoToolStripMenuItem
             // 
@@ -493,7 +503,7 @@
             this.gruposToolStripMenuItem,
             this.geralToolStripMenuItem});
             this.gestãoToolStripMenuItem.Name = "gestãoToolStripMenuItem";
-            this.gestãoToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
+            this.gestãoToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.gestãoToolStripMenuItem.Text = "Gestão";
             // 
             // resumoToolStripMenuItem
@@ -585,12 +595,12 @@
             // toolStripSeparator7
             // 
             this.toolStripSeparator7.Name = "toolStripSeparator7";
-            this.toolStripSeparator7.Size = new System.Drawing.Size(148, 6);
+            this.toolStripSeparator7.Size = new System.Drawing.Size(149, 6);
             // 
             // configuraçõesToolStripMenuItem1
             // 
             this.configuraçõesToolStripMenuItem1.Name = "configuraçõesToolStripMenuItem1";
-            this.configuraçõesToolStripMenuItem1.Size = new System.Drawing.Size(151, 22);
+            this.configuraçõesToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
             this.configuraçõesToolStripMenuItem1.Text = "Configurações";
             this.configuraçõesToolStripMenuItem1.Click += new System.EventHandler(this.configuraçõesToolStripMenuItem1_Click);
             // 
@@ -649,6 +659,18 @@
             this.subCategoriasToolStripMenuItem.Text = "Subcategorias";
             this.subCategoriasToolStripMenuItem.Click += new System.EventHandler(this.subCategoriasToolStripMenuItem_Click);
             // 
+            // toolStripSeparator12
+            // 
+            this.toolStripSeparator12.Name = "toolStripSeparator12";
+            this.toolStripSeparator12.Size = new System.Drawing.Size(154, 6);
+            // 
+            // consultaFichasToolStripMenuItem
+            // 
+            this.consultaFichasToolStripMenuItem.Name = "consultaFichasToolStripMenuItem";
+            this.consultaFichasToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
+            this.consultaFichasToolStripMenuItem.Text = "Consulta Fichas";
+            this.consultaFichasToolStripMenuItem.Click += new System.EventHandler(this.consultaFichasToolStripMenuItem_Click);
+            // 
             // admnistradorToolStripMenuItem
             // 
             this.admnistradorToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -706,18 +728,19 @@
             // configuraçõesToolStripMenuItem
             // 
             this.configuraçõesToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cMVToolStripMenuItem1});
+            this.cMVToolStripMenuItem1,
+            this.toolStripSeparator13,
+            this.backupDoBancoDeDadosToolStripMenuItem});
             this.configuraçõesToolStripMenuItem.Name = "configuraçõesToolStripMenuItem";
             this.configuraçõesToolStripMenuItem.Size = new System.Drawing.Size(151, 22);
             this.configuraçõesToolStripMenuItem.Text = "Configurações";
-            this.configuraçõesToolStripMenuItem.Click += new System.EventHandler(this.configuraçõesToolStripMenuItem_Click);
             // 
             // cMVToolStripMenuItem1
             // 
             this.cMVToolStripMenuItem1.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.excessõesDeCustoToolStripMenuItem});
             this.cMVToolStripMenuItem1.Name = "cMVToolStripMenuItem1";
-            this.cMVToolStripMenuItem1.Size = new System.Drawing.Size(100, 22);
+            this.cMVToolStripMenuItem1.Size = new System.Drawing.Size(217, 22);
             this.cMVToolStripMenuItem1.Text = "CMV";
             // 
             // excessõesDeCustoToolStripMenuItem
@@ -726,6 +749,18 @@
             this.excessõesDeCustoToolStripMenuItem.Size = new System.Drawing.Size(173, 22);
             this.excessõesDeCustoToolStripMenuItem.Text = "Excessões de custo";
             this.excessõesDeCustoToolStripMenuItem.Click += new System.EventHandler(this.excessõesDeCustoToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator13
+            // 
+            this.toolStripSeparator13.Name = "toolStripSeparator13";
+            this.toolStripSeparator13.Size = new System.Drawing.Size(214, 6);
+            // 
+            // backupDoBancoDeDadosToolStripMenuItem
+            // 
+            this.backupDoBancoDeDadosToolStripMenuItem.Name = "backupDoBancoDeDadosToolStripMenuItem";
+            this.backupDoBancoDeDadosToolStripMenuItem.Size = new System.Drawing.Size(217, 22);
+            this.backupDoBancoDeDadosToolStripMenuItem.Text = "Backup do Banco de dados";
+            this.backupDoBancoDeDadosToolStripMenuItem.Click += new System.EventHandler(this.backupDoBancoDeDadosToolStripMenuItem_Click);
             // 
             // pnBarraInferior
             // 
@@ -851,25 +886,36 @@
             // 
             // panel2
             // 
-            this.panel2.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("panel2.BackgroundImage")));
             this.panel2.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.panel2.Controls.Add(this.pbWallpaper);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(1350, 633);
             this.panel2.TabIndex = 0;
             // 
-            // toolStripSeparator12
+            // pbWallpaper
             // 
-            this.toolStripSeparator12.Name = "toolStripSeparator12";
-            this.toolStripSeparator12.Size = new System.Drawing.Size(154, 6);
+            this.pbWallpaper.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbWallpaper.Location = new System.Drawing.Point(0, 0);
+            this.pbWallpaper.Margin = new System.Windows.Forms.Padding(0);
+            this.pbWallpaper.Name = "pbWallpaper";
+            this.pbWallpaper.Size = new System.Drawing.Size(1350, 633);
+            this.pbWallpaper.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pbWallpaper.TabIndex = 0;
+            this.pbWallpaper.TabStop = false;
             // 
-            // consultaFichasToolStripMenuItem
+            // toolStripSeparator14
             // 
-            this.consultaFichasToolStripMenuItem.Name = "consultaFichasToolStripMenuItem";
-            this.consultaFichasToolStripMenuItem.Size = new System.Drawing.Size(157, 22);
-            this.consultaFichasToolStripMenuItem.Text = "Consulta Fichas";
-            this.consultaFichasToolStripMenuItem.Click += new System.EventHandler(this.consultaFichasToolStripMenuItem_Click);
+            this.toolStripSeparator14.Name = "toolStripSeparator14";
+            this.toolStripSeparator14.Size = new System.Drawing.Size(149, 6);
+            // 
+            // colarDoExcelToolStripMenuItem
+            // 
+            this.colarDoExcelToolStripMenuItem.Name = "colarDoExcelToolStripMenuItem";
+            this.colarDoExcelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.colarDoExcelToolStripMenuItem.Text = "Colar do excel";
+            this.colarDoExcelToolStripMenuItem.Click += new System.EventHandler(this.colarDoExcelToolStripMenuItem_Click);
             // 
             // Main
             // 
@@ -892,6 +938,8 @@
             this.pnBarraInferior.ResumeLayout(false);
             this.pnBarraInferior.PerformLayout();
             this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbWallpaper)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -990,6 +1038,11 @@
         private System.Windows.Forms.ToolStripMenuItem subCategoriasToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator12;
         private System.Windows.Forms.ToolStripMenuItem consultaFichasToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator13;
+        private System.Windows.Forms.ToolStripMenuItem backupDoBancoDeDadosToolStripMenuItem;
+        private System.Windows.Forms.PictureBox pbWallpaper;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator14;
+        private System.Windows.Forms.ToolStripMenuItem colarDoExcelToolStripMenuItem;
     }
 }
 
