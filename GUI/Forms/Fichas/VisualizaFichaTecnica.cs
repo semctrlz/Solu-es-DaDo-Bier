@@ -1,6 +1,8 @@
 ﻿using GUI.Code.BLL;
 using GUI.Code.DAL;
 using GUI.Code.DTO;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -104,7 +106,7 @@ namespace GUI.Forms.Fichas
             }
 
             BLLSubCategoria bllscat = new BLLSubCategoria(cx);
-            DataTable tabelascat = bllscat.localizarPorId(cat);
+            DataTable tabelascat = bllscat.localizarPorId(subcat);
 
             if (tabelascat.Rows.Count > 0)
             {
@@ -152,6 +154,48 @@ namespace GUI.Forms.Fichas
         private void button1_Click(object sender, EventArgs e)
         {
             pnImagem.Visible = false;
+        }
+
+        private void pbPrint_Click(object sender, EventArgs e)
+        {
+            DTOCaminhos dto = new DTOCaminhos();
+            bool img = false;
+            if (File.Exists(dto.FT + codFicha + ".jpg"))
+            {
+                DialogResult d = MessageBox.Show("Esta ficha contém uma imagem anexada. Deseja exportar a imagem para PDF também?", "ATENÇÃO!", MessageBoxButtons.YesNo);
+                if (d.ToString() == "Yes")
+                {
+                    img = true;
+                }
+            }
+            try
+            {
+                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+
+                saveFileDialog1.Filter = "Arquivos PDF (*.pdf)|*.pdf";
+                saveFileDialog1.FilterIndex = 2;
+                saveFileDialog1.FileName = lbTitulo.Text;
+                saveFileDialog1.RestoreDirectory = true;
+
+                if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+                {
+                    ExportaPdf(img, codFicha, saveFileDialog1.FileName, unidade);
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Impossível exportar a ficha técnica para PDF. Verifique se não exite um arquivo em PDF aberto que esteja impedindo esta operação.");
+            }
+        }
+
+        private void ExportaPdf(bool imagem, string cod, string caminho, int unidade)
+        {
+            Augoritmos au = new Augoritmos();
+
+            au.paraPDF(imagem, cod, caminho, unidade);
+
+            System.Diagnostics.Process.Start($"{caminho}");
+
         }
 
         private void CarregarIngredientesPorCodigo(string cod)
@@ -218,8 +262,6 @@ namespace GUI.Forms.Fichas
 
                 lbcustoPorcao.Text = (TotalFicha / Convert.ToDouble(lbRendimento.Text)).ToString("#,0.00");
             }
-
-
         }
     }
 }

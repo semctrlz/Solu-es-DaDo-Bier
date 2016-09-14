@@ -1312,6 +1312,12 @@ namespace GUI.Code.BLL
 
         }
 
+        public DataTable ListarGrupos(int unidade)
+        {
+            DALCmvGrupo DALobj = new DALCmvGrupo(conexao);
+            return DALobj.ListarGrupos(unidade);
+        }
+
         public DataTable LocalizarGrupo(int unidade)
         {
             DALCmvGrupo DALobj = new DALCmvGrupo(conexao);
@@ -1425,11 +1431,55 @@ namespace GUI.Code.BLL
             return DALobj.TotalReceitaPorGrupos(unidade, diaI, diaF, idGrupo1, idGrupo2, idGrupo3, idGrupo4, idGrupo5);
         }
 
+        public DataTable TotalCustoPorGrupoETipo(int unidade, DateTime diaI, DateTime diaF, string tipo, string grupo)
+        {
+            DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
+            return DALobj.TotalCustoPorGrupoETipo(unidade, diaI, diaF, tipo, grupo);
+        }
+
+        public DataTable TotalCustoPorGrupo(int unidade, DateTime diaI, DateTime diaF, string grupo)
+        {
+            DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
+            return DALobj.TotalCustoPorGrupo(unidade, diaI, diaF, grupo);
+        }
+
+        public DataTable TotalVendaPorGrupo(int unidade, DateTime diaI, DateTime diaF, string grupo)
+        {
+            DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
+            return DALobj.TotalVendaPorGrupo(unidade, diaI, diaF, grupo);
+        }
+
         public DataTable MetaPorGrupo(int idGrupo)
         {
             DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
             return DALobj.MetaPorGrupo(idGrupo);
         }
+
+        public DataTable TotalPaxPorUnidade(int unidade, DateTime diaI, DateTime diaF)
+        {
+            DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
+            return DALobj.TotalPaxPorUnidade(unidade, diaI, diaF);
+        }
+
+        public DataTable TabelaPaxPorUnidade(int unidade, DateTime diaI, DateTime diaF)
+        {
+            DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
+            return DALobj.TabelaPaxPorUnidade(unidade, diaI, diaF);
+        }
+
+        public DataTable ListaSetoresCadastradosPorUnidade(int unidade)
+        {
+            DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
+            return DALobj.ListaSetoresCadastradosPorUnidade(unidade);
+
+        }
+
+        public DataTable TotalCustoPorContaEData(int unidade, DateTime dataI, DateTime dataF,  string conta)
+        {
+            DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
+            return DALobj.TotalCustoPorContaEData(unidade, dataI, dataF, conta);
+        }
+
 
     }
 
@@ -2221,7 +2271,9 @@ namespace GUI.Code.BLL
 
             //Tratamento dos dados
             modelo.NomePrato = modelo.NomePrato.Replace("\'", "");
+            modelo.NomePrato = modelo.NomePrato.Replace("\\", "-");
             modelo.NomePrato = modelo.NomePrato.Replace("\"", "");
+            modelo.NomePrato = modelo.NomePrato.Replace("/", "-");
 
             modelo.NomePrato = modelo.NomePrato.Trim().ToUpper();
             modelo.ModoPreparoPrato = modelo.ModoPreparoPrato.Trim();
@@ -2254,7 +2306,9 @@ namespace GUI.Code.BLL
             //Tratamento dos dados
 
             modelo.NomePrato = modelo.NomePrato.Replace("\'", "");
+            modelo.NomePrato = modelo.NomePrato.Replace("\\", "-");
             modelo.NomePrato = modelo.NomePrato.Replace("\"", "");
+            modelo.NomePrato = modelo.NomePrato.Replace("/", "-");
 
             modelo.NomePrato = modelo.NomePrato.Trim().ToUpper();
             modelo.ModoPreparoPrato = modelo.ModoPreparoPrato.Trim();

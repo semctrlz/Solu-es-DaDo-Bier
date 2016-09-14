@@ -9,7 +9,7 @@ using System.Windows.Forms.DataVisualization.Charting;
 
 namespace GUI.Forms.CMV
 {
-    public partial class frmCMVSecoes : Form
+    public partial class ResumoDeCusto : Form
     {
         #region Variáveis
 
@@ -25,7 +25,7 @@ namespace GUI.Forms.CMV
 
         #region Inicialização
 
-        public frmCMVSecoes(uint id)
+        public ResumoDeCusto(uint id)
         {
             idUsuario = Convert.ToInt32(id);
 
@@ -33,6 +33,7 @@ namespace GUI.Forms.CMV
 
         private void frmCMVSecoes_Load(object sender, EventArgs e)
         {
+           
             DALConexao con = new DALConexao(DadosDaConexao.StringDaConexao);
             BLLUsuario bllu = new BLLUsuario(con);
 
@@ -123,7 +124,7 @@ namespace GUI.Forms.CMV
 
             Liberado = true;
            
-
+    
         }
 
         #endregion

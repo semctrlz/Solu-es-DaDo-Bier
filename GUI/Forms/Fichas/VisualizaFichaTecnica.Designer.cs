@@ -71,7 +71,6 @@
             this.pbimagem1 = new System.Windows.Forms.PictureBox();
             this.pbImagem = new System.Windows.Forms.PictureBox();
             this.pbPrint = new System.Windows.Forms.PictureBox();
-            this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.pn1.SuspendLayout();
             this.panel4.SuspendLayout();
             this.panel6.SuspendLayout();
@@ -599,6 +598,7 @@
             this.pbPrint.Size = new System.Drawing.Size(32, 32);
             this.pbPrint.TabIndex = 4;
             this.pbPrint.TabStop = false;
+            this.pbPrint.Click += new System.EventHandler(this.pbPrint_Click);
             // 
             // VisualizaFichaTecnica
             // 
@@ -675,6 +675,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn unit;
         private System.Windows.Forms.DataGridViewTextBoxColumn total;
         private System.Windows.Forms.PictureBox pbPrint;
-        private System.Windows.Forms.PageSetupDialog pageSetupDialog1;
     }
 }

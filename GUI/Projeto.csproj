@@ -28,7 +28,7 @@
     <PublisherName>ZSolutions</PublisherName>
     <SuiteName>Soluções DaDo Bier</SuiteName>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationRevision>13</ApplicationRevision>
     <ApplicationVersion>0.1.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -76,17 +76,32 @@
   <PropertyGroup>
     <SignManifests>true</SignManifests>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp">
+      <HintPath>..\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.pdfa">
+      <HintPath>..\itextsharp.pdfa.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xtra">
+      <HintPath>..\itextsharp.xtra.dll</HintPath>
+    </Reference>
+    <Reference Include="MetroFramework">
+      <HintPath>..\..\MetroTest\packages\MetroModernUI.1.4.0.0\lib\net\MetroFramework.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Office.Interop.Excel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c, processorArchitecture=MSIL">
       <EmbedInteropTypes>True</EmbedInteropTypes>
       <HintPath>..\packages\Microsoft.Office.Interop.Excel.15.0.4795.1000\lib\net20\Microsoft.Office.Interop.Excel.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.VisualBasic.PowerPacks, Version=9.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web.Services" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -99,6 +114,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Code\FERRAMENTAS\FERRAMENTAS.cs" />
     <Compile Include="Forms\CMV\frmCadatroGrupo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -108,6 +124,24 @@
     <Compile Include="Code\BLL\BLL.cs" />
     <Compile Include="Code\DAL\DAL.cs" />
     <Compile Include="Code\DTO\DTO.cs" />
+    <Compile Include="Forms\CMV\frmCMVResumos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CMV\frmCMVResumos.Designer.cs">
+      <DependentUpon>frmCMVResumos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CMV\frmGAVSinteticoGeral.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CMV\frmGAVSinteticoGeral.Designer.cs">
+      <DependentUpon>frmGAVSinteticoGeral.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CMV\ResumoDeCusto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CMV\ResumoDeCusto.Designer.cs">
+      <DependentUpon>ResumoDeCusto.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\CMV\frmConsultaAeB.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -180,12 +214,6 @@
     </Compile>
     <Compile Include="Forms\Fichas\frmConsultaFichas.Designer.cs">
       <DependentUpon>frmConsultaFichas.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Fichas\frmImpressaoFicha.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\Fichas\frmImpressaoFicha.Designer.cs">
-      <DependentUpon>frmImpressaoFicha.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\Fichas\VisualizaFichaTecnica.cs">
       <SubType>Form</SubType>
@@ -264,12 +292,6 @@
     </Compile>
     <Compile Include="Forms\CMV\frmCMVRelatorio.Designer.cs">
       <DependentUpon>frmCMVRelatorio.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\CMV\frmCMVSecoes.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\CMV\frmCMVSecoes.Designer.cs">
-      <DependentUpon>frmCMVSecoes.cs</DependentUpon>
     </Compile>
     <Compile Include="frmConexoes.cs">
       <SubType>Form</SubType>
@@ -417,8 +439,18 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings.cs" />
     <EmbeddedResource Include="Forms\CMV\frmCadatroGrupo.resx">
       <DependentUpon>frmCadatroGrupo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CMV\frmCMVResumos.resx">
+      <DependentUpon>frmCMVResumos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CMV\frmGAVSinteticoGeral.resx">
+      <DependentUpon>frmGAVSinteticoGeral.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CMV\ResumoDeCusto.resx">
+      <DependentUpon>ResumoDeCusto.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\CMV\frmConsultaAeB.resx">
       <DependentUpon>frmConsultaAeB.cs</DependentUpon>
@@ -452,9 +484,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Fichas\frmConsultaFichas.resx">
       <DependentUpon>frmConsultaFichas.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Fichas\frmImpressaoFicha.resx">
-      <DependentUpon>frmImpressaoFicha.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\Fichas\VisualizaFichaTecnica.resx">
       <DependentUpon>VisualizaFichaTecnica.cs</DependentUpon>
@@ -497,9 +526,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\CMV\frmCMVRelatorio.resx">
       <DependentUpon>frmCMVRelatorio.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\CMV\frmCMVSecoes.resx">
-      <DependentUpon>frmCMVSecoes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmConexoes.resx">
       <DependentUpon>frmConexoes.cs</DependentUpon>
@@ -708,6 +734,9 @@
   <ItemGroup>
     <Content Include="DaDo.ico" />
     <Content Include="favicon.ico" />
+    <None Include="Resources\exportPdfx64.png" />
+    <None Include="Resources\exportPdfx48.png" />
+    <None Include="Resources\exportPdfx24.png" />
     <None Include="Resources\x-4x1.png" />
     <None Include="Resources\fire-2x1.png" />
     <None Include="Resources\camera-slr-2x1.png" />

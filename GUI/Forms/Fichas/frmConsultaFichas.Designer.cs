@@ -30,14 +30,10 @@
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle4 = new System.Windows.Forms.DataGridViewCellStyle();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle5 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmConsultaFichas));
             this.gbFiltros = new System.Windows.Forms.GroupBox();
             this.cbUnidade = new System.Windows.Forms.ComboBox();
             this.lbUnidade = new System.Windows.Forms.Label();
-            this.btConsulta = new System.Windows.Forms.Button();
             this.lbSetor = new System.Windows.Forms.Label();
             this.lbCategoria = new System.Windows.Forms.Label();
             this.lbSubCategoria = new System.Windows.Forms.Label();
@@ -48,23 +44,11 @@
             this.lbNome = new System.Windows.Forms.Label();
             this.bgDados = new System.Windows.Forms.GroupBox();
             this.dgvFichas = new System.Windows.Forms.DataGridView();
+            this.btConsulta = new System.Windows.Forms.Button();
+            this.btPdf = new System.Windows.Forms.Button();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn3 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.cod_ficha = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nome_ficha = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.setor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.categoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.subcategoria = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.peso_ficha = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.rendimento_ficha = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.custo_kg = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.custo_porcao = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.custo_total = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.desc = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.detalhes = new System.Windows.Forms.DataGridViewImageColumn();
-            this.editar = new System.Windows.Forms.DataGridViewImageColumn();
-            this.delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.gbFiltros.SuspendLayout();
             this.bgDados.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvFichas)).BeginInit();
@@ -72,6 +56,7 @@
             // 
             // gbFiltros
             // 
+            this.gbFiltros.Controls.Add(this.btPdf);
             this.gbFiltros.Controls.Add(this.cbUnidade);
             this.gbFiltros.Controls.Add(this.lbUnidade);
             this.gbFiltros.Controls.Add(this.btConsulta);
@@ -108,19 +93,6 @@
             this.lbUnidade.Size = new System.Drawing.Size(47, 13);
             this.lbUnidade.TabIndex = 11;
             this.lbUnidade.Text = "Unidade";
-            // 
-            // btConsulta
-            // 
-            this.btConsulta.Image = global::GUI.Properties.Resources.magnifying_glass_2x;
-            this.btConsulta.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btConsulta.Location = new System.Drawing.Point(841, 66);
-            this.btConsulta.Name = "btConsulta";
-            this.btConsulta.Size = new System.Drawing.Size(76, 24);
-            this.btConsulta.TabIndex = 10;
-            this.btConsulta.Text = "Consulta";
-            this.btConsulta.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btConsulta.UseVisualStyleBackColor = true;
-            this.btConsulta.Click += new System.EventHandler(this.btConsulta_Click);
             // 
             // lbSetor
             // 
@@ -208,22 +180,16 @@
             this.dgvFichas.AllowUserToDeleteRows = false;
             this.dgvFichas.AllowUserToResizeColumns = false;
             this.dgvFichas.AllowUserToResizeRows = false;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.Silver;
+            this.dgvFichas.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.ControlDark;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            this.dgvFichas.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle2;
             this.dgvFichas.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvFichas.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.cod_ficha,
-            this.nome_ficha,
-            this.setor,
-            this.categoria,
-            this.subcategoria,
-            this.peso_ficha,
-            this.rendimento_ficha,
-            this.custo_kg,
-            this.custo_porcao,
-            this.custo_total,
-            this.desc,
-            this.detalhes,
-            this.editar,
-            this.delete});
             this.dgvFichas.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvFichas.Location = new System.Drawing.Point(3, 16);
             this.dgvFichas.Name = "dgvFichas";
@@ -233,6 +199,31 @@
             this.dgvFichas.TabIndex = 0;
             this.dgvFichas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvFichas_CellContentClick);
             this.dgvFichas.SelectionChanged += new System.EventHandler(this.dgvFichas_SelectionChanged);
+            // 
+            // btConsulta
+            // 
+            this.btConsulta.Image = global::GUI.Properties.Resources.magnifying_glass_2x;
+            this.btConsulta.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btConsulta.Location = new System.Drawing.Point(841, 66);
+            this.btConsulta.Name = "btConsulta";
+            this.btConsulta.Size = new System.Drawing.Size(76, 24);
+            this.btConsulta.TabIndex = 10;
+            this.btConsulta.Text = "Consulta";
+            this.btConsulta.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btConsulta.UseVisualStyleBackColor = true;
+            this.btConsulta.Click += new System.EventHandler(this.btConsulta_Click);
+            // 
+            // btPdf
+            // 
+            this.btPdf.Image = global::GUI.Properties.Resources.exportPdfx48;
+            this.btPdf.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btPdf.Location = new System.Drawing.Point(976, 36);
+            this.btPdf.Name = "btPdf";
+            this.btPdf.Size = new System.Drawing.Size(54, 54);
+            this.btPdf.TabIndex = 13;
+            this.btPdf.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btPdf.UseVisualStyleBackColor = true;
+            this.btPdf.Click += new System.EventHandler(this.btPdf_Click);
             // 
             // dataGridViewImageColumn1
             // 
@@ -254,119 +245,6 @@
             this.dataGridViewImageColumn3.Image = global::GUI.Properties.Resources.trash_2x;
             this.dataGridViewImageColumn3.Name = "dataGridViewImageColumn3";
             this.dataGridViewImageColumn3.Width = 26;
-            // 
-            // cod_ficha
-            // 
-            this.cod_ficha.HeaderText = "CODIGO";
-            this.cod_ficha.Name = "cod_ficha";
-            this.cod_ficha.ReadOnly = true;
-            this.cod_ficha.Width = 70;
-            // 
-            // nome_ficha
-            // 
-            this.nome_ficha.HeaderText = "FICHA";
-            this.nome_ficha.Name = "nome_ficha";
-            this.nome_ficha.ReadOnly = true;
-            this.nome_ficha.Width = 250;
-            // 
-            // setor
-            // 
-            this.setor.HeaderText = "SETOR";
-            this.setor.Name = "setor";
-            this.setor.ReadOnly = true;
-            this.setor.Width = 138;
-            // 
-            // categoria
-            // 
-            this.categoria.HeaderText = "CATEGORIA";
-            this.categoria.Name = "categoria";
-            this.categoria.ReadOnly = true;
-            this.categoria.Width = 138;
-            // 
-            // subcategoria
-            // 
-            this.subcategoria.HeaderText = "SUBCATEGORIA";
-            this.subcategoria.Name = "subcategoria";
-            this.subcategoria.ReadOnly = true;
-            this.subcategoria.Width = 138;
-            // 
-            // peso_ficha
-            // 
-            dataGridViewCellStyle1.Format = "#,#0.0000";
-            dataGridViewCellStyle1.NullValue = null;
-            this.peso_ficha.DefaultCellStyle = dataGridViewCellStyle1;
-            this.peso_ficha.HeaderText = "PESO";
-            this.peso_ficha.Name = "peso_ficha";
-            this.peso_ficha.ReadOnly = true;
-            this.peso_ficha.Width = 75;
-            // 
-            // rendimento_ficha
-            // 
-            dataGridViewCellStyle2.Format = "#,#0.##";
-            this.rendimento_ficha.DefaultCellStyle = dataGridViewCellStyle2;
-            this.rendimento_ficha.HeaderText = "REND.";
-            this.rendimento_ficha.Name = "rendimento_ficha";
-            this.rendimento_ficha.ReadOnly = true;
-            this.rendimento_ficha.Width = 75;
-            // 
-            // custo_kg
-            // 
-            dataGridViewCellStyle3.Format = "#,#0.00";
-            this.custo_kg.DefaultCellStyle = dataGridViewCellStyle3;
-            this.custo_kg.HeaderText = "CUSTO KG";
-            this.custo_kg.Name = "custo_kg";
-            this.custo_kg.ReadOnly = true;
-            this.custo_kg.Width = 120;
-            // 
-            // custo_porcao
-            // 
-            dataGridViewCellStyle4.Format = "#,#0.00";
-            this.custo_porcao.DefaultCellStyle = dataGridViewCellStyle4;
-            this.custo_porcao.HeaderText = "CUSTO PORÇÃO";
-            this.custo_porcao.Name = "custo_porcao";
-            this.custo_porcao.ReadOnly = true;
-            this.custo_porcao.Width = 120;
-            // 
-            // custo_total
-            // 
-            dataGridViewCellStyle5.Format = "#,#0.00";
-            dataGridViewCellStyle5.NullValue = null;
-            this.custo_total.DefaultCellStyle = dataGridViewCellStyle5;
-            this.custo_total.HeaderText = "CUSTO TOTAL";
-            this.custo_total.Name = "custo_total";
-            this.custo_total.ReadOnly = true;
-            this.custo_total.Width = 120;
-            // 
-            // desc
-            // 
-            this.desc.HeaderText = "DESCRIÇÃO";
-            this.desc.Name = "desc";
-            this.desc.ReadOnly = true;
-            this.desc.Visible = false;
-            // 
-            // detalhes
-            // 
-            this.detalhes.HeaderText = "";
-            this.detalhes.Image = global::GUI.Properties.Resources.document_2x1;
-            this.detalhes.Name = "detalhes";
-            this.detalhes.ReadOnly = true;
-            this.detalhes.Width = 26;
-            // 
-            // editar
-            // 
-            this.editar.HeaderText = "";
-            this.editar.Image = global::GUI.Properties.Resources.pencil_2x;
-            this.editar.Name = "editar";
-            this.editar.ReadOnly = true;
-            this.editar.Width = 26;
-            // 
-            // delete
-            // 
-            this.delete.HeaderText = "";
-            this.delete.Image = global::GUI.Properties.Resources.trash_2x;
-            this.delete.Name = "delete";
-            this.delete.ReadOnly = true;
-            this.delete.Width = 26;
             // 
             // frmConsultaFichas
             // 
@@ -410,19 +288,6 @@
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn3;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cod_ficha;
-        private System.Windows.Forms.DataGridViewTextBoxColumn nome_ficha;
-        private System.Windows.Forms.DataGridViewTextBoxColumn setor;
-        private System.Windows.Forms.DataGridViewTextBoxColumn categoria;
-        private System.Windows.Forms.DataGridViewTextBoxColumn subcategoria;
-        private System.Windows.Forms.DataGridViewTextBoxColumn peso_ficha;
-        private System.Windows.Forms.DataGridViewTextBoxColumn rendimento_ficha;
-        private System.Windows.Forms.DataGridViewTextBoxColumn custo_kg;
-        private System.Windows.Forms.DataGridViewTextBoxColumn custo_porcao;
-        private System.Windows.Forms.DataGridViewTextBoxColumn custo_total;
-        private System.Windows.Forms.DataGridViewTextBoxColumn desc;
-        private System.Windows.Forms.DataGridViewImageColumn detalhes;
-        private System.Windows.Forms.DataGridViewImageColumn editar;
-        private System.Windows.Forms.DataGridViewImageColumn delete;
+        private System.Windows.Forms.Button btPdf;
     }
 }

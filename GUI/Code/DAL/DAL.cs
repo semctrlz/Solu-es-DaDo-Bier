@@ -598,6 +598,14 @@ namespace GUI.Code.DAL
             return tabela;
         }
 
+        public DataTable ListarGrupos(int unidade)
+        {
+            DataTable tabela = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter($"select id_cmv_grupo, cmv_grupo_nome from cmv_grupo where id_unidade = {unidade};", conexao.StringConexao);
+            da.Fill(tabela);
+            return tabela;
+        }
+
         public DataTable LocalizarGrupoPorId(int id)
         {
             DataTable tabela = new DataTable();
@@ -2158,8 +2166,27 @@ namespace GUI.Code.DAL
         {
             this.conexao = cx;
         }
-
        
+        public DataTable TotalPaxPorUnidade(int unidade , DateTime diaI, DateTime diaF)
+        {
+            DataTable tabela = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter("SELECT sum(pax) as pax FROM pax "+
+                $"where id_unidade = {unidade} and data_pax between '{diaI}' and '{diaF}'; ", conexao.StringConexao);
+
+            da.Fill(tabela);
+            return tabela;
+        }
+
+        public DataTable TabelaPaxPorUnidade(int unidade, DateTime diaI, DateTime diaF)
+        {
+            DataTable tabela = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter("SELECT data_pax, sum(pax) as pax FROM pax " +
+                $"where id_unidade = {unidade} and data_pax between '{diaI}' and '{diaF}' group by data_pax; ", conexao.StringConexao);
+
+            da.Fill(tabela);
+            return tabela;
+        }
+
         public DataTable TabelaCustoPorGrupo(int unidade, DateTime diaI, DateTime diaF, int idGrupo)
         {
             DataTable tabela = new DataTable();
@@ -2286,7 +2313,38 @@ namespace GUI.Code.DAL
             return tabela;
         }
 
+        public DataTable TotalCustoPorGrupoETipo(int unidade, DateTime diaI, DateTime diaF, string tipo, string grupo)
+        {
+            DataTable tabela = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter("select sum(c.quant_mov_custo * c.valor_unitario_custo) as custo_total from custo c "+
+                "join conta_gerencial g on g.cod_setor = c.conta_gerencial_custo "+
+                $"where g.tipo_setor = '{tipo}' and c.id_unidade = '{unidade}' and c.data_custo between '{diaI}' and '{diaF}' and grupo = '{grupo}';",conexao.StringConexao);
+            da.Fill(tabela);
+            return tabela;
 
+        }
+
+        public DataTable TotalCustoPorGrupo(int unidade, DateTime diaI, DateTime diaF, string grupo)
+        {
+            DataTable tabela = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter("select sum(c.quant_mov_custo * c.valor_unitario_custo) as custo_total from custo c "+
+"join conta_gerencial g on g.cod_setor = c.conta_gerencial_custo "+
+$"where c.id_unidade = '{unidade}' and c.data_custo between '{diaI}' and '{diaF}' and grupo = '{grupo}'; ", conexao.StringConexao);
+            da.Fill(tabela);
+            return tabela;
+        }
+
+        public DataTable TotalVendaPorGrupo(int unidade, DateTime diaI, DateTime diaF, string grupo)
+        {
+            DataTable tabela = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter("select sum(valor_total_venda) as venda from venda v "+
+"join config_receita c on c.cod_venda = v.grupo_venda "+
+$"where v.id_unidade = '{unidade}' and v.data_venda between '{diaI}' and '{diaF}' and c.tipo_cod_venda = '{grupo}';", conexao.StringConexao);
+            da.Fill(tabela);
+            return tabela;
+
+        }
+        
         public DataTable MetaPorGrupo(int idGrupo)
         {
             DataTable tabela = new DataTable();
@@ -2294,7 +2352,32 @@ namespace GUI.Code.DAL
             da.Fill(tabela);
             return tabela;
         }
+
+        public DataTable ListaSetoresCadastradosPorUnidade(int unidade)
+        {
+            DataTable tabela = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter($"select c.cod_setor, c.nome_setor, c.turno, g.tipo_setor from config_custo c "+
+"join conta_gerencial g on g.cod_setor = c.cod_setor "+
+$"where id_unidade = {unidade} order by turno, tipo_setor, nome_setor; ", conexao.StringConexao);
+            da.Fill(tabela);
+            return tabela;
+
+            
+        }
+
+        public DataTable TotalCustoPorContaEData(int unidade, DateTime dataI, DateTime dataF, string conta)
+        {
+            DataTable tabela = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter($"select data_custo, sum(valor_unitario_custo* quant_mov_custo) as custo from custo where id_unidade = {unidade} and data_custo between '{dataI}' and '{dataF}' and conta_gerencial_custo = '{conta}' "+
+"group by data_custo order by data_custo asc; ", conexao.StringConexao);
+            da.Fill(tabela);
+            return tabela;
+        }
+
+
+
         
+
     }
         
     //Materiais

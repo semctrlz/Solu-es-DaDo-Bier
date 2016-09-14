@@ -2,11 +2,14 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="GUI.Forms" GeneratedClassName="Configs">
   <Profiles />
   <Settings>
-    <Setting Name="Titulo1" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Titulo da pagina</Value>
+    <Setting Name="cbComp01" Type="System.String" Scope="User">
+      <Value Profile="(Default)"> </Value>
     </Setting>
-    <Setting Name="BGCollor" Type="System.Drawing.Color" Scope="User">
-      <Value Profile="(Default)">Control</Value>
+    <Setting Name="cbComp02" Type="System.String" Scope="User">
+      <Value Profile="(Default)"> </Value>
+    </Setting>
+    <Setting Name="cbGeral" Type="System.String" Scope="User">
+      <Value Profile="(Default)"> </Value>
     </Setting>
   </Settings>
 </SettingsFile>

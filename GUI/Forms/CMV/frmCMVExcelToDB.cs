@@ -374,7 +374,7 @@ namespace GUI
                         cus.TipoDocCusto = dgvExcel.Rows[i].Cells[10].Value.ToString();
                         cus.DocumentoCusto = dgvExcel.Rows[i].Cells[11].Value.ToString();
 
-                        if(cus.TipoOperacaoCusto == "800.01" || (cus.TipoOperacaoCusto == "800.02" && cus.TipoOperacaoCusto == "9.5.02.106") || cus.TipoOperacaoCusto == "110.2R" || cus.TipoOperacaoCusto == "140.3A" || cus.TipoOperacaoCusto == "110.2S" || cus.TipoOperacaoCusto == "110.2E" || cus.TipoOperacaoCusto == "110.2Y" || cus.TipoOperacaoCusto == "110.2U" || cus.TipoOperacaoCusto == "210.2B" || cus.TipoOperacaoCusto == "191.0")
+                        if(cus.TipoOperacaoCusto == "800.01" || (cus.TipoOperacaoCusto == "800.02" && cus.TipoOperacaoCusto == "9.5.02.106") || cus.TipoOperacaoCusto == "110.2R" || cus.TipoOperacaoCusto == "140.3A" || cus.TipoOperacaoCusto == "110.2S" || cus.TipoOperacaoCusto == "110.2E" || cus.TipoOperacaoCusto == "110.2Y" || cus.TipoOperacaoCusto == "110.2U" || cus.TipoOperacaoCusto == "210.2B" || cus.TipoOperacaoCusto == "191.0" || cus.TipoOperacaoCusto == "800.90" || cus.TipoOperacaoCusto == "800.95")
                         {
                             cus.Grupo = "01";
                         }
@@ -400,15 +400,17 @@ namespace GUI
                             cus.Grupo = "";
                         }
 
-                        if (cus.CodItemCusto == "01.12.0008")
+                        if (cus.ContaGerencialCusto == "9.5.02.107")
                         {
-                            cus.ValorUnitarioCusto *= 0.096;
+                            if (cus.CodItemCusto == "01.12.0008")
+                            {
+                                cus.ValorUnitarioCusto *= 0.096;
+                            }
+                            else if (cus.CodItemCusto == "01.12.0017")
+                            {
+                                cus.ValorUnitarioCusto *= 0.62;
+                            }
                         }
-                        else if(cus.CodItemCusto == "01.12.0017")
-                        {
-                            cus.ValorUnitarioCusto *= 0.62;
-                        }
-                        
                         cus.IdUsuario = Convert.ToInt32(idUsuario);
                         cus.IdUnidade = Convert.ToInt32(cbUnidade.SelectedValue);
 

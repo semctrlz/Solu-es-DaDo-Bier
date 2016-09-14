@@ -22,5 +22,41 @@ namespace GUI.Properties {
                 return defaultInstance;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string cbComp01 {
+            get {
+                return ((string)(this["cbComp01"]));
+            }
+            set {
+                this["cbComp01"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string cbComp02 {
+            get {
+                return ((string)(this["cbComp02"]));
+            }
+            set {
+                this["cbComp02"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string cbGeral {
+            get {
+                return ((string)(this["cbGeral"]));
+            }
+            set {
+                this["cbGeral"] = value;
+            }
+        }
     }
 }

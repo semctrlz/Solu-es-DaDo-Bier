@@ -67,6 +67,8 @@
             this.btEditar = new System.Windows.Forms.Button();
             this.btSalvar = new System.Windows.Forms.Button();
             this.txtNome = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.gbConta.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvContas)).BeginInit();
@@ -311,6 +313,8 @@
             // pnCadastroGrupo
             // 
             this.pnCadastroGrupo.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnCadastroGrupo.Controls.Add(this.label7);
+            this.pnCadastroGrupo.Controls.Add(this.label6);
             this.pnCadastroGrupo.Controls.Add(this.txtMetaPercent);
             this.pnCadastroGrupo.Controls.Add(this.txtMetaValor);
             this.pnCadastroGrupo.Controls.Add(this.btCancelar);
@@ -334,7 +338,7 @@
             // 
             // txtMetaValor
             // 
-            this.txtMetaValor.Location = new System.Drawing.Point(21, 69);
+            this.txtMetaValor.Location = new System.Drawing.Point(21, 70);
             this.txtMetaValor.Name = "txtMetaValor";
             this.txtMetaValor.Size = new System.Drawing.Size(64, 20);
             this.txtMetaValor.TabIndex = 1;
@@ -461,11 +465,29 @@
             this.txtNome.TabIndex = 10;
             this.txtNome.Visible = false;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(18, 54);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(37, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Meta$";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(88, 54);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(39, 13);
+            this.label7.TabIndex = 5;
+            this.label7.Text = "Meta%";
+            // 
             // frmCadatroGrupo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(998, 444);
+            this.ClientSize = new System.Drawing.Size(540, 444);
             this.Controls.Add(this.pnCadastroGrupo);
             this.Controls.Add(this.txtNome);
             this.Controls.Add(this.txtMEtaPercentual1);
@@ -546,5 +568,7 @@
         private System.Windows.Forms.Button btEditar;
         private System.Windows.Forms.Button btSalvar;
         private System.Windows.Forms.TextBox txtNome;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
     }
 }

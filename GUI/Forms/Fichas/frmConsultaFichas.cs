@@ -125,7 +125,6 @@ namespace GUI.Forms.Fichas
 
         private void CarregaDgv()
         {
-            dgvFichas.Rows.Clear();
 
             string busca = $"select p.cod_prato, p.nome_prato,  b.nome_buffet, c.nome_cat, s.nome_scat," +
                 "p.peso_prato, p.rendimento_prato, p.desc_prato from prato p join buffet b on p.id_setor = b.id_buffet " +
@@ -146,13 +145,41 @@ namespace GUI.Forms.Fichas
                 busca += $" and subcat = {Convert.ToInt32(cbSubCategoria.SelectedValue)}";
             }
 
+            busca += "order by p.cod_prato;";
+
             DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
             BLLPratos bll = new BLLPratos(cx);
             DataTable tabela = bll.BuscaFichas(busca);
+            DTOCaminhos caminho = new DTOCaminhos();
 
-            this.dgvFichas.Columns[9].ValueType = typeof(double);
+
+            //this.dgvFichas.Columns[9].ValueType = typeof(double);
+
+            DataTable dados = new DataTable();
+
+            Image ver = Image.FromFile(caminho.Icones+"document.png");
+            Image edit = Image.FromFile(caminho.Icones + "pencil.png");
+            Image del = Image.FromFile(caminho.Icones + "trash.png");
+            
+            dados.Clear();
+            dados.Columns.Add("CODIGO");
+            dados.Columns.Add("NOME");
+            dados.Columns.Add("SETOR");
+            dados.Columns.Add("CAT");
+            dados.Columns.Add("SCAT");
+            dados.Columns.Add("PESO", typeof(double));
+            dados.Columns.Add("RENDIMENTO", typeof(double));
+            dados.Columns.Add("CUSTO/KG", typeof(double));
+            dados.Columns.Add("CUSTO/PORCAO", typeof(double));
+            dados.Columns.Add("TOTAL", typeof(double));
+            dados.Columns.Add("VER", typeof(System.Drawing.Bitmap));
+            dados.Columns.Add("EDT", typeof(System.Drawing.Bitmap));
+            dados.Columns.Add("DEL", typeof(System.Drawing.Bitmap));
 
 
+
+            DataRow _ravi = dados.NewRow();
+            dgvFichas.Visible = false;
             for (int i = 0; i < tabela.Rows.Count; i++)
             {
                 string categoria = "";
@@ -197,6 +224,13 @@ namespace GUI.Forms.Fichas
                 {
                     subcategoria = tabela.Rows[i][4].ToString();
                 }
+
+                dados.Rows.Add(new object[] { tabela.Rows[i][0].ToString(), tabela.Rows[i][1].ToString(), tabela.Rows[i][2].ToString(), categoria, subcategoria, Convert.ToDouble(Math.Round(peso,4)), Convert.ToDouble(Math.Round(rendimento,2)), Convert.ToDouble(Math.Round(custoPorKg,2)) , Convert.ToDouble(Math.Round(custoPorPorcao,2)), Convert.ToDouble(Math.Round(custo,2)), ver, edit, del });
+                
+
+
+                /*
+                
                 dgvFichas.Rows.Add();
                 dgvFichas.Rows[i].Cells[0].Value = tabela.Rows[i][0].ToString();
                 dgvFichas.Rows[i].Cells[1].Value = tabela.Rows[i][1].ToString();
@@ -208,14 +242,23 @@ namespace GUI.Forms.Fichas
                 dgvFichas.Rows[i].Cells[7].Value = custoPorKg;
                 dgvFichas.Rows[i].Cells[8].Value = custoPorPorcao;
                 dgvFichas.Rows[i].Cells[9].Value = custo;
-               
+               */
             }
+
+            dgvFichas.DataSource = dados;
+            dgvFichas.Visible = true;
+            FormatarDGV();
             
         }
 
         private void btConsulta_Click(object sender, EventArgs e)
         {
             CarregaDgv();
+        }
+
+        private void FormatarDGV()
+        {
+            dgvFichas.AutoResizeColumns();
         }
 
         private double CalculaCustoFicha(string codigo)
@@ -248,10 +291,84 @@ namespace GUI.Forms.Fichas
             dgvFichas.ClearSelection();
         }
 
+        private void btPdf_Click(object sender, EventArgs e)
+        {
+            DialogResult d = MessageBox.Show("Deseja exportar TODAS as fichas técnicas listadas abaixo?", "ATENÇÃO!", MessageBoxButtons.YesNo);
+            if (d.ToString() == "Yes")
+            {
+                DialogResult c = MessageBox.Show("Caso alguma ficha contenha imagem deseja exportá-la também?", "ATENÇÃO!", MessageBoxButtons.YesNo);
+                if (c.ToString() == "Yes")
+                {
+                    exportarPdf(true);
+                }
+                else
+                {
+                    exportarPdf(false);
+                }
+            }
+        }
+
+        private void exportarPdf(bool img)
+        {
+            FolderBrowserDialog fd = new FolderBrowserDialog();
+
+
+            Comuns.loading ld = new Comuns.loading();
+
+            if (dgvFichas.Rows.Count == 1)
+            {
+                ld.SetMessage("Exportando a ficha técnica...\n Por favor, aguarde."); // "Loading data. Please wait..."
+            }
+            else
+            {
+                ld.SetMessage("Exportando as fichas técnicas...\n Por favor, aguarde."); // "Loading data. Please wait..."
+            }
+
+            ld.TopMost = true;
+            ld.StartPosition = FormStartPosition.CenterScreen;
+
+            ld.Show();
+            ld.Refresh();
+            try
+            {
+
+
+                if (fd.ShowDialog() == DialogResult.OK)
+                {
+                    Augoritmos au = new Augoritmos();
+
+                    for (int i = 0; i < dgvFichas.Rows.Count; i++)
+                    {
+                        au.paraPDF(img, dgvFichas.Rows[i].Cells[0].Value.ToString(), fd.SelectedPath.ToString()+ "\\" +dgvFichas.Rows[i].Cells[1].Value.ToString()+".pdf", Convert.ToInt32(cbUnidade.SelectedValue));
+
+                    }
+                    if (dgvFichas.Rows.Count == 1)
+                    {
+                        ld.Close();
+                        MessageBox.Show("Ficha técnica exportada com sucesso.");
+                    }
+                    else
+                    {
+                        ld.Close();
+                        MessageBox.Show("Fichas técnicas exportada com sucesso.");
+                    }
+
+                }
+            }
+            catch
+            {
+                ld.Close();
+                MessageBox.Show($"Erro ao exportar as fichas técnicas.\nVerifique se não tem algum documento de PDF Aberto ou se a pasta selecionada não está protegida.");
+
+            }
+
+
+        }
+
         private void dgvFichas_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             Augoritmos au = new Augoritmos();
-            if (e.ColumnIndex == 13)
+            if (e.ColumnIndex == 12)
             {
                 if (e.RowIndex >= 0)
                 {
@@ -271,7 +388,7 @@ namespace GUI.Forms.Fichas
             }
 
 
-            if (e.ColumnIndex == 12)
+            if (e.ColumnIndex == 11)
             {
                 if (e.RowIndex >= 0)
                 {
@@ -298,7 +415,7 @@ namespace GUI.Forms.Fichas
                 }
             }
 
-            if (e.ColumnIndex == 11)
+            if (e.ColumnIndex == 10)
             {
                 if (e.RowIndex >= 0)
                 {

@@ -25,25 +25,37 @@ namespace GUI.Forms {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Titulo da pagina")]
-        public string Titulo1 {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string cbComp01 {
             get {
-                return ((string)(this["Titulo1"]));
+                return ((string)(this["cbComp01"]));
             }
             set {
-                this["Titulo1"] = value;
+                this["cbComp01"] = value;
             }
         }
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Control")]
-        public global::System.Drawing.Color BGCollor {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string cbComp02 {
             get {
-                return ((global::System.Drawing.Color)(this["BGCollor"]));
+                return ((string)(this["cbComp02"]));
             }
             set {
-                this["BGCollor"] = value;
+                this["cbComp02"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string cbGeral {
+            get {
+                return ((string)(this["cbGeral"]));
+            }
+            set {
+                this["cbGeral"] = value;
             }
         }
     }

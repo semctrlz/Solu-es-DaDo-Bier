@@ -27,5 +27,13 @@ namespace GUI.Forms.Comuns
 
             label1.Text = msg;
         }
+
+        private void loading_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.KeyCode == Keys.Escape)
+            {
+                this.Close();
+            }
+        }
     }
 }

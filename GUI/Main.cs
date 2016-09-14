@@ -36,7 +36,7 @@ namespace GUI
         private void Main_Load(object sender, EventArgs e)
         {
             //Verifica se não existe login automático
-
+            
             try
             {
                 DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
@@ -490,16 +490,7 @@ namespace GUI
             frmConsultaMovimento f = new frmConsultaMovimento(Convert.ToInt32(txtId.Text));
             f.ShowDialog();
             f.Dispose();
-        }
-
-        private void dadosToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Forms.CMV.frmCMVSecoes fs = new Forms.CMV.frmCMVSecoes(Convert.ToUInt32(Convert.ToInt32(txtId.Text)));
-            this.Hide();
-            fs.ShowDialog();
-            this.Show();
-            fs.Dispose();
-        }
+        }       
         
         #region Menu / Materiais / Cadastros
 
@@ -608,16 +599,7 @@ namespace GUI
             f.ShowDialog();
             f.Dispose();
             this.Show();
-        }
-
-        private void cadastroToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            frmCadatroGrupo f = new frmCadatroGrupo(Convert.ToInt32(txtId.Text));
-            this.Hide();
-            f.ShowDialog();
-            f.Dispose();
-            this.Show();
-        }
+        }       
                 
         private void GestaoAVistaToolStripMenuItem3_Click(object sender, EventArgs e)
         {
@@ -733,6 +715,38 @@ namespace GUI
             f.ShowDialog();
             this.Show();
             f.Dispose();
+        }
+
+        private void manualToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            
+        }
+
+        private void gestãoÀVistaToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            Forms.CMV.frmGAVSinteticoGeral f = new Forms.CMV.frmGAVSinteticoGeral(Convert.ToInt32(txtId.Text));
+            this.Hide();
+            f.ShowDialog();
+            this.Show();
+            f.Dispose();
+        }
+
+        private void cadastroGruposToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmCadatroGrupo f = new frmCadatroGrupo(Convert.ToInt32(txtId.Text));
+            this.Hide();
+            f.ShowDialog();
+            f.Dispose();
+            this.Show();
+        }
+
+        private void resumosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+           Forms.CMV.frmCMVResumos f = new Forms.CMV.frmCMVResumos(Convert.ToInt32(txtId.Text));
+            this.Hide();
+            f.ShowDialog();
+            f.Dispose();
+            this.Show();
         }
     }
 }

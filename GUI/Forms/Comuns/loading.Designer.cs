@@ -53,6 +53,7 @@
             this.ControlBox = false;
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "loading";
@@ -62,6 +63,7 @@
             this.Text = "loading";
             this.TopMost = true;
             this.Load += new System.EventHandler(this.loading_Load);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.loading_KeyDown);
             this.ResumeLayout(false);
 
         }
