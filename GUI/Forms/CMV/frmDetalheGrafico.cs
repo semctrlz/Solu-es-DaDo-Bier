@@ -17,8 +17,9 @@ namespace GUI.Forms.CMV
         int dia, grupo, unidade;
         string titulo, diaDaSemana;
         DateTime diaI, diaF;
+        bool geral;
 
-        public frmDetalheGrafico(int d, string t, int g, DateTime di, DateTime df, int un)
+        public frmDetalheGrafico(int d, string t, int g, DateTime di, DateTime df, int un, bool gr)
         {
             dia = d;
             titulo = t;
@@ -26,6 +27,7 @@ namespace GUI.Forms.CMV
             diaI = di;
             diaF = df;
             unidade = un;
+            geral = gr;
            
             InitializeComponent();
         }
@@ -78,7 +80,7 @@ namespace GUI.Forms.CMV
 
         private void dgvDetalhe_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            int id = Convert.ToInt32(dgvDetalhe.Rows[e.RowIndex].Cells[0].Value);
+            string conta = (dgvDetalhe.Rows[e.RowIndex].Cells[1].Value).ToString().Substring(0,10);
 
 
             if (e.ColumnIndex == 5)
@@ -88,7 +90,7 @@ namespace GUI.Forms.CMV
 
                     titulo = dgvDetalhe.Rows[e.RowIndex].Cells[1].Value.ToString();
 
-                    frmItens f = new frmItens(unidade, diaI, diaF, id, titulo, lbReceitaePax.Text);
+                    frmItens f = new frmItens(unidade, diaI, diaF, conta, titulo, lbReceitaePax.Text);
                     f.ShowDialog();
                     f.Dispose();
                 }
@@ -109,13 +111,13 @@ namespace GUI.Forms.CMV
 
             String[] V;
 
-
             DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
             BLLCmvGraficos bll = new BLLCmvGraficos(cx);
 
             DataTable TABELAC = bll.TabelaCustoPorConta(unidade, diaI, diaF, grupo);
             DataTable TABELAR = bll.TotalReceitaPorGrupo(unidade, diaI, diaF, grupo);
             DataTable TABELACT = bll.TotalCustoPorGrupo(unidade, diaI, diaF, grupo);
+            DataTable paxTotal = bll.TotalPaxPorUnidade(unidade, diaI, diaF);
 
             if (TABELAC.Rows.Count > 0)
             {
@@ -148,7 +150,14 @@ namespace GUI.Forms.CMV
                     }
                     try
                     {
-                        valor = (custo * -1) / Convert.ToDouble(TABELAR.Rows[0][1]);
+                        if (geral)
+                        {
+                            valor = (custo * -1) / Convert.ToDouble(paxTotal.Rows[0][0]);
+                        }
+                        else
+                        {
+                            valor = (custo * -1) / Convert.ToDouble(TABELAR.Rows[0][0]);
+                        }
                     }
                     catch
                     {
@@ -172,7 +181,14 @@ namespace GUI.Forms.CMV
                 this.dgvDetalhe.Rows.Add(V);
                 
                 custo = Convert.ToDouble(TABELACT.Rows[0][0]);
-                valor = (custo *-1)/ Convert.ToDouble(TABELAR.Rows[0][1]);
+                if (geral)
+                {
+                    valor = (custo * -1) / Convert.ToDouble(paxTotal.Rows[0][0]);
+                }else
+                {
+                    valor = (custo * -1) / Convert.ToDouble(TABELAR.Rows[0][0]);
+
+                }
                 percent = ((custo*-1) / Convert.ToDouble(TABELAR.Rows[0][2])) * 100;
 
                 V = new string[] { "-1", "TOTAL", custo.ToString("#,0.00"), valor.ToString("#,0.00"), percent.ToString("#,0.00") + "%" };

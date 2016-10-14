@@ -1371,6 +1371,19 @@ namespace GUI.Code.BLL
             this.conexao = cx;
         }
 
+        public DataTable ListaCmvPorGrupo(int unidade, DateTime diaI, int grupoCmv, int grupoCusto)
+        {
+            DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
+            return DALobj.ListaCMVPorGrupo(unidade, diaI, grupoCmv, grupoCusto);
+        }
+
+        public DataTable TotalCMVPorGrupo(int unidade, DateTime diaI, int grupoCmv, int grupoCusto)
+        {
+            DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
+            return DALobj.TotalCMVPorGrupo(unidade, diaI, grupoCmv, grupoCusto);
+        }
+
+
         public DataTable TabelaCustoPorGrupo(int unidade, DateTime diaI, DateTime diaF, int idGrupo)
         {
             DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
@@ -1389,7 +1402,7 @@ namespace GUI.Code.BLL
             return DALobj.TabelaCustoPorConta(unidade, diaI, diaF, idGrupo);
         }
 
-        public DataTable TabelaItensPorConta(int unidade, DateTime diaI, DateTime diaF, int idConta)
+        public DataTable TabelaItensPorConta(int unidade, DateTime diaI, DateTime diaF, string idConta)
         {
             DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
             return DALobj.TabelaItensPorConta(unidade, diaI, diaF, idConta);

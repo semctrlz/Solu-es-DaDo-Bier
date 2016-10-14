@@ -46,16 +46,14 @@ namespace GUI.Forms.CMV
 
         private void frmSinteticoGeral_Load(object sender, EventArgs e)
         {
-            
-             Comuns.loading ld = new Comuns.loading();
-             ld.SetMessage("CARREGANDO...\n Por favor, aguarde."); // "Loading data. Please wait..."
-             ld.TopMost = true;
-             ld.StartPosition = FormStartPosition.CenterScreen;
-             ld.WindowState = FormWindowState.Maximized;
+            Comuns.loading ld = new Comuns.loading();
+            ld.SetMessage("CARREGANDO...\n Por favor, aguarde."); // "Loading data. Please wait..."
+            ld.TopMost = true;
+            ld.StartPosition = FormStartPosition.CenterScreen;
+            ld.WindowState = FormWindowState.Maximized;
 
-             ld.Show();
-             ld.Refresh();
-            
+            //ld.Show();
+            //ld.Refresh();
 
             DALConexao con = new DALConexao(DadosDaConexao.StringDaConexao);
             BLLUsuario bllu = new BLLUsuario(con);
@@ -73,9 +71,8 @@ namespace GUI.Forms.CMV
             }
             finally
             {
-            ld.Close();
+                //ld.Close();
             }
-
         }
 
         private void DafaultValues()
@@ -107,11 +104,11 @@ namespace GUI.Forms.CMV
 
             rdValor.Checked = true;
             rdPercent.Checked = false;
-                      
+
             cbComparativo01.Text = Properties.Settings.Default.cbComp01;
 
             cbComparativo02.Text = Properties.Settings.Default.cbComp02;
-            
+
             cbGeral.Text = Properties.Settings.Default.cbGeral;
 
             liberado = true;
@@ -147,10 +144,9 @@ namespace GUI.Forms.CMV
             this.cbMes.SelectedIndex = mesAtual - 1;
 
         }
-        
-        private void CarregaCbGrupos()
-        {           
 
+        private void CarregaCbGrupos()
+        {
             DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
             BLLCmvGrupo bllg = new BLLCmvGrupo(cx);
             DataTable tabela = bllg.LocalizarGrupo(unidade);
@@ -189,7 +185,9 @@ namespace GUI.Forms.CMV
             {
                 dataSource5.Add(new Language() { Name5 = tabela.Rows[i][1].ToString(), Value5 = Convert.ToInt32(tabela.Rows[i][0]).ToString() });
             }
+
             liberado = false;
+
             //Atualiza grupo 01
             this.cbComparativo01.DataSource = dataSource1;
             this.cbComparativo01.DisplayMember = "Name1";
@@ -204,7 +202,7 @@ namespace GUI.Forms.CMV
             this.cbGeral.DataSource = dataSource3;
             this.cbGeral.DisplayMember = "Name3";
             this.cbGeral.ValueMember = "Value3";
-                       
+
 
         }
 
@@ -212,10 +210,13 @@ namespace GUI.Forms.CMV
         {
             if (liberado)
             {
-                AtualizaGraf1();
-                AtualizaGraf2();
-                AtualizaPizza1();
-                AtualizaDetalhes();
+                
+                    AtualizaGraf1();
+                    AtualizaGraf2();
+                    AtualizaPizza1();
+                    AtualizaDetalhes();
+                
+                
             }
         }
 
@@ -227,240 +228,231 @@ namespace GUI.Forms.CMV
 
             if (liberado && (cbComparativo01.Text != "" || cbComparativo02.Text != ""))
             {
+
                 //Variáveis
-                double CMV = 0;
-                double CUSTO = 0;
-                double RECEITA = 0;
+                double CMVV = 0;
+                double Custo, Receita, Pax;
+                string diaSemana = "";
 
-                double CMV2 = 0;
-                double CUSTO2 = 0;
-                double RECEITA2 = 0;
-
-                int PAX = 0;
-                int PAX2 = 0;
-                
-                DataTable tabelaCusto, tabelaReceita, totalCusto, totalReceita, tabelaCusto2, totalCusto2, tabelaReceita2, totalReceita2;
+                DataTable tabelaCMV;
                 DateTime diaI = new DateTime(Convert.ToInt32(numAno.Value), Convert.ToInt32(cbMes.SelectedValue), 1);
-                DateTime diaF = diaI.AddDays(-(diaI.Day - 1)).AddMonths(1).AddDays(-1);
-                DateTime DiaA = diaI;
                 int unidade = Convert.ToInt32(cbUnidade.SelectedValue);
-                string Diadasemana;
-                int c = 0;
-                int r = 0;
-                int c2 = 0;
-                int r2 = 0;
 
-                //Busca Dados no BD
                 DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
                 BLLCmvGraficos bll = new BLLCmvGraficos(cx);
 
+                tabelaCMV = bll.ListaCmvPorGrupo(unidade, diaI, Convert.ToInt32(cbComparativo01.SelectedValue), 01);
 
-                int grupo = Convert.ToInt32(cbComparativo01.SelectedValue.ToString());
-                int grupo2 = Convert.ToInt32(cbComparativo02.SelectedValue.ToString());
+                Custo = 0;
+                Receita = 0;
+                Pax = 0;
 
-
-                tabelaCusto = bll.TabelaCustoPorGrupo(unidade, diaI, diaF, grupo);
-                totalCusto = bll.TotalCustoPorGrupo(unidade, diaI, diaF, grupo);
-
-                tabelaCusto2 = bll.TabelaCustoPorGrupo(unidade, diaI, diaF, grupo2);
-                totalCusto2 = bll.TotalCustoPorGrupo(unidade, diaI, diaF, grupo2);
-
-                tabelaReceita = bll.TabelaReceitaPorGrupo(unidade, diaI, diaF, grupo);
-                totalReceita = bll.TotalReceitaPorGrupo(unidade, diaI, diaF, grupo);
-
-                tabelaReceita2 = bll.TabelaReceitaPorGrupo(unidade, diaI, diaF, grupo2);
-                totalReceita2 = bll.TotalReceitaPorGrupo(unidade, diaI, diaF, grupo2);
+                //Grupo01
 
 
-                for (int i = 0; i < diaF.Day; i++)
+                for (int i = 0; i < tabelaCMV.Rows.Count; i++)
                 {
+                    diaSemana = Dia(Convert.ToDateTime(tabelaCMV.Rows[i][0]));
+
+
                     try
                     {
-                        if (Convert.ToDateTime(tabelaCusto.Rows[c][0]) != Convert.ToDateTime(tabelaReceita.Rows[r][0]))
-                        {
-                            if (Convert.ToDateTime(tabelaCusto.Rows[c][0]) > Convert.ToDateTime(tabelaReceita.Rows[r][0]))
-                            {
-                                CMV = 0;
-                                r++;
-                            }
-                            else
-                            {
-                                CMV = 0;
-                                c++;
-                            }
-                        }
-                        else
-                        {
-                            if (Convert.ToDateTime(tabelaCusto.Rows[c][0]) == DiaA)
-                            {
-                                if (rdPercent.Checked)
-                                {
-                                    CUSTO = Convert.ToDouble(tabelaCusto.Rows[c][1]) * -1;
-                                    RECEITA = Convert.ToDouble(tabelaReceita.Rows[r][3]);
 
-                                    CMV = CUSTO / RECEITA;
-                                    CMV = Math.Round(CMV, 4)*100;
-                                }
-                                else
-                                {
-                                    CUSTO = Convert.ToDouble(tabelaCusto.Rows[c][1]) * -1;
-                                    PAX = Convert.ToInt32(tabelaReceita.Rows[r][2]);
+                        Custo += (Convert.ToDouble(tabelaCMV.Rows[i][1]) * -1);
+                        Receita += Convert.ToDouble(tabelaCMV.Rows[i][2]);
+                        Pax += Convert.ToDouble(tabelaCMV.Rows[i][4]);
 
-                                    CMV = Math.Round(CUSTO / PAX, 2);
-                                }
-                                c++;
-                                r++;
-                            }
-                            else
-                            {
-                                CMV = 0;
-                            }
+                        if (Custo == 0 || Receita == 0 || Pax == 0)
+                        {
+                            Custo += 0;
+                            Receita += 0;
+                            Pax += 0;
                         }
+
                     }
                     catch
                     {
-                        CMV = 0;
-                        r++;
-                        c++;
+                        Custo += 0;
+                        Receita += 0;
+                        Pax += 0;
                     }
 
-
-                    //Segundo Grupo
-                    try
+                    if (rdPercent.Checked)
                     {
-                        if (Convert.ToDateTime(tabelaCusto2.Rows[c2][0]) != Convert.ToDateTime(tabelaReceita2.Rows[r2][0]))
+
+                        try
                         {
-                            if (Convert.ToDateTime(tabelaCusto2.Rows[c2][0]) > Convert.ToDateTime(tabelaReceita2.Rows[r2][0]))
+                            if (string.IsNullOrEmpty(tabelaCMV.Rows[i][5].ToString()))
                             {
-                                CMV2 = 0;
-                                r2++;
+                                CMVV = 0;
                             }
                             else
                             {
-                                CMV2 = 0;
-                                c2++;
+                                CMVV = Convert.ToDouble(tabelaCMV.Rows[i][5]);
                             }
+
                         }
-                        else
+                        catch
                         {
-                            if (Convert.ToDateTime(tabelaCusto2.Rows[c2][0]) == DiaA)
+                            CMVV = 0;
+                        }                        
+
+                        Graf1.Series["G1"].Points.AddXY(diaSemana, CMVV);                        
+
+                    }
+                    else
+                    {
+                        try
+                        {
+                            if (string.IsNullOrEmpty(tabelaCMV.Rows[i][6].ToString()))
                             {
-                                if (rdPercent.Checked)
-                                {
-                                    CUSTO2 = Convert.ToDouble(tabelaCusto2.Rows[c2][1]) * -1;
-                                    RECEITA2 = Convert.ToDouble(tabelaReceita2.Rows[r2][3]);
-
-                                    CMV2 = CUSTO2 / RECEITA2;
-                                    CMV2 = Math.Round(CMV2, 4)*100;
-                                }
-                                else
-                                {
-                                    CUSTO2 = Convert.ToDouble(tabelaCusto2.Rows[c2][1]) * -1;
-                                    PAX2 = Convert.ToInt32(tabelaReceita2.Rows[r2][2]);
-
-                                    CMV2 = Math.Round(CUSTO2 / PAX2, 2);
-                                }
-                                c2++;
-                                r2++;
+                                CMVV = 0;
                             }
                             else
                             {
-                                CMV2 = 0;
+                                CMVV = Convert.ToDouble(tabelaCMV.Rows[i][6]);
                             }
+
                         }
+                        catch
+                        {
+                            CMVV = 0;
+                        }
+
+                        Graf1.Series["G1"].Points.AddXY(diaSemana, CMVV);
                     }
-                    catch
-                    {
-                        CMV2 = 0;
-                        r2++;
-                        c2++;
-                    }
-
-
-
-
-                    Diadasemana = Dia(DiaA);
-
-                    Graf1.Series["G1"].Points.AddXY(Diadasemana, CMV);
-
-                    Graf1.Series["G2"].Points.AddXY(Diadasemana, CMV2);
-
-                    DiaA = DiaA.AddDays(1);
                 }
-
-                CMV = 0;
-                CMV2 = 0;
-
-                try
-                {
-                    if (rdPercent.Checked)
-                    {
-                        CUSTO = Convert.ToDouble(totalCusto.Rows[0][0]) * -1;
-                        RECEITA = Convert.ToDouble(totalReceita.Rows[0][2]);
-
-                        CMV = CUSTO / RECEITA;
-                        CMV = Math.Round(CMV, 4)*100;
-                    }
-                    else
-                    {
-                        CUSTO = Convert.ToDouble(totalCusto.Rows[0][0]) * -1;
-                        PAX = Convert.ToInt32(totalReceita.Rows[0][1]);
-
-                        CMV = Math.Round(CUSTO / PAX, 2);
-                    }
-
-                }
-                catch { }
-
-                try
-                {
-                    if (rdPercent.Checked)
-                    {
-                        CUSTO2 = Convert.ToDouble(totalCusto2.Rows[0][0]) * -1;
-                        RECEITA2 = Convert.ToDouble(totalReceita2.Rows[0][2]);
-
-                        CMV2 = CUSTO2 / RECEITA2;
-                        CMV2 = Math.Round(CMV2, 4)*100;
-                    }
-                    else
-                    {
-                        CUSTO2 = Convert.ToDouble(totalCusto2.Rows[0][0]) * -1;
-                        PAX2 = Convert.ToInt32(totalReceita2.Rows[0][1]);
-
-                        CMV2 = Math.Round(CUSTO2 / PAX2, 2);
-                    }
-
-                }
-                catch { }
-
-                Graf1.Series["G1"].Points.AddXY("Total", CMV);
-                Graf1.Series["G2"].Points.AddXY("Total", CMV2);
-
 
                 if (rdPercent.Checked)
-                {
-                    Graf1.Series["G1"].LabelFormat = "0.0%";
+                {                    
+                    Graf1.Series["G1"].Points.AddXY(("Total"), (Math.Round(Custo / Receita, 2) * 100));
                 }
                 else
                 {
-                    Graf1.Series["G1"].LabelFormat = "0.00";
+                    Graf1.Series["G1"].Points.AddXY(("Total"), Math.Round(Custo / Pax, 2));
+
+                }
+
+                if (Custo == 0 || Receita == 0 || Pax == 0)
+                {
+                    lbDetalh0103.Text = "";
+                    lbDetalh0104.Text = "";
+                }
+                else
+                {
+                    lbDetalh0103.Text = (Math.Round(Custo / Pax, 2)).ToString("R$ 0,0.00");
+                    lbDetalh0104.Text = (Math.Round(Custo / Receita, 4) * 100).ToString("0.00") + "%";
+                }
+
+
+
+                tabelaCMV = bll.ListaCmvPorGrupo(unidade, diaI, Convert.ToInt32(cbComparativo02.SelectedValue), 01);
+
+                Custo = 0;
+                Receita = 0;
+                Pax = 0;
+
+                //Grupo02
+
+
+                for (int i = 0; i < tabelaCMV.Rows.Count; i++)
+                {
+                    diaSemana = Dia(Convert.ToDateTime(tabelaCMV.Rows[i][0]));
+
+
+                    try
+                    {
+
+                        Custo += (Convert.ToDouble(tabelaCMV.Rows[i][1]) * -1);
+                        Receita += Convert.ToDouble(tabelaCMV.Rows[i][2]);
+                        Pax += Convert.ToDouble(tabelaCMV.Rows[i][4]);
+
+                        if (Custo == 0 || Receita == 0 || Pax == 0)
+                        {
+                            Custo += 0;
+                            Receita += 0;
+                            Pax += 0;
+                        }
+
+                    }
+                    catch
+                    {
+                        Custo += 0;
+                        Receita += 0;
+                        Pax += 0;
+                    }
+
+                    if (rdPercent.Checked)
+                    {
+
+                        try
+                        {
+                            if (string.IsNullOrEmpty(tabelaCMV.Rows[i][5].ToString()))
+                            {
+                                CMVV = 0;
+                            }
+                            else
+                            {
+                                CMVV = Convert.ToDouble(tabelaCMV.Rows[i][5]);
+                            }
+
+                        }
+                        catch
+                        {
+                            CMVV = 0;
+                        }
+
+                        Graf1.Series["G2"].Points.AddXY(diaSemana, CMVV);
+
+                    }
+                    else
+                    {
+                        try
+                        {
+                            if (string.IsNullOrEmpty(tabelaCMV.Rows[i][6].ToString()))
+                            {
+                                CMVV = 0;
+                            }
+                            else
+                            {
+                                CMVV = Convert.ToDouble(tabelaCMV.Rows[i][6]);
+                            }
+
+                        }
+                        catch
+                        {
+                            CMVV = 0;
+                        }
+
+                        Graf1.Series["G2"].Points.AddXY(diaSemana, CMVV);
+                    }
                 }
 
                 if (rdPercent.Checked)
                 {
-                    Graf1.Series["G2"].LabelFormat = "0.0%";
+                    Graf1.Series["G2"].Points.AddXY(("Total"), (Math.Round(Custo / Receita, 4) * 100));
                 }
                 else
                 {
-                    Graf1.Series["G2"].LabelFormat = "0.00";
+                    Graf1.Series["G2"].Points.AddXY(("Total"), Math.Round(Custo / Pax, 2));
+
                 }
-            }
-            else
-            {
+
+                if (Custo == 0 || Receita == 0 || Pax == 0)
+                {
+                    lbDetalh0203.Text = "";
+                    lbDetalh0204.Text = "";
+                }
+                else
+                {
+                    lbDetalh0203.Text = (Math.Round(Custo / Pax, 2)).ToString("R$ 0,0.00");
+                    lbDetalh0204.Text = (Math.Round(Custo / Receita, 4) * 100).ToString("0.00") + "%";
+                }
+
 
             }
 
-        }                
+        }
 
         private void AtualizaGraf2()
         {
@@ -470,148 +462,147 @@ namespace GUI.Forms.CMV
             if (liberado && cbGeral.Text != "")
             {
                 //Variáveis
-                double CMV = 0;
-                double CUSTO = 0;
-                double RECEITA = 0;
-
-                int PAX = 0;
+                double CMVV = 0;
+                double Custo, Receita, Pax;
                 double meta = 0;
-                DataTable tabelaCusto, tabelaReceita, totalCusto, totalReceita, tabelaMeta, tabelaPax, paxTotal;
-                DateTime diaI = new DateTime(Convert.ToInt32(numAno.Value), Convert.ToInt32(cbMes.SelectedValue), 1);
-                DateTime diaF = diaI.AddDays(-(diaI.Day - 1)).AddMonths(1).AddDays(-1);
-                DateTime DiaA = diaI;
-                int unidade = Convert.ToInt32(cbUnidade.SelectedValue);
-                string Diadasemana;
-                int c = 0;
-                int r = 0;
+                string diaSemana = "";
 
-                //Busca Dados no BD
+                DataTable tabelaCMV, tabelaTotal, tabelaMeta;
+                DateTime diaI = new DateTime(Convert.ToInt32(numAno.Value), Convert.ToInt32(cbMes.SelectedValue), 1);
+                int unidade = Convert.ToInt32(cbUnidade.SelectedValue);
+
                 DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
                 BLLCmvGraficos bll = new BLLCmvGraficos(cx);
 
-                int grupo = Convert.ToInt32(cbGeral.SelectedValue.ToString());
+                tabelaCMV = bll.ListaCmvPorGrupo(unidade, diaI, Convert.ToInt32(cbGeral.SelectedValue), 01);
+                tabelaTotal = bll.TotalCMVPorGrupo(unidade, diaI, Convert.ToInt32(cbGeral.SelectedValue), 01);
+                tabelaMeta = bll.MetaPorGrupo(Convert.ToInt32(cbGeral.SelectedValue));
 
-                tabelaCusto = bll.TabelaCustoPorGrupo(unidade, diaI, diaF, grupo);
-                totalCusto = bll.TotalCustoPorGrupo(unidade, diaI, diaF, grupo);
+                Custo = 0;
+                Receita = 0;
+                Pax = 0;
 
-                tabelaPax = bll.TabelaPaxPorUnidade(unidade, diaI, diaF);
-                paxTotal = bll.TotalPaxPorUnidade(unidade, diaI, diaF);
+                for (int i = 0; i < tabelaCMV.Rows.Count; i++)
+                {
+                    diaSemana = Dia(Convert.ToDateTime(tabelaCMV.Rows[i][0]));
 
-                tabelaReceita = bll.TabelaReceitaPorGrupo(unidade, diaI, diaF, grupo);
-                totalReceita = bll.TotalReceitaPorGrupo(unidade, diaI, diaF, grupo);
 
-                tabelaMeta = bll.MetaPorGrupo(grupo);
+                    try
+                    {
+                        
+                        Custo += (Convert.ToDouble(tabelaCMV.Rows[i][1]) * -1);
+                        Receita += Convert.ToDouble(tabelaCMV.Rows[i][2]);
+                        Pax += Convert.ToDouble(tabelaCMV.Rows[i][4]);
+
+                        if (Custo == 0 || Receita == 0 || Pax == 0)
+                        {
+                            Custo += 0;
+                            Receita += 0;
+                            Pax += 0;
+                        }
+
+                    }
+                    catch
+                    {
+                        Custo += 0;
+                        Receita += 0;
+                        Pax += 0;
+                    }
+
+                    if (rdPercent.Checked)
+                    {
+
+                        try
+                        {
+                            if (string.IsNullOrEmpty(tabelaCMV.Rows[i][5].ToString()))
+                            {
+                                CMVV = 0;
+                            }else
+                            {
+                            CMVV = Convert.ToDouble(tabelaCMV.Rows[i][5]);
+                            }
+
+                        }
+                        catch
+                        {
+                            CMVV = 0;
+                        }
+
+                        try
+                        {
+                            meta = Convert.ToDouble(tabelaMeta.Rows[0][1]);
+                        }
+                        catch
+                        {
+                            meta = 0;
+                        }
+
+                        Graf2.Series["Valores"].Points.AddXY(diaSemana, CMVV);
+                        Graf2.Series["Meta"].Points.AddXY(diaSemana, (meta*100));
+
+                    }
+                    else
+                    {
+                        try
+                        {
+                            if (string.IsNullOrEmpty(tabelaCMV.Rows[i][7].ToString()))
+                            {
+                                CMVV = 0;
+                            }
+                            else
+                            {
+                                CMVV = Convert.ToDouble(tabelaCMV.Rows[i][7]);
+                            }
+
+                        }
+                        catch
+                        {
+                            CMVV = 0;
+                        }
+
+                        try
+                        {
+                            meta = Convert.ToDouble(tabelaMeta.Rows[0][0]);
+                        }
+                        catch
+                        {
+                            meta = 0;
+                        }
+
+                        Graf2.Series["Valores"].Points.AddXY(diaSemana, CMVV);
+                        Graf2.Series["Meta"].Points.AddXY(diaSemana, meta);
+                    }
+                }
+                
 
                 if (rdPercent.Checked)
                 {
                     meta = Convert.ToDouble(tabelaMeta.Rows[0][1]);
-                }
-                else
+                    Graf2.Series["Valores"].Points.AddXY(("Total"), (Math.Round(Custo/Receita,4)*100));
+                    Graf2.Series["Meta"].Points.AddXY("Total", (meta*100));
+                }else
                 {
                     meta = Convert.ToDouble(tabelaMeta.Rows[0][0]);
-                }
-
-                for (int i = 0; i < diaF.Day; i++)
-                {
-                    try
-                    {
-                        if (Convert.ToDateTime(tabelaCusto.Rows[c][0]) != Convert.ToDateTime(tabelaReceita.Rows[r][0]))
-                        {
-                            if (Convert.ToDateTime(tabelaCusto.Rows[c][0]) > Convert.ToDateTime(tabelaReceita.Rows[r][0]))
-                            {
-                                CMV = 0;
-                                r++;
-                            }
-                            else
-                            {
-                                CMV = 0;
-                                c++;
-                            }
-                        }
-                        else
-                        {
-                            if (Convert.ToDateTime(tabelaCusto.Rows[c][0]) == DiaA)
-                            {
-                                if (rdPercent.Checked)
-                                {
-                                    CUSTO = Convert.ToDouble(tabelaCusto.Rows[c][1]) * -1;
-                                    RECEITA = Convert.ToDouble(tabelaReceita.Rows[r][3]);
-
-                                    CMV = CUSTO / RECEITA;
-                                    CMV = Math.Round(CMV, 4);
-                                }
-                                else
-                                {
-                                    CUSTO = Convert.ToDouble(tabelaCusto.Rows[c][1]) * -1;
-                                    PAX = Convert.ToInt32(tabelaPax.Rows[r][1]);
-
-                                    CMV = Math.Round(CUSTO / PAX, 2);
-                                }
-                                c++;
-                                r++;
-                            }
-                            else
-                            {
-                                CMV = 0;
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        CMV = 0;
-                        r++;
-                        c++;
-                    }
-
-                    Diadasemana = Dia(DiaA);
-
-                    Graf2.Series["Valores"].Points.AddXY(Diadasemana, CMV);
-
-                    Graf2.Series["Meta"].Points.AddXY(Diadasemana, meta);
-
-                    DiaA = DiaA.AddDays(1);
-                }
-
-                CMV = 0;
-
-                try
-                {
-                    if (rdPercent.Checked)
-                    {
-                        CUSTO = Convert.ToDouble(totalCusto.Rows[0][0]) * -1;
-                        RECEITA = Convert.ToDouble(totalReceita.Rows[0][2]);
-
-                        CMV = CUSTO / RECEITA;
-                        CMV = Math.Round(CMV, 4);
-                    }
-                    else
-                    {
-                        CUSTO = Convert.ToDouble(totalCusto.Rows[0][0]) * -1;
-                        PAX = Convert.ToInt32(paxTotal.Rows[0][0]);
-
-                        CMV = Math.Round(CUSTO / PAX, 2);
-                    }
+                    Graf2.Series["Valores"].Points.AddXY(("Total"), Math.Round(Custo / Pax, 2));
+                    Graf2.Series["Meta"].Points.AddXY("Total", meta);
 
                 }
-                catch { }
-
-                Graf2.Series["Valores"].Points.AddXY("Total", CMV);
-                Graf2.Series["Meta"].Points.AddXY("Total", meta);
-
-
-                if (rdPercent.Checked)
+                if (Custo == 0 || Receita == 0 || Pax == 0)
                 {
-                    Graf2.Series["Valores"].LabelFormat = "0.0%";
+                    lbDetalh0303.Text = "";
+                    lbDetalh0304.Text = "";
                 }
                 else
                 {
-                    Graf2.Series["Valores"].LabelFormat = "0.00";
+                    lbDetalh0303.Text = (Math.Round(Custo / Pax, 2)).ToString("R$ 0,0.00");
+                    lbDetalh0304.Text = (Math.Round(Custo / Receita, 4) * 100).ToString("0.00") + "%";
                 }
             }
-            else
-            {
 
-            }
+          
+
+
+
         }
 
         private void AtualizaPizza1()
@@ -909,35 +900,7 @@ namespace GUI.Forms.CMV
                         lbDetalh0102.Text = "-";
                     }
                 }
-
-
-                try
-                {
-                    CUSTO = Convert.ToDouble(totalCusto.Rows[0][0]) * -1;
-                    RECEITA = Convert.ToDouble(totalReceita.Rows[0][2]);
-
-                    CMVP = CUSTO / RECEITA;
-                    CMVP = Math.Round(CMVP, 4);
-                }
-                catch
-                {
-                    CMVP = 0;
-                }
-                try
-                {
-                    CUSTO = Convert.ToDouble(totalCusto.Rows[0][0]) * -1;
-                    PAX = Convert.ToInt32(totalReceita.Rows[0][1]);
-
-                    CMVV = Math.Round(CUSTO / PAX, 2);
-                }
-                catch
-                {
-                    CMVV = 0;
-                }
-
-
-                lbDetalh0103.Text = $"R$ {CMVV.ToString("#,0.00")}";
-                lbDetalh0104.Text = $"{(CMVP * 100).ToString()}%";
+                                              
 
 
                 grupo = Convert.ToInt32(cbComparativo02.SelectedValue);
@@ -989,35 +952,7 @@ namespace GUI.Forms.CMV
                     {
                         lbDetalh0202.Text = "-";
                     }
-                }
-
-                try
-                {
-                    CUSTO = Convert.ToDouble(totalCusto.Rows[0][0]) * -1;
-                    RECEITA = Convert.ToDouble(totalReceita.Rows[0][2]);
-
-                    CMVP = CUSTO / RECEITA;
-                    CMVP = Math.Round(CMVP, 4);
-                }
-                catch
-                {
-                    CMVP = 0;
-                }
-                try
-                {
-                    CUSTO = Convert.ToDouble(totalCusto.Rows[0][0]) * -1;
-                    PAX = Convert.ToInt32(totalReceita.Rows[0][1]);
-
-                    CMVV = Math.Round(CUSTO / PAX, 2);
-                }
-                catch
-                {
-                    CMVV = 0;
-                }
-
-
-                lbDetalh0203.Text = $"R$ {CMVV.ToString("#,0.00")}";
-                lbDetalh0204.Text = $"{(CMVP * 100).ToString()}%";
+                }                             
 
 
                 grupo = Convert.ToInt32(cbGeral.SelectedValue);
@@ -1068,35 +1003,7 @@ namespace GUI.Forms.CMV
                     {
                         lbDetalh0302.Text = "-";
                     }
-                }
-
-                try
-                {
-                    CUSTO = Convert.ToDouble(totalCusto.Rows[0][0]) * -1;
-                    RECEITA = Convert.ToDouble(totalReceita.Rows[0][2]);
-
-                    CMVP = CUSTO / RECEITA;
-                    CMVP = Math.Round(CMVP, 4);
-                }
-                catch
-                {
-                    CMVP = 0;
-                }
-                try
-                {
-                    CUSTO = Convert.ToDouble(totalCusto.Rows[0][0]) * -1;
-                    PAX = Convert.ToInt32(totalPax.Rows[0][0]);
-
-                    CMVV = Math.Round(CUSTO / PAX, 2);
-                }
-                catch
-                {
-                    CMVV = 0;
-                }
-
-
-                lbDetalh0303.Text = $"R$ {CMVV.ToString("#,0.00")}";
-                lbDetalh0304.Text = $"{(CMVP * 100).ToString()}%";
+                }               
                 
             }
         }
@@ -1260,7 +1167,40 @@ namespace GUI.Forms.CMV
 
         private void chart2_Click(object sender, EventArgs e)
         {
-            
+
+            DateTime diaI = new DateTime(Convert.ToInt32(numAno.Value), Convert.ToInt32(cbMes.SelectedValue), 1);
+            DateTime diaF = diaI.AddDays(-(diaI.Day - 1)).AddMonths(1).AddDays(-1);
+            DateTime diaA;
+
+
+            string titulo;
+            int dia;
+            int grupo = Convert.ToInt32(cbGeral.SelectedValue);
+
+            if (pontoAtual > 0)
+            {
+                if (pontoAtual > diaF.Day)
+                {
+                    titulo = cbGeral.Text + " (" + cbMes.Text + ")";
+                    dia = 32;
+                    frmDetalheGrafico f = new frmDetalheGrafico(pontoAtual, titulo, grupo, diaI, diaF, unidade, true);
+                    f.ShowDialog();
+                    f.Dispose();
+
+                }
+                else
+                {
+                    diaA = new DateTime(Convert.ToInt32(numAno.Value), Convert.ToInt32(cbMes.SelectedValue), pontoAtual);
+                    titulo = cbGeral.Text + " (" + pontoAtual.ToString("00") + "/" + Convert.ToInt32(cbMes.SelectedValue).ToString("00") + ")";
+                    dia = pontoAtual;
+                    frmDetalheGrafico f = new frmDetalheGrafico(pontoAtual, titulo, grupo, diaA, diaA, unidade, true);
+                    f.ShowDialog();
+                    f.Dispose();
+
+                }
+
+
+            }
         }
 
         private void cbComparativo01_SelectedIndexChanged(object sender, EventArgs e)

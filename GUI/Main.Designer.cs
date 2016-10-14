@@ -42,6 +42,8 @@
             this.cMVToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.suprirDadosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colarDoExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
+            this.resumosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.cadastroToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.produtosToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.centrosDeCustoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -121,8 +123,6 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.pbWallpaper = new System.Windows.Forms.PictureBox();
-            this.toolStripSeparator8 = new System.Windows.Forms.ToolStripSeparator();
-            this.resumosToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.msMain.SuspendLayout();
             this.pnBarraInferior.SuspendLayout();
             this.panel1.SuspendLayout();
@@ -252,6 +252,18 @@
             this.colarDoExcelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.colarDoExcelToolStripMenuItem.Text = "Colar do excel";
             this.colarDoExcelToolStripMenuItem.Click += new System.EventHandler(this.colarDoExcelToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator8
+            // 
+            this.toolStripSeparator8.Name = "toolStripSeparator8";
+            this.toolStripSeparator8.Size = new System.Drawing.Size(149, 6);
+            // 
+            // resumosToolStripMenuItem
+            // 
+            this.resumosToolStripMenuItem.Name = "resumosToolStripMenuItem";
+            this.resumosToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.resumosToolStripMenuItem.Text = "Resumos";
+            this.resumosToolStripMenuItem.Click += new System.EventHandler(this.resumosToolStripMenuItem_Click);
             // 
             // cadastroToolStripMenuItem1
             // 
@@ -892,18 +904,6 @@
             this.pbWallpaper.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pbWallpaper.TabIndex = 0;
             this.pbWallpaper.TabStop = false;
-            // 
-            // toolStripSeparator8
-            // 
-            this.toolStripSeparator8.Name = "toolStripSeparator8";
-            this.toolStripSeparator8.Size = new System.Drawing.Size(149, 6);
-            // 
-            // resumosToolStripMenuItem
-            // 
-            this.resumosToolStripMenuItem.Name = "resumosToolStripMenuItem";
-            this.resumosToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-            this.resumosToolStripMenuItem.Text = "Resumos";
-            this.resumosToolStripMenuItem.Click += new System.EventHandler(this.resumosToolStripMenuItem_Click);
             // 
             // Main
             // 

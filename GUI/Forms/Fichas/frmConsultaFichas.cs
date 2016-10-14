@@ -226,23 +226,9 @@ namespace GUI.Forms.Fichas
                 }
 
                 dados.Rows.Add(new object[] { tabela.Rows[i][0].ToString(), tabela.Rows[i][1].ToString(), tabela.Rows[i][2].ToString(), categoria, subcategoria, Convert.ToDouble(Math.Round(peso,4)), Convert.ToDouble(Math.Round(rendimento,2)), Convert.ToDouble(Math.Round(custoPorKg,2)) , Convert.ToDouble(Math.Round(custoPorPorcao,2)), Convert.ToDouble(Math.Round(custo,2)), ver, edit, del });
-                
+               
 
 
-                /*
-                
-                dgvFichas.Rows.Add();
-                dgvFichas.Rows[i].Cells[0].Value = tabela.Rows[i][0].ToString();
-                dgvFichas.Rows[i].Cells[1].Value = tabela.Rows[i][1].ToString();
-                dgvFichas.Rows[i].Cells[2].Value = tabela.Rows[i][2].ToString();
-                dgvFichas.Rows[i].Cells[3].Value = categoria;
-                dgvFichas.Rows[i].Cells[4].Value = subcategoria;
-                dgvFichas.Rows[i].Cells[5].Value = peso;
-                dgvFichas.Rows[i].Cells[6].Value = rendimento;
-                dgvFichas.Rows[i].Cells[7].Value = custoPorKg;
-                dgvFichas.Rows[i].Cells[8].Value = custoPorPorcao;
-                dgvFichas.Rows[i].Cells[9].Value = custo;
-               */
             }
 
             dgvFichas.DataSource = dados;
@@ -315,26 +301,29 @@ namespace GUI.Forms.Fichas
 
             Comuns.loading ld = new Comuns.loading();
 
-            if (dgvFichas.Rows.Count == 1)
-            {
-                ld.SetMessage("Exportando a ficha técnica...\n Por favor, aguarde."); // "Loading data. Please wait..."
-            }
-            else
-            {
-                ld.SetMessage("Exportando as fichas técnicas...\n Por favor, aguarde."); // "Loading data. Please wait..."
-            }
-
-            ld.TopMost = true;
-            ld.StartPosition = FormStartPosition.CenterScreen;
-
-            ld.Show();
-            ld.Refresh();
+            
             try
             {
 
 
                 if (fd.ShowDialog() == DialogResult.OK)
                 {
+
+                    if (dgvFichas.Rows.Count == 1)
+                    {
+                        ld.SetMessage("Exportando a ficha técnica...\n Por favor, aguarde."); // "Loading data. Please wait..."
+                    }
+                    else
+                    {
+                        ld.SetMessage("Exportando as fichas técnicas...\n Por favor, aguarde."); // "Loading data. Please wait..."
+                    }
+
+                    ld.TopMost = true;
+                    ld.StartPosition = FormStartPosition.CenterScreen;
+
+                    ld.Show();
+                    ld.Refresh();
+
                     Augoritmos au = new Augoritmos();
 
                     for (int i = 0; i < dgvFichas.Rows.Count; i++)

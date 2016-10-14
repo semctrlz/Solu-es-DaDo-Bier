@@ -14,16 +14,16 @@ namespace GUI.Forms.CMV
 {
     public partial class frmItens : Form
     {
-        int unidade, idGrupo;
+        int unidade;
         DateTime diaI, diaF;
-        string titulo, subtitulo;
+        string titulo, subtitulo, conta;
 
-        public frmItens(int un, DateTime i, DateTime f, int g, string t, string s)
+        public frmItens(int un, DateTime i, DateTime f, string g, string t, string s)
         {
             unidade = un;
             diaI = i;
             diaF = f;
-            idGrupo = g;
+            conta = g;
             titulo = t;
             subtitulo = s;
 
@@ -88,7 +88,7 @@ namespace GUI.Forms.CMV
             DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
             BLLCmvGraficos bll = new BLLCmvGraficos(cx);
 
-            dgvItens.DataSource = bll.TabelaItensPorConta(unidade, diaI, diaF, idGrupo);
+            dgvItens.DataSource = bll.TabelaItensPorConta(unidade, diaI, diaF, conta);
 
 
 

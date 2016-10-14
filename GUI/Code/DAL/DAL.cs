@@ -2166,7 +2166,154 @@ namespace GUI.Code.DAL
         {
             this.conexao = cx;
         }
-       
+
+        //Relatorios completos
+
+        public DataTable ListaCMVPorGrupo(int unidade, DateTime diaI, int grupoCmv, int grupoCusto)
+        {
+            DataTable tabela = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter("declare @datai date; " +
+"declare @dataf date; "+
+"declare @unidade int; "+
+"declare @grupoCusto int; "+
+"declare @grupoCMV int; "+
+
+$"set @grupoCusto = {grupoCusto}; "+
+$"set @grupoCMV = {grupoCmv}; "+
+$"set @unidade = {unidade}; "+
+$"set @datai = '{diaI}' "+
+
+"set @dataf = DATEADD(DAY, DATEDIFF(day, @datai, (DATEADD(MONTH, 1, @datai))) - 1, @datai); "+
+
+"with "+
+    "CTE_M as "+
+        "( "+
+            "select @datai as data "+
+            "union all "+
+            "select DATEADD(day, 1, data) "+
+            "from CTE_M "+
+            "where (data < @dataf) "+
+        "), "+
+
+    "CTE_C as "+
+
+        "("+
+        "select c.data_custo, sum(quant_mov_custo * valor_unitario_custo * cc.divisao_custo_setor) as custo from custo c "+
+        "join cmv_grupo_custo gc on gc.id_cmv_grupo = @grupoCMV "+
+        "join cmv_grupo g on g.id_cmv_grupo = gc.id_cmv_grupo "+
+        "join config_custo cc on gc.id_config_custo = cc.id_config_custo "+
+
+        "where c.conta_gerencial_custo = cc.cod_setor and c.data_custo between @datai and @dataf and c.id_unidade = @unidade and c.grupo = @grupoCusto "+
+        "group by c.data_custo "+
+
+        "), "+
+
+    "CTE_R as "+
+
+        "( "+
+            "select v.data_venda, sum(v.valor_venda) as receita, sum(v.quant_total_venda) as pax from venda v "+
+            "join cmv_grupo_receita gr on gr.id_cmv_grupo = @grupoCMV "+
+            "join cmv_grupo g on g.id_cmv_grupo = gr.id_cmv_grupo "+
+            "where v.id_unidade = @unidade and v.grupo_venda = gr.cod_receita and v.data_venda between @datai and @dataf "+
+            "group by v.data_venda "+
+        "), "+
+
+
+    "CTE_P as "+
+
+        "( "+
+            "select data_pax, sum(pax) as total_pax from pax "+
+            "where id_unidade = @unidade and data_pax between @datai and @dataf "+
+            "group by data_pax "+
+        ") "+
+
+
+    "select "+
+        "t.data, Round(sum(c.custo), 2) as custo, sum(r.receita) as receita, sum(r.pax) as pax_grupo, sum(p.total_pax) as Pax_Total, Round(sum((c.custo * -1) / r.receita) * 100, 2) as cmvPercent, round(sum((c.custo * -1) / r.pax), 2) as cmvValorGrupo, round(sum((c.custo * -1) / p.total_pax), 2) as cmvValorTotal "+
+        "from CTE_M as t "+
+        "left join CTE_C c on c.data_custo = t.data "+
+        "left join CTE_R r on r.data_venda = t.data "+
+        "left join CTE_P p on p.data_pax = t.data "+
+        "Group by t.data "+
+        "order by "+
+
+        "t.data; ", conexao.StringConexao);
+
+            da.Fill(tabela);
+            return tabela;
+        }
+
+        public DataTable TotalCMVPorGrupo(int unidade, DateTime diaI, int grupoCmv, int grupoCusto)
+        {
+            DataTable tabela = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter("declare @datai date; " +
+"declare @dataf date; " +
+"declare @unidade int; " +
+"declare @grupoCusto int; " +
+"declare @grupoCMV int; " +
+
+$"set @grupoCusto = {grupoCusto}; " +
+$"set @grupoCMV = {grupoCmv}; " +
+$"set @unidade = {unidade}; " +
+$"set @datai = '{diaI}' " +
+
+"set @dataf = DATEADD(DAY, DATEDIFF(day, @datai, (DATEADD(MONTH, 1, @datai))) - 1, @datai); " +
+
+"with " +
+    "CTE_M as " +
+        "( " +
+            "select @datai as data " +
+            "union all " +
+            "select DATEADD(day, 1, data) " +
+            "from CTE_M " +
+            "where (data < @dataf) " +
+        "), " +
+
+    "CTE_C as " +
+
+        "(" +
+        "select c.data_custo, sum(quant_mov_custo * valor_unitario_custo * cc.divisao_custo_setor) as custo from custo c " +
+        "join cmv_grupo_custo gc on gc.id_cmv_grupo = @grupoCMV " +
+        "join cmv_grupo g on g.id_cmv_grupo = gc.id_cmv_grupo " +
+        "join config_custo cc on gc.id_config_custo = cc.id_config_custo " +
+
+        "where c.conta_gerencial_custo = cc.cod_setor and c.data_custo between @datai and @dataf and c.id_unidade = @unidade and c.grupo = @grupoCusto " +
+        "group by c.data_custo " +
+
+        "), " +
+
+    "CTE_R as " +
+
+        "( " +
+            "select v.data_venda, sum(v.valor_venda) as receita, sum(v.quant_total_venda) as pax from venda v " +
+            "join cmv_grupo_receita gr on gr.id_cmv_grupo = @grupoCMV " +
+            "join cmv_grupo g on g.id_cmv_grupo = gr.id_cmv_grupo " +
+            "where v.id_unidade = @unidade and v.grupo_venda = gr.cod_receita and v.data_venda between @datai and @dataf " +
+            "group by v.data_venda " +
+        "), " +
+
+
+    "CTE_P as " +
+
+        "( " +
+            "select data_pax, sum(pax) as total_pax from pax " +
+            "where id_unidade = @unidade and data_pax between @datai and @dataf " +
+            "group by data_pax " +
+        ") " +
+
+
+    "select " +
+        "t.data, Round(sum(c.custo), 2) as custo, sum(r.receita) as receita, sum(r.pax) as pax_grupo, sum(p.total_pax) as Pax_Total " +
+        "from CTE_M as t " +
+        "left join CTE_C c on c.data_custo = t.data " +
+        "left join CTE_R r on r.data_venda = t.data " +
+        "left join CTE_P p on p.data_pax = t.data "+
+        "Group by t.data order by t.data; ", conexao.StringConexao);
+
+            da.Fill(tabela);
+            return tabela;
+        }
+
         public DataTable TotalPaxPorUnidade(int unidade , DateTime diaI, DateTime diaF)
         {
             DataTable tabela = new DataTable();
@@ -2226,17 +2373,17 @@ namespace GUI.Code.DAL
             da.Fill(tabela);
             return tabela;
         }
+
         //Itens do setor
-        public DataTable TabelaItensPorConta(int unidade, DateTime diaI, DateTime diaF, int idConta)
+
+        public DataTable TabelaItensPorConta(int unidade, DateTime diaI, DateTime diaF, string conta)
         {
             DataTable tabela = new DataTable();
-            SqlDataAdapter da = new SqlDataAdapter("select cus.data_custo, cus.cod_item_custo, aeb.nome_aeb, cus.quant_mov_custo, cus.valor_unitario_custo, cast((cus.quant_mov_custo* cus.valor_unitario_custo * cc.divisao_custo_setor) AS NUMERIC(15,4))as Custo, cus.movimento_custo, cus.documento_custo from cmv_grupo g " +
-                    "join cmv_grupo_custo c on g.id_cmv_grupo = c.id_cmv_grupo " +
-                    "join config_custo cc on c.id_config_custo = cc.id_config_custo "+
-                    "join custo cus on cus.conta_gerencial_custo = cc.cod_setor "+
-                    "join aeb aeb on cus.cod_item_custo = aeb.cod_aeb "+
-                    $"where cc.id_unidade = {unidade} and cc.id_config_custo = {idConta} and cus.grupo = '01' and cus.data_custo between '{diaI}' and '{diaF}' "+
-                    "order by cus.data_custo, cus.cod_item_custo; ", conexao.StringConexao);
+            SqlDataAdapter da = new SqlDataAdapter("select data_custo, cod_item_custo, aeb.nome_aeb, quant_mov_custo, valor_unitario_custo, cast((quant_mov_custo* valor_unitario_custo * cc.divisao_custo_setor) AS NUMERIC(15,4))as Custo, cus.movimento_custo, cus.documento_custo from custo cus "+
+"join config_custo cc on cc.id_unidade = cus.id_unidade and cus.conta_gerencial_custo = cc.cod_setor "+
+"join aeb aeb on cus.cod_item_custo = aeb.cod_aeb "+
+$"where cus.id_unidade = {unidade} and cus.conta_gerencial_custo = '{conta}' and cus.grupo = '01' and cus.data_custo between '{diaI}' and '{diaF}' "+
+"order by cus.data_custo, cus.cod_item_custo, movimento_custo;", conexao.StringConexao);
             da.Fill(tabela);
             return tabela;
         }

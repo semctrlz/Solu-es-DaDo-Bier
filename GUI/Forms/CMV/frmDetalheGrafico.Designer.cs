@@ -46,7 +46,7 @@
             this.label1.Font = new System.Drawing.Font("Segoe UI Semibold", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(12, 9);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(494, 40);
+            this.label1.Size = new System.Drawing.Size(586, 40);
             this.label1.TabIndex = 0;
             this.label1.Text = "Titulo";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -70,7 +70,7 @@
             this.dgvDetalhe.Name = "dgvDetalhe";
             this.dgvDetalhe.ReadOnly = true;
             this.dgvDetalhe.RowHeadersVisible = false;
-            this.dgvDetalhe.Size = new System.Drawing.Size(493, 251);
+            this.dgvDetalhe.Size = new System.Drawing.Size(585, 534);
             this.dgvDetalhe.TabIndex = 1;
             this.dgvDetalhe.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvDetalhe_CellContentClick);
             this.dgvDetalhe.SelectionChanged += new System.EventHandler(this.dgvDetalhe_SelectionChanged);
@@ -78,9 +78,9 @@
             // lbReceitaePax
             // 
             this.lbReceitaePax.Font = new System.Drawing.Font("Segoe UI Semibold", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lbReceitaePax.Location = new System.Drawing.Point(12, 313);
+            this.lbReceitaePax.Location = new System.Drawing.Point(8, 590);
             this.lbReceitaePax.Name = "lbReceitaePax";
-            this.lbReceitaePax.Size = new System.Drawing.Size(494, 40);
+            this.lbReceitaePax.Size = new System.Drawing.Size(586, 40);
             this.lbReceitaePax.TabIndex = 0;
             this.lbReceitaePax.Text = "Receita e Pax";
             this.lbReceitaePax.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
@@ -97,28 +97,28 @@
             this.conta.HeaderText = "Conta gerencial";
             this.conta.Name = "conta";
             this.conta.ReadOnly = true;
-            this.conta.Width = 250;
+            this.conta.Width = 300;
             // 
             // custo
             // 
             this.custo.HeaderText = "Custo";
             this.custo.Name = "custo";
             this.custo.ReadOnly = true;
-            this.custo.Width = 74;
+            this.custo.Width = 85;
             // 
             // valor
             // 
             this.valor.HeaderText = "Valor";
             this.valor.Name = "valor";
             this.valor.ReadOnly = true;
-            this.valor.Width = 70;
+            this.valor.Width = 85;
             // 
             // percent
             // 
             this.percent.HeaderText = "Percent";
             this.percent.Name = "percent";
             this.percent.ReadOnly = true;
-            this.percent.Width = 70;
+            this.percent.Width = 85;
             // 
             // detalhes
             // 
@@ -134,7 +134,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(520, 362);
+            this.ClientSize = new System.Drawing.Size(609, 639);
             this.Controls.Add(this.dgvDetalhe);
             this.Controls.Add(this.lbReceitaePax);
             this.Controls.Add(this.label1);

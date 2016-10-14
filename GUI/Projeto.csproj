@@ -28,7 +28,7 @@
     <PublisherName>ZSolutions</PublisherName>
     <SuiteName>Soluções DaDo Bier</SuiteName>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>13</ApplicationRevision>
+    <ApplicationRevision>18</ApplicationRevision>
     <ApplicationVersion>0.1.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -135,6 +135,12 @@
     </Compile>
     <Compile Include="Forms\CMV\frmGAVSinteticoGeral.Designer.cs">
       <DependentUpon>frmGAVSinteticoGeral.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\CMV\ResumoDados.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\CMV\ResumoDados.Designer.cs">
+      <DependentUpon>ResumoDados.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\CMV\ResumoDeCusto.cs">
       <SubType>Form</SubType>
@@ -448,6 +454,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\CMV\frmGAVSinteticoGeral.resx">
       <DependentUpon>frmGAVSinteticoGeral.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\CMV\ResumoDados.resx">
+      <DependentUpon>ResumoDados.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\CMV\ResumoDeCusto.resx">
       <DependentUpon>ResumoDeCusto.cs</DependentUpon>

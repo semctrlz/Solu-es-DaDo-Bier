@@ -747,6 +747,6 @@ namespace GUI
             f.ShowDialog();
             f.Dispose();
             this.Show();
-        }
+        }       
     }
 }
