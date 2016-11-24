@@ -72,7 +72,7 @@ namespace GUI
                 cbUnidade.DataSource = bllun.ListarUnidades();
                 cbUnidade.DisplayMember = "cod_unidade";
                 cbUnidade.ValueMember = "id_unidade";
-                cbUnidade.Text = modelou.IdUnidade.ToString();
+    cbUnidade.Text = modelou.IdUnidade.ToString("00");
 
                 if (modelou.PermissaoUsuario < 4)
                 {
@@ -364,9 +364,10 @@ namespace GUI
             //Validações
             DALConexao con = new DALConexao(DadosDaConexao.StringDaConexao);
             BLLContasGerenciais bllconta = new BLLContasGerenciais(con);
-
+                        
             DTOContasGerenciais modeloconta = bllconta.CarregaModeloContaCodigo(cbContaGerencial.SelectedValue.ToString());
-
+            
+            
             if (!string.IsNullOrEmpty(modeloconta.NomeSetor.ToString()))
             {
 
@@ -806,9 +807,7 @@ namespace GUI
 
 
             }
-            cbSegD.Text = "";
-
-   
+               
         }
 
         private void SalvaCbDias()
@@ -1134,6 +1133,8 @@ namespace GUI
             dtoReceita.IdUnidade = Convert.ToInt32(cbUnidade.SelectedValue);
             dtoReceita.CodVenda = Convert.ToInt32(txtCodAdmin.Text);
             dtoReceita.NomeCodVenda = txtNomeReceita.Text;
+            dtoReceita.IdUnidade = Convert.ToInt32(cbUnidade.Text);
+
             try
             {
                 dtoReceita.ContaGerencial = Convert.ToInt32(cbCorrespConta.SelectedValue);

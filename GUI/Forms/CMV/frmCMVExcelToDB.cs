@@ -12,7 +12,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GUI
+namespace GUI.Forms.CMV
 {
     public partial class frmExcelToDB : Form
     {
@@ -178,7 +178,7 @@ namespace GUI
             cbUnidade.DataSource = bllun.Localizar("");
             cbUnidade.DisplayMember = "cod_unidade";
             cbUnidade.ValueMember = "id_unidade";
-            cbUnidade.Text = modelou.IdUnidade.ToString();
+cbUnidade.Text = modelou.IdUnidade.ToString("00");
 
             unidade = modelou.IdUnidade;
 

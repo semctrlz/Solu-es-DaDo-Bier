@@ -96,7 +96,7 @@ namespace GUI
 
 
 
-                cbUnidade.Text = modelou.IdUnidade.ToString();
+    cbUnidade.Text = modelou.IdUnidade.ToString("00");
                 cbUnidade.Enabled = false;
             }
             else

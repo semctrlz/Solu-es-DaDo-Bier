@@ -213,6 +213,46 @@ namespace GUI.Properties {
         /// <summary>
         ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap arrow_circle_left_2x {
+            get {
+                object obj = ResourceManager.GetObject("arrow-circle-left-2x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap arrow_circle_left_3x {
+            get {
+                object obj = ResourceManager.GetObject("arrow-circle-left-3x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap arrow_circle_right_2x {
+            get {
+                object obj = ResourceManager.GetObject("arrow-circle-right-2x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap arrow_circle_right_3x {
+            get {
+                object obj = ResourceManager.GetObject("arrow-circle-right-3x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap arrow_circle_top_2x {
             get {
                 object obj = ResourceManager.GetObject("arrow-circle-top-2x", resourceCulture);
@@ -616,6 +656,16 @@ namespace GUI.Properties {
         internal static System.Drawing.Bitmap key_2x {
             get {
                 object obj = ResourceManager.GetObject("key-2x", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Consulta um recurso localizado do tipo System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap list_2x {
+            get {
+                object obj = ResourceManager.GetObject("list-2x", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

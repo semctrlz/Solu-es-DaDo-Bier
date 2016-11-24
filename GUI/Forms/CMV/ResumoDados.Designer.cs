@@ -30,21 +30,16 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ResumoDados));
             this.pnTopo = new System.Windows.Forms.Panel();
+            this.button1 = new System.Windows.Forms.Button();
             this.numAno = new System.Windows.Forms.NumericUpDown();
             this.cbMes = new System.Windows.Forms.ComboBox();
             this.lbAno = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.cbUnidade = new System.Windows.Forms.ComboBox();
             this.lbUnidade = new System.Windows.Forms.Label();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.label2 = new System.Windows.Forms.Label();
-            this.data = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.custo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.acrescimo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.receita = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.pax = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.dataGridView2 = new System.Windows.Forms.DataGridView();
             this.label3 = new System.Windows.Forms.Label();
+            this.dgvCusto = new System.Windows.Forms.DataGridView();
+            this.dgvAcrescimos = new System.Windows.Forms.DataGridView();
             this.btAdicionar = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.txtValor = new System.Windows.Forms.TextBox();
@@ -52,16 +47,19 @@
             this.label5 = new System.Windows.Forms.Label();
             this.txtObs = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
+            this.dpData = new System.Windows.Forms.DateTimePicker();
+            this.label2 = new System.Windows.Forms.Label();
+            this.id = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.dataGridViewTextBoxColumn5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.obs = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.del = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.button1 = new System.Windows.Forms.Button();
+            this.usuario = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.del = new System.Windows.Forms.DataGridViewImageColumn();
             this.pnTopo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numAno)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCusto)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAcrescimos)).BeginInit();
             this.SuspendLayout();
             // 
             // pnTopo
@@ -73,15 +71,26 @@
             this.pnTopo.Controls.Add(this.label1);
             this.pnTopo.Controls.Add(this.cbUnidade);
             this.pnTopo.Controls.Add(this.lbUnidade);
+            this.pnTopo.Controls.Add(this.label3);
             this.pnTopo.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnTopo.Location = new System.Drawing.Point(0, 0);
             this.pnTopo.Name = "pnTopo";
-            this.pnTopo.Size = new System.Drawing.Size(1350, 62);
+            this.pnTopo.Size = new System.Drawing.Size(1350, 45);
             this.pnTopo.TabIndex = 1;
+            // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(404, 8);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(129, 23);
+            this.button1.TabIndex = 3;
+            this.button1.Text = "Adicionar Dados";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // numAno
             // 
-            this.numAno.Location = new System.Drawing.Point(208, 30);
+            this.numAno.Location = new System.Drawing.Point(324, 11);
             this.numAno.Maximum = new decimal(new int[] {
             2100,
             0,
@@ -100,20 +109,35 @@
             0,
             0,
             0});
+            this.numAno.ValueChanged += new System.EventHandler(this.numAno_ValueChanged);
             // 
             // cbMes
             // 
             this.cbMes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbMes.FormattingEnabled = true;
-            this.cbMes.Location = new System.Drawing.Point(101, 30);
+            this.cbMes.Items.AddRange(new object[] {
+            "Janeiro",
+            "Fevereiro",
+            "Março",
+            "Abril",
+            "Maio",
+            "Junho",
+            "Julho",
+            "Agosto",
+            "Setembro",
+            "Outubro",
+            "Novembro",
+            "Dezembro"});
+            this.cbMes.Location = new System.Drawing.Point(182, 11);
             this.cbMes.Name = "cbMes";
             this.cbMes.Size = new System.Drawing.Size(101, 21);
             this.cbMes.TabIndex = 1;
+            this.cbMes.SelectedIndexChanged += new System.EventHandler(this.cbMes_SelectedIndexChanged);
             // 
             // lbAno
             // 
             this.lbAno.AutoSize = true;
-            this.lbAno.Location = new System.Drawing.Point(205, 13);
+            this.lbAno.Location = new System.Drawing.Point(292, 14);
             this.lbAno.Name = "lbAno";
             this.lbAno.Size = new System.Drawing.Size(26, 13);
             this.lbAno.TabIndex = 0;
@@ -122,7 +146,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(101, 13);
+            this.label1.Location = new System.Drawing.Point(149, 14);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(27, 13);
             this.label1.TabIndex = 0;
@@ -132,10 +156,11 @@
             // 
             this.cbUnidade.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbUnidade.FormattingEnabled = true;
-            this.cbUnidade.Location = new System.Drawing.Point(13, 30);
+            this.cbUnidade.Location = new System.Drawing.Point(61, 11);
             this.cbUnidade.Name = "cbUnidade";
             this.cbUnidade.Size = new System.Drawing.Size(82, 21);
             this.cbUnidade.TabIndex = 0;
+            this.cbUnidade.SelectedIndexChanged += new System.EventHandler(this.cbUnidade_SelectedIndexChanged);
             // 
             // lbUnidade
             // 
@@ -146,110 +171,69 @@
             this.lbUnidade.TabIndex = 0;
             this.lbUnidade.Text = "Unidade";
             // 
-            // dataGridView1
-            // 
-            this.dataGridView1.AllowUserToAddRows = false;
-            this.dataGridView1.AllowUserToDeleteRows = false;
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.data,
-            this.custo,
-            this.acrescimo,
-            this.receita,
-            this.pax});
-            this.dataGridView1.Location = new System.Drawing.Point(13, 91);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.ReadOnly = true;
-            this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(393, 604);
-            this.dataGridView1.TabIndex = 2;
-            // 
-            // label2
-            // 
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(10, 65);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(396, 23);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Custo, receita e pax por data";
-            this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // data
-            // 
-            this.data.HeaderText = "DATA";
-            this.data.Name = "data";
-            this.data.ReadOnly = true;
-            this.data.Width = 80;
-            // 
-            // custo
-            // 
-            this.custo.HeaderText = "CUSTO";
-            this.custo.Name = "custo";
-            this.custo.ReadOnly = true;
-            this.custo.Width = 80;
-            // 
-            // acrescimo
-            // 
-            this.acrescimo.HeaderText = "ACRESCIMO";
-            this.acrescimo.Name = "acrescimo";
-            this.acrescimo.ReadOnly = true;
-            this.acrescimo.Width = 80;
-            // 
-            // receita
-            // 
-            this.receita.HeaderText = "RECEITA";
-            this.receita.Name = "receita";
-            this.receita.ReadOnly = true;
-            this.receita.Width = 80;
-            // 
-            // pax
-            // 
-            this.pax.HeaderText = "PAX";
-            this.pax.Name = "pax";
-            this.pax.ReadOnly = true;
-            this.pax.Width = 50;
-            // 
-            // dataGridView2
-            // 
-            this.dataGridView2.AllowUserToAddRows = false;
-            this.dataGridView2.AllowUserToDeleteRows = false;
-            this.dataGridView2.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView2.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.dataGridViewTextBoxColumn1,
-            this.dataGridViewTextBoxColumn3,
-            this.dataGridViewTextBoxColumn5,
-            this.obs,
-            this.del});
-            this.dataGridView2.Location = new System.Drawing.Point(412, 118);
-            this.dataGridView2.Name = "dataGridView2";
-            this.dataGridView2.ReadOnly = true;
-            this.dataGridView2.RowHeadersVisible = false;
-            this.dataGridView2.Size = new System.Drawing.Size(926, 577);
-            this.dataGridView2.TabIndex = 4;
-            // 
             // label3
             // 
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(412, 65);
+            this.label3.Location = new System.Drawing.Point(560, 22);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(925, 23);
+            this.label3.Size = new System.Drawing.Size(773, 23);
             this.label3.TabIndex = 3;
             this.label3.Text = "Acréscimos e decréscmos";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // dgvCusto
+            // 
+            this.dgvCusto.AllowUserToAddRows = false;
+            this.dgvCusto.AllowUserToDeleteRows = false;
+            this.dgvCusto.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCellsExceptHeaders;
+            this.dgvCusto.BackgroundColor = System.Drawing.Color.White;
+            this.dgvCusto.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvCusto.Location = new System.Drawing.Point(13, 51);
+            this.dgvCusto.Name = "dgvCusto";
+            this.dgvCusto.ReadOnly = true;
+            this.dgvCusto.RowHeadersVisible = false;
+            this.dgvCusto.Size = new System.Drawing.Size(524, 644);
+            this.dgvCusto.TabIndex = 2;
+            this.dgvCusto.TabStop = false;
+            this.dgvCusto.SelectionChanged += new System.EventHandler(this.dgvCusto_SelectionChanged);
+            // 
+            // dgvAcrescimos
+            // 
+            this.dgvAcrescimos.AllowUserToAddRows = false;
+            this.dgvAcrescimos.AllowUserToDeleteRows = false;
+            this.dgvAcrescimos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvAcrescimos.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.id,
+            this.dataGridViewTextBoxColumn1,
+            this.dataGridViewTextBoxColumn3,
+            this.dataGridViewTextBoxColumn5,
+            this.obs,
+            this.usuario,
+            this.del});
+            this.dgvAcrescimos.Location = new System.Drawing.Point(543, 131);
+            this.dgvAcrescimos.Name = "dgvAcrescimos";
+            this.dgvAcrescimos.ReadOnly = true;
+            this.dgvAcrescimos.RowHeadersVisible = false;
+            this.dgvAcrescimos.Size = new System.Drawing.Size(794, 564);
+            this.dgvAcrescimos.TabIndex = 4;
+            this.dgvAcrescimos.TabStop = false;
+            this.dgvAcrescimos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAcrescimos_CellContentClick);
+            this.dgvAcrescimos.SelectionChanged += new System.EventHandler(this.dgvAcrescimos_SelectionChanged);
+            // 
             // btAdicionar
             // 
-            this.btAdicionar.Location = new System.Drawing.Point(1262, 89);
+            this.btAdicionar.Location = new System.Drawing.Point(1262, 46);
             this.btAdicionar.Name = "btAdicionar";
             this.btAdicionar.Size = new System.Drawing.Size(75, 23);
             this.btAdicionar.TabIndex = 7;
             this.btAdicionar.Text = "Adicionar";
             this.btAdicionar.UseVisualStyleBackColor = true;
+            this.btAdicionar.Click += new System.EventHandler(this.btAdicionar_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(412, 94);
+            this.label4.Location = new System.Drawing.Point(543, 51);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(31, 13);
             this.label4.TabIndex = 6;
@@ -257,24 +241,25 @@
             // 
             // txtValor
             // 
-            this.txtValor.Location = new System.Drawing.Point(449, 91);
+            this.txtValor.Location = new System.Drawing.Point(580, 48);
             this.txtValor.Name = "txtValor";
             this.txtValor.Size = new System.Drawing.Size(65, 20);
             this.txtValor.TabIndex = 4;
+            this.txtValor.Validating += new System.ComponentModel.CancelEventHandler(this.txtValor_Validating);
             // 
             // cbConta
             // 
             this.cbConta.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbConta.FormattingEnabled = true;
-            this.cbConta.Location = new System.Drawing.Point(559, 91);
+            this.cbConta.Location = new System.Drawing.Point(690, 48);
             this.cbConta.Name = "cbConta";
-            this.cbConta.Size = new System.Drawing.Size(224, 21);
+            this.cbConta.Size = new System.Drawing.Size(275, 21);
             this.cbConta.TabIndex = 5;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(520, 94);
+            this.label5.Location = new System.Drawing.Point(651, 51);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(33, 13);
             this.label5.TabIndex = 9;
@@ -282,19 +267,43 @@
             // 
             // txtObs
             // 
-            this.txtObs.Location = new System.Drawing.Point(827, 91);
+            this.txtObs.Location = new System.Drawing.Point(580, 79);
+            this.txtObs.Multiline = true;
             this.txtObs.Name = "txtObs";
-            this.txtObs.Size = new System.Drawing.Size(430, 20);
+            this.txtObs.Size = new System.Drawing.Size(758, 46);
             this.txtObs.TabIndex = 6;
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(789, 94);
+            this.label6.Location = new System.Drawing.Point(543, 79);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(32, 13);
             this.label6.TabIndex = 10;
             this.label6.Text = "OBS:";
+            // 
+            // dpData
+            // 
+            this.dpData.Location = new System.Drawing.Point(1007, 48);
+            this.dpData.Name = "dpData";
+            this.dpData.Size = new System.Drawing.Size(249, 20);
+            this.dpData.TabIndex = 11;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(971, 51);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(30, 13);
+            this.label2.TabIndex = 9;
+            this.label2.Text = "Data";
+            // 
+            // id
+            // 
+            this.id.HeaderText = "ID";
+            this.id.Name = "id";
+            this.id.ReadOnly = true;
+            this.id.Visible = false;
             // 
             // dataGridViewTextBoxColumn1
             // 
@@ -315,57 +324,59 @@
             this.dataGridViewTextBoxColumn5.HeaderText = "LOCAL";
             this.dataGridViewTextBoxColumn5.Name = "dataGridViewTextBoxColumn5";
             this.dataGridViewTextBoxColumn5.ReadOnly = true;
-            this.dataGridViewTextBoxColumn5.Width = 280;
+            this.dataGridViewTextBoxColumn5.Width = 245;
             // 
             // obs
             // 
             this.obs.HeaderText = "OBS";
             this.obs.Name = "obs";
             this.obs.ReadOnly = true;
-            this.obs.Width = 435;
+            this.obs.Width = 340;
+            // 
+            // usuario
+            // 
+            this.usuario.HeaderText = "USUARIO";
+            this.usuario.Name = "usuario";
+            this.usuario.ReadOnly = true;
+            this.usuario.Visible = false;
             // 
             // del
             // 
             this.del.HeaderText = "";
+            this.del.Image = global::GUI.Properties.Resources.trash_2x;
             this.del.Name = "del";
             this.del.ReadOnly = true;
+            this.del.Resizable = System.Windows.Forms.DataGridViewTriState.True;
+            this.del.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.del.Width = 26;
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(288, 28);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(129, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Adicionar Dados";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // ResumoDados
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1350, 707);
+            this.Controls.Add(this.dpData);
             this.Controls.Add(this.txtObs);
             this.Controls.Add(this.label6);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.cbConta);
             this.Controls.Add(this.txtValor);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.btAdicionar);
-            this.Controls.Add(this.dataGridView2);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.dataGridView1);
+            this.Controls.Add(this.dgvAcrescimos);
+            this.Controls.Add(this.dgvCusto);
             this.Controls.Add(this.pnTopo);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "ResumoDados";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Resumo de dados";
+            this.Load += new System.EventHandler(this.ResumoDados_Load);
             this.pnTopo.ResumeLayout(false);
             this.pnTopo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numAno)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvCusto)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvAcrescimos)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -380,14 +391,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ComboBox cbUnidade;
         private System.Windows.Forms.Label lbUnidade;
-        private System.Windows.Forms.DataGridView dataGridView1;
-        private System.Windows.Forms.DataGridViewTextBoxColumn data;
-        private System.Windows.Forms.DataGridViewTextBoxColumn custo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn acrescimo;
-        private System.Windows.Forms.DataGridViewTextBoxColumn receita;
-        private System.Windows.Forms.DataGridViewTextBoxColumn pax;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.DataGridView dataGridView2;
+        private System.Windows.Forms.DataGridView dgvCusto;
+        private System.Windows.Forms.DataGridView dgvAcrescimos;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Button btAdicionar;
         private System.Windows.Forms.Label label4;
@@ -396,11 +401,15 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtObs;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DateTimePicker dpData;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn1;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn3;
         private System.Windows.Forms.DataGridViewTextBoxColumn dataGridViewTextBoxColumn5;
         private System.Windows.Forms.DataGridViewTextBoxColumn obs;
-        private System.Windows.Forms.DataGridViewTextBoxColumn del;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn usuario;
+        private System.Windows.Forms.DataGridViewImageColumn del;
     }
 }

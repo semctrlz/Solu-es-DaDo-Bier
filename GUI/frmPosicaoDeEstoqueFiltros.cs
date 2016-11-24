@@ -67,7 +67,7 @@ namespace GUI
             cbUnidade.DisplayMember = "cod_unidade";
             cbUnidade.ValueMember = "id_unidade";
             lbNomeProduto.Text = "";
-            cbUnidade.Text = modelou.IdUnidade.ToString();
+cbUnidade.Text = modelou.IdUnidade.ToString("00");
             
             BLLGrupo bllg = new BLLGrupo(con);
             listGrupo.DataSource = bllg.LocalizarGrupo();

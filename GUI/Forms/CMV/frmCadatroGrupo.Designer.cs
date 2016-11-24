@@ -41,18 +41,16 @@
             this.del = new System.Windows.Forms.DataGridViewImageColumn();
             this.gbAdmin = new System.Windows.Forms.GroupBox();
             this.dgvAdmin = new System.Windows.Forms.DataGridView();
-            this.id_config_receita = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cod_admin = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.cbGrupos = new System.Windows.Forms.ComboBox();
             this.lbGrupo = new System.Windows.Forms.Label();
             this.cbConta = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.txtAdmin = new System.Windows.Forms.TextBox();
             this.btAddConta = new System.Windows.Forms.Button();
             this.btAddAdmin = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.pnCadastroGrupo = new System.Windows.Forms.Panel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.txtMetaPercent = new System.Windows.Forms.TextBox();
             this.txtMetaValor = new System.Windows.Forms.TextBox();
             this.btCancelar = new System.Windows.Forms.Button();
@@ -67,8 +65,11 @@
             this.btEditar = new System.Windows.Forms.Button();
             this.btSalvar = new System.Windows.Forms.Button();
             this.txtNome = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
+            this.cbGrupoAdmin = new System.Windows.Forms.ComboBox();
+            this.id_config_receita = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.id_gr = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cod_admin = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.groupBox1.SuspendLayout();
             this.gbConta.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvContas)).BeginInit();
@@ -122,7 +123,7 @@
             this.gbConta.Enabled = false;
             this.gbConta.Location = new System.Drawing.Point(12, 169);
             this.gbConta.Name = "gbConta";
-            this.gbConta.Size = new System.Drawing.Size(398, 263);
+            this.gbConta.Size = new System.Drawing.Size(398, 515);
             this.gbConta.TabIndex = 3;
             this.gbConta.TabStop = false;
             // 
@@ -143,7 +144,7 @@
             this.dgvContas.Name = "dgvContas";
             this.dgvContas.ReadOnly = true;
             this.dgvContas.RowHeadersVisible = false;
-            this.dgvContas.Size = new System.Drawing.Size(392, 244);
+            this.dgvContas.Size = new System.Drawing.Size(392, 496);
             this.dgvContas.TabIndex = 0;
             this.dgvContas.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvContas_CellContentClick);
             this.dgvContas.SelectionChanged += new System.EventHandler(this.dgvContas_SelectionChanged);
@@ -183,7 +184,7 @@
             this.gbAdmin.Enabled = false;
             this.gbAdmin.Location = new System.Drawing.Point(416, 169);
             this.gbAdmin.Name = "gbAdmin";
-            this.gbAdmin.Size = new System.Drawing.Size(119, 263);
+            this.gbAdmin.Size = new System.Drawing.Size(337, 512);
             this.gbAdmin.TabIndex = 3;
             this.gbAdmin.TabStop = false;
             // 
@@ -196,6 +197,7 @@
             this.dgvAdmin.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvAdmin.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.id_config_receita,
+            this.id_gr,
             this.cod_admin,
             this.delete});
             this.dgvAdmin.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -203,32 +205,10 @@
             this.dgvAdmin.Name = "dgvAdmin";
             this.dgvAdmin.ReadOnly = true;
             this.dgvAdmin.RowHeadersVisible = false;
-            this.dgvAdmin.Size = new System.Drawing.Size(113, 244);
+            this.dgvAdmin.Size = new System.Drawing.Size(331, 493);
             this.dgvAdmin.TabIndex = 0;
             this.dgvAdmin.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAdmin_CellContentClick);
             this.dgvAdmin.SelectionChanged += new System.EventHandler(this.dgvAdmin_SelectionChanged);
-            // 
-            // id_config_receita
-            // 
-            this.id_config_receita.HeaderText = "id";
-            this.id_config_receita.Name = "id_config_receita";
-            this.id_config_receita.ReadOnly = true;
-            this.id_config_receita.Visible = false;
-            // 
-            // cod_admin
-            // 
-            this.cod_admin.HeaderText = "Grupo Adm";
-            this.cod_admin.Name = "cod_admin";
-            this.cod_admin.ReadOnly = true;
-            this.cod_admin.Width = 83;
-            // 
-            // delete
-            // 
-            this.delete.HeaderText = "";
-            this.delete.Image = global::GUI.Properties.Resources.trash_2x;
-            this.delete.Name = "delete";
-            this.delete.ReadOnly = true;
-            this.delete.Width = 26;
             // 
             // cbGrupos
             // 
@@ -267,14 +247,6 @@
             this.label1.TabIndex = 4;
             this.label1.Text = "Conta gerencial";
             // 
-            // txtAdmin
-            // 
-            this.txtAdmin.Enabled = false;
-            this.txtAdmin.Location = new System.Drawing.Point(416, 142);
-            this.txtAdmin.Name = "txtAdmin";
-            this.txtAdmin.Size = new System.Drawing.Size(89, 20);
-            this.txtAdmin.TabIndex = 5;
-            // 
             // btAddConta
             // 
             this.btAddConta.Enabled = false;
@@ -293,7 +265,7 @@
             this.btAddAdmin.Enabled = false;
             this.btAddAdmin.Image = global::GUI.Properties.Resources.arrow_circle_bottom_2x;
             this.btAddAdmin.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btAddAdmin.Location = new System.Drawing.Point(507, 139);
+            this.btAddAdmin.Location = new System.Drawing.Point(726, 140);
             this.btAddAdmin.Name = "btAddAdmin";
             this.btAddAdmin.Size = new System.Drawing.Size(24, 24);
             this.btAddAdmin.TabIndex = 8;
@@ -321,11 +293,29 @@
             this.pnCadastroGrupo.Controls.Add(this.btAdicionarGrupo);
             this.pnCadastroGrupo.Controls.Add(this.txtNomeGrupo);
             this.pnCadastroGrupo.Controls.Add(this.label3);
-            this.pnCadastroGrupo.Location = new System.Drawing.Point(541, 96);
+            this.pnCadastroGrupo.Location = new System.Drawing.Point(791, 140);
             this.pnCadastroGrupo.Name = "pnCadastroGrupo";
             this.pnCadastroGrupo.Size = new System.Drawing.Size(517, 107);
             this.pnCadastroGrupo.TabIndex = 9;
             this.pnCadastroGrupo.Visible = false;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(88, 54);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(39, 13);
+            this.label7.TabIndex = 5;
+            this.label7.Text = "Meta%";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(18, 54);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(37, 13);
+            this.label6.TabIndex = 5;
+            this.label6.Text = "Meta$";
             // 
             // txtMetaPercent
             // 
@@ -465,29 +455,49 @@
             this.txtNome.TabIndex = 10;
             this.txtNome.Visible = false;
             // 
-            // label6
+            // cbGrupoAdmin
             // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(18, 54);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(37, 13);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "Meta$";
+            this.cbGrupoAdmin.Enabled = false;
+            this.cbGrupoAdmin.FormattingEnabled = true;
+            this.cbGrupoAdmin.Location = new System.Drawing.Point(419, 142);
+            this.cbGrupoAdmin.Name = "cbGrupoAdmin";
+            this.cbGrupoAdmin.Size = new System.Drawing.Size(301, 21);
+            this.cbGrupoAdmin.TabIndex = 11;
             // 
-            // label7
+            // id_config_receita
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(88, 54);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(39, 13);
-            this.label7.TabIndex = 5;
-            this.label7.Text = "Meta%";
+            this.id_config_receita.HeaderText = "id";
+            this.id_config_receita.Name = "id_config_receita";
+            this.id_config_receita.ReadOnly = true;
+            this.id_config_receita.Visible = false;
+            // 
+            // id_gr
+            // 
+            this.id_gr.HeaderText = "id_gr";
+            this.id_gr.Name = "id_gr";
+            this.id_gr.ReadOnly = true;
+            this.id_gr.Visible = false;
+            // 
+            // cod_admin
+            // 
+            this.cod_admin.HeaderText = "Grupo Adm";
+            this.cod_admin.Name = "cod_admin";
+            this.cod_admin.ReadOnly = true;
+            this.cod_admin.Width = 300;
+            // 
+            // delete
+            // 
+            this.delete.HeaderText = "";
+            this.delete.Image = global::GUI.Properties.Resources.trash_2x;
+            this.delete.Name = "delete";
+            this.delete.ReadOnly = true;
+            this.delete.Width = 26;
             // 
             // frmCadatroGrupo
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(540, 444);
+            this.ClientSize = new System.Drawing.Size(770, 696);
             this.Controls.Add(this.pnCadastroGrupo);
             this.Controls.Add(this.txtNome);
             this.Controls.Add(this.txtMEtaPercentual1);
@@ -499,7 +509,6 @@
             this.Controls.Add(this.btEditar);
             this.Controls.Add(this.btExcluirGrupo);
             this.Controls.Add(this.btAddConta);
-            this.Controls.Add(this.txtAdmin);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.gbAdmin);
@@ -508,6 +517,7 @@
             this.Controls.Add(this.cbConta);
             this.Controls.Add(this.cbGrupos);
             this.Controls.Add(this.groupBox1);
+            this.Controls.Add(this.cbGrupoAdmin);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
@@ -540,7 +550,6 @@
         private System.Windows.Forms.Label lbGrupo;
         private System.Windows.Forms.ComboBox cbConta;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox txtAdmin;
         private System.Windows.Forms.DataGridView dgvContas;
         private System.Windows.Forms.DataGridView dgvAdmin;
         private System.Windows.Forms.Button btAddConta;
@@ -556,9 +565,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn idconfig;
         private System.Windows.Forms.DataGridViewTextBoxColumn conta_nome;
         private System.Windows.Forms.DataGridViewImageColumn del;
-        private System.Windows.Forms.DataGridViewTextBoxColumn id_config_receita;
-        private System.Windows.Forms.DataGridViewTextBoxColumn cod_admin;
-        private System.Windows.Forms.DataGridViewImageColumn delete;
         private System.Windows.Forms.TextBox txtMetaPercent;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtMetaValor;
@@ -570,5 +576,10 @@
         private System.Windows.Forms.TextBox txtNome;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.ComboBox cbGrupoAdmin;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id_config_receita;
+        private System.Windows.Forms.DataGridViewTextBoxColumn id_gr;
+        private System.Windows.Forms.DataGridViewTextBoxColumn cod_admin;
+        private System.Windows.Forms.DataGridViewImageColumn delete;
     }
 }

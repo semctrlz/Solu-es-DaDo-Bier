@@ -710,7 +710,7 @@ namespace GUI
 
         private void colarDoExcelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            frmExcelToDB f = new frmExcelToDB(Convert.ToUInt32(txtId.Text));
+            Forms.CMV.ResumoDados f = new Forms.CMV.ResumoDados(Convert.ToInt32(txtId.Text), Convert.ToInt32(txtUnidade.Text));
             this.Hide();
             f.ShowDialog();
             this.Show();

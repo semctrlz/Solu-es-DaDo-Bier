@@ -43,7 +43,7 @@ namespace GUI.CMV
                 cbUnidade.DataSource = bllun.ListarUnidades();
                 cbUnidade.DisplayMember = "cod_unidade";
                 cbUnidade.ValueMember = "id_unidade";
-                cbUnidade.Text = modelou.IdUnidade.ToString();
+                cbUnidade.Text = modelou.IdUnidade.ToString("00");
 
                 if (modelou.PermissaoUsuario < 4)
                 {
@@ -57,7 +57,7 @@ namespace GUI.CMV
 
             btExcluirGrupo.Enabled = false;
             cbConta.Enabled = false;
-            txtAdmin.Enabled = false;
+            cbGrupoAdmin.Enabled = false;
             gbConta.Enabled = false;
             gbAdmin.Enabled = false;
             btAddConta.Enabled = false;
@@ -65,6 +65,7 @@ namespace GUI.CMV
 
             carregaGrupo();
             carregarContasGerenciais();
+            carregarAdmin();
             liberado = true;
 
         }
@@ -73,6 +74,8 @@ namespace GUI.CMV
         {
             public string Name { get; set; }
             public string Value { get; set; }
+            public string Name2 { get; set; }
+            public string Value2 { get; set; }
         }
 
         private void carregaGrupo()
@@ -103,7 +106,7 @@ namespace GUI.CMV
             dgvContas.Rows.Clear();
             txtMEtaPercentual1.Clear();
             txtmetaValor1.Clear();
-            txtAdmin.Clear();
+            cbGrupoAdmin.Text = ""; 
             cbConta.Text = "";
 
 
@@ -124,11 +127,37 @@ namespace GUI.CMV
                 dataSource.Add(new Language() { Name = tabela.Rows[i][1].ToString()+" - "+tabela.Rows[i][2].ToString(), Value = tabela.Rows[i][0].ToString() });
             }       
 
+
+
             //Setup data binding
             this.cbConta.DataSource = dataSource;
             this.cbConta.DisplayMember = "Name";
             this.cbConta.ValueMember = "Value";
             this.cbConta.Text = "";
+
+
+        }
+
+        private void carregarAdmin()
+        {
+            DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
+            BLLConfigReceita bll = new BLLConfigReceita(cx);
+
+            DataTable tabela = bll.LocalizarConfig(unidade);
+
+            var dataSource = new List<Language>();
+
+
+            for (int i = 0; i < tabela.Rows.Count; i++)
+            {
+                dataSource.Add(new Language() { Name2 = tabela.Rows[i][1].ToString() + " - " + tabela.Rows[i][2].ToString(), Value2 = tabela.Rows[i][1].ToString() });
+            }
+
+            //Setup data binding
+            this.cbGrupoAdmin.DataSource = dataSource;
+            this.cbGrupoAdmin.DisplayMember = "Name2";
+            this.cbGrupoAdmin.ValueMember = "Value2";
+            this.cbGrupoAdmin.Text = "";
 
 
         }
@@ -148,7 +177,7 @@ namespace GUI.CMV
                 {
                     btExcluirGrupo.Enabled = true;
                     cbConta.Enabled = true;
-                    txtAdmin.Enabled = true;
+                    cbGrupoAdmin.Enabled = true;
                     gbConta.Enabled = true;
                     gbAdmin.Enabled = true;
                     btAddConta.Enabled = true;
@@ -163,7 +192,7 @@ namespace GUI.CMV
 
                     btExcluirGrupo.Enabled = false;
                     cbConta.Enabled = false;
-                    txtAdmin.Enabled = false;
+                    cbGrupoAdmin.Enabled = false;
                     gbConta.Enabled = false;
                     gbAdmin.Enabled = false;
                     btAddConta.Enabled = false;
@@ -261,16 +290,36 @@ namespace GUI.CMV
             else if (cbConta.Text != "")
             {
 
-            DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
-            BLLCmvGrupo bll = new BLLCmvGrupo(cx);
-            DTOCmvGrupo dto = new DTOCmvGrupo();
+                bool repetido = false;
 
-            dto.idCmvGrupo = Convert.ToInt32(cbGrupos.SelectedValue);
-            dto.IdConfigCusto = Convert.ToInt32(cbConta.SelectedValue);
+                if (dgvContas.Rows.Count > 0)
+                {
+                    for (int i = 0; i < dgvContas.Rows.Count; i++)
+                    {
+                        if (Convert.ToInt32(cbConta.SelectedValue.ToString()) == Convert.ToInt32(dgvContas.Rows[i].Cells[1].Value))
+                        {
+                            repetido = true;
+                        }
+                    }
+                }
 
-            bll.IncluirGrupoCusto(dto);
-            cbConta.Text = "";
-            CarregaDgvContas();
+                if (repetido)
+                {
+                    MessageBox.Show("Já existe cadastro para esta conta gerencial neste grupo.", "AVISO!");
+
+                }else
+                {
+                    DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
+                    BLLCmvGrupo bll = new BLLCmvGrupo(cx);
+                    DTOCmvGrupo dto = new DTOCmvGrupo();
+
+                    dto.idCmvGrupo = Convert.ToInt32(cbGrupos.SelectedValue);
+                    dto.IdConfigCusto = Convert.ToInt32(cbConta.SelectedValue);
+
+                    bll.IncluirGrupoCusto(dto);
+                    cbConta.Text = "";
+                    CarregaDgvContas();
+                }
             }
             else
             {
@@ -287,27 +336,50 @@ namespace GUI.CMV
             if (cbGrupos.SelectedValue.ToString() == "-1")
             {
                 MessageBox.Show("Por favor escolha um grupo válido.");
-                txtAdmin.Clear();
+                cbGrupoAdmin.Text = "";
                 cbGrupos.Focus();
+            }
+            else if(cbGrupoAdmin.Text == "")
+            {
+                MessageBox.Show("selecione uma conta do cbGrupoAdmin para continuar");
             }
             else if (cbGrupos.SelectedValue.ToString() != "-1")
             {
 
-                DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
-                BLLCmvGrupo bll = new BLLCmvGrupo(cx);
-                DTOCmvGrupo dto = new DTOCmvGrupo();
+                bool repetido = false;
+                for(int i = 0; i < dgvAdmin.Rows.Count; i++)
+                {
+                    if (Convert.ToInt32(cbGrupoAdmin.SelectedValue) == Convert.ToInt32(dgvAdmin.Rows[i].Cells[0].Value))
+                    {
+                        repetido = true;
+                    }
+                }
 
-                dto.idCmvGrupo = Convert.ToInt32(cbGrupos.SelectedValue);
-                dto.CodReceita = Convert.ToInt32(txtAdmin.Text);
+                if (repetido)
+                {
+                    MessageBox.Show("Já existe cadastro para este códido do Admin neste grupo.", "AVISO!");
+                }
+                else
+                {
 
-                bll.IncluirGrupoReceita(dto);
-                txtAdmin.Clear();
-                CarregaDgvAdmin();
+                    DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
+                    BLLCmvGrupo bll = new BLLCmvGrupo(cx);
+                    DTOCmvGrupo dto = new DTOCmvGrupo();
+
+                    dto.idCmvGrupo = Convert.ToInt32(cbGrupos.SelectedValue);
+                    dto.CodReceita = Convert.ToInt32(cbGrupoAdmin.SelectedValue);
+                    dto.idUnidade = unidade;
+
+                    bll.IncluirGrupoReceita(dto);
+                    cbGrupoAdmin.Text = "";
+                    CarregaDgvAdmin();
+
+                }
 
             }else
             {
                 MessageBox.Show("Por favor escolha um grupo válido.");
-                txtAdmin.Clear();
+                cbGrupoAdmin.Text = "";
                 cbGrupos.Focus();
             }
         }
@@ -362,16 +434,19 @@ namespace GUI.CMV
                     DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
                     BLLCmvGrupo bll = new BLLCmvGrupo(cx);
 
+                    //Lista todas as receitas do grupo selecionado
                     DataTable tabela = bll.LocalizarGrupoReceita(Convert.ToInt32(cbGrupos.SelectedValue.ToString()));
 
-                    BLLConfigCusto bllconfig = new BLLConfigCusto(cx);
+                    BLLConfigReceita bllconfig = new BLLConfigReceita(cx);
 
-
+                    DataTable tabela1;
 
                     for (int i = 0; i < tabela.Rows.Count; i++)
                     {
+                        //descreve receita por id
+                        tabela1 = bllconfig.LocalizarConfigReceitaPorCodEUnidade(Convert.ToInt32(tabela.Rows[i][1]), Convert.ToInt32(cbUnidade.Text));
 
-                        C = new string[] { tabela.Rows[i][0].ToString(), tabela.Rows[i][1].ToString() };
+                        C = new string[] { tabela.Rows[i][1].ToString(), tabela.Rows[i][0].ToString(), Convert.ToInt32(tabela1.Rows[0][1]).ToString("00")+" - "+ tabela1.Rows[0][2].ToString()};
                         this.dgvAdmin.Rows.Add(C);
                     }
                 }
@@ -450,7 +525,7 @@ namespace GUI.CMV
 
         private void dgvAdmin_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == 2)
+            if (e.ColumnIndex == 3)
             {
                 if (e.RowIndex >= 0)
                 {
@@ -458,13 +533,13 @@ namespace GUI.CMV
 
                     BLLConfigCusto bll = new BLLConfigCusto(cx);
 
-                    DataTable tabela = bll.LocalizarConfigPorId(Convert.ToInt32(dgvAdmin.Rows[e.RowIndex].Cells[1].Value));
+                    DataTable tabela = bll.LocalizarConfigPorId(Convert.ToInt32(dgvAdmin.Rows[e.RowIndex].Cells[0].Value));
 
-                    txtAdmin.Text = dgvAdmin.Rows[e.RowIndex].Cells[1].Value.ToString();
+                    cbGrupoAdmin.Text = dgvAdmin.Rows[e.RowIndex].Cells[2].Value.ToString();
 
                     BLLCmvGrupo bllg = new BLLCmvGrupo(cx);
 
-                    bllg.ExcluirGrupoReceita(Convert.ToInt32(dgvAdmin.Rows[e.RowIndex].Cells[0].Value));
+                    bllg.ExcluirGrupoReceita(Convert.ToInt32(dgvAdmin.Rows[e.RowIndex].Cells[1].Value));
                     
                     CarregaDgvAdmin();
 
@@ -527,7 +602,7 @@ namespace GUI.CMV
                 gbAdmin.Enabled = false;
                 txtNome.Visible = true;
                 cbConta.Enabled = false;
-                txtAdmin.Enabled = false;
+                cbGrupoAdmin.Enabled = false;
                 btAddAdmin.Enabled = false;
                 btAddConta.Enabled = false;
                 dgvAdmin.Enabled = false;
@@ -574,7 +649,7 @@ namespace GUI.CMV
             txtNome.Visible = false;
             cbGrupos.Visible = true;
             cbConta.Enabled = true;
-            txtAdmin.Enabled = true;
+            cbGrupoAdmin.Enabled = true;
             btAddAdmin.Enabled = true;
             btAddConta.Enabled = true;
             dgvAdmin.Enabled = true;
@@ -634,6 +709,8 @@ namespace GUI.CMV
             {
                 unidade = Convert.ToInt32(cbUnidade.SelectedValue.ToString());
                 carregaGrupo();
+                carregarAdmin();
+                carregarContasGerenciais();
             }
         }
                 

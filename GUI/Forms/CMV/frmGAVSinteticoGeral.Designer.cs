@@ -126,6 +126,8 @@
             this.lbt0102 = new System.Windows.Forms.Label();
             this.lbt0103 = new System.Windows.Forms.Label();
             this.lbt0104 = new System.Windows.Forms.Label();
+            this.btPos = new System.Windows.Forms.Button();
+            this.btAnt = new System.Windows.Forms.Button();
             this.pnTopo.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numAno)).BeginInit();
@@ -154,6 +156,8 @@
             // 
             // pnTopo
             // 
+            this.pnTopo.Controls.Add(this.btPos);
+            this.pnTopo.Controls.Add(this.btAnt);
             this.pnTopo.Controls.Add(this.groupBox3);
             this.pnTopo.Controls.Add(this.numAno);
             this.pnTopo.Controls.Add(this.cbMes);
@@ -171,7 +175,7 @@
             // 
             this.groupBox3.Controls.Add(this.rdPercent);
             this.groupBox3.Controls.Add(this.rdValor);
-            this.groupBox3.Location = new System.Drawing.Point(303, 13);
+            this.groupBox3.Location = new System.Drawing.Point(363, 14);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(94, 37);
             this.groupBox3.TabIndex = 3;
@@ -204,7 +208,7 @@
             // 
             // numAno
             // 
-            this.numAno.Location = new System.Drawing.Point(208, 30);
+            this.numAno.Location = new System.Drawing.Point(268, 31);
             this.numAno.Maximum = new decimal(new int[] {
             2100,
             0,
@@ -229,7 +233,7 @@
             // 
             this.cbMes.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbMes.FormattingEnabled = true;
-            this.cbMes.Location = new System.Drawing.Point(101, 30);
+            this.cbMes.Location = new System.Drawing.Point(131, 29);
             this.cbMes.Name = "cbMes";
             this.cbMes.Size = new System.Drawing.Size(101, 21);
             this.cbMes.TabIndex = 1;
@@ -238,7 +242,7 @@
             // lbAno
             // 
             this.lbAno.AutoSize = true;
-            this.lbAno.Location = new System.Drawing.Point(205, 13);
+            this.lbAno.Location = new System.Drawing.Point(265, 14);
             this.lbAno.Name = "lbAno";
             this.lbAno.Size = new System.Drawing.Size(26, 13);
             this.lbAno.TabIndex = 0;
@@ -247,7 +251,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(101, 13);
+            this.label1.Location = new System.Drawing.Point(128, 11);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(27, 13);
             this.label1.TabIndex = 0;
@@ -275,9 +279,12 @@
             // Graf1
             // 
             chartArea1.AxisX.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
+            chartArea1.AxisX.Interval = 1D;
             chartArea1.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea1.AxisX.IntervalOffset = 1D;
             chartArea1.AxisX.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.NotSet;
             chartArea1.AxisX.MajorGrid.Enabled = false;
+            chartArea1.AxisX2.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
             chartArea1.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.True;
             chartArea1.AxisY.LabelAutoFitMaxFontSize = 12;
             chartArea1.AxisY.LabelStyle.Angle = -90;
@@ -328,17 +335,16 @@
             this.Graf1.Series.Add(series2);
             this.Graf1.Size = new System.Drawing.Size(1323, 176);
             this.Graf1.TabIndex = 2;
-            this.Graf1.Click += new System.EventHandler(this.chart0_Click);
-            this.Graf1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.chart0_MouseMove);
             // 
             // Graf2
             // 
             chartArea2.AxisX.ArrowStyle = System.Windows.Forms.DataVisualization.Charting.AxisArrowStyle.Lines;
             chartArea2.AxisX.Interval = 1D;
+            chartArea2.AxisX.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
+            chartArea2.AxisX.IntervalOffset = 1D;
             chartArea2.AxisX.LineDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.NotSet;
             chartArea2.AxisX.MajorGrid.Enabled = false;
             chartArea2.AxisY.Enabled = System.Windows.Forms.DataVisualization.Charting.AxisEnabled.False;
-            chartArea2.AxisY.IntervalAutoMode = System.Windows.Forms.DataVisualization.Charting.IntervalAutoMode.VariableCount;
             chartArea2.AxisY.LabelAutoFitMaxFontSize = 8;
             chartArea2.AxisY.LabelStyle.Angle = -90;
             chartArea2.AxisY.MajorGrid.Interval = 0D;
@@ -368,11 +374,10 @@
             series3.Font = new System.Drawing.Font("Segoe UI", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             series3.IsValueShownAsLabel = true;
             series3.IsXValueIndexed = true;
-            series3.LabelBackColor = System.Drawing.Color.White;
+            series3.LabelBackColor = System.Drawing.Color.Transparent;
             series3.Legend = "Legend1";
             series3.MarkerSize = 1;
             series3.Name = "Valores";
-            series3.SmartLabelStyle.Enabled = false;
             series3.XValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Int32;
             series3.YValueType = System.Windows.Forms.DataVisualization.Charting.ChartValueType.Double;
             series4.ChartArea = "ChartArea1";
@@ -1407,6 +1412,30 @@
             this.lbt0104.TabIndex = 17;
             this.lbt0104.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // btPos
+            // 
+            this.btPos.BackgroundImage = global::GUI.Properties.Resources.arrow_circle_right_3x;
+            this.btPos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btPos.Location = new System.Drawing.Point(235, 22);
+            this.btPos.Margin = new System.Windows.Forms.Padding(0);
+            this.btPos.Name = "btPos";
+            this.btPos.Size = new System.Drawing.Size(30, 30);
+            this.btPos.TabIndex = 5;
+            this.btPos.UseVisualStyleBackColor = true;
+            this.btPos.Click += new System.EventHandler(this.btPos_Click);
+            // 
+            // btAnt
+            // 
+            this.btAnt.BackgroundImage = global::GUI.Properties.Resources.arrow_circle_left_3x;
+            this.btAnt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btAnt.Location = new System.Drawing.Point(98, 22);
+            this.btAnt.Margin = new System.Windows.Forms.Padding(0);
+            this.btAnt.Name = "btAnt";
+            this.btAnt.Size = new System.Drawing.Size(30, 30);
+            this.btAnt.TabIndex = 4;
+            this.btAnt.UseVisualStyleBackColor = true;
+            this.btAnt.Click += new System.EventHandler(this.btAnt_Click);
+            // 
             // frmGAVSinteticoGeral
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1535,5 +1564,7 @@
         private System.Windows.Forms.Label lbt0102;
         private System.Windows.Forms.Label lbt0103;
         private System.Windows.Forms.Label lbt0104;
+        private System.Windows.Forms.Button btAnt;
+        private System.Windows.Forms.Button btPos;
     }
 }

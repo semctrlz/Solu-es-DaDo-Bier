@@ -266,7 +266,7 @@ namespace GUI.Forms.Fichas
             cbUnidade.DataSource = bllun.ListarUnidades();
             cbUnidade.DisplayMember = "cod_unidade";
             cbUnidade.ValueMember = "id_unidade";
-            cbUnidade.Text = modelou.IdUnidade.ToString();
+cbUnidade.Text = modelou.IdUnidade.ToString("00");
 
             if (modelou.PermissaoUsuario < 4)
             {
@@ -822,7 +822,6 @@ namespace GUI.Forms.Fichas
                 Forms.CMV.frmConsultaAeB f = new Forms.CMV.frmConsultaAeB(true);
                 f.ShowDialog();
 
-
                 if (f.codigo != "")
                 {
                     try
@@ -1004,6 +1003,8 @@ namespace GUI.Forms.Fichas
                     txtNomeItem.Text = Convert.ToString(dgvFicha.Rows[e.RowIndex].Cells[1].Value);
                     txtUm.Text = Convert.ToString(dgvFicha.Rows[e.RowIndex].Cells[3].Value);
                     txtFc.Text = Convert.ToString(dgvFicha.Rows[e.RowIndex].Cells[4].Value);
+                    txtQuant.Enabled = true;
+                    btAddIngrediente.Enabled = true;
 
                     dgvFicha.Rows.RemoveAt(e.RowIndex);
 

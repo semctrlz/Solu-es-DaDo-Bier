@@ -903,7 +903,7 @@ namespace GUI.Code.DTO
             set { this.tipo_operacao = value; }
         }
 
-        private int acao;
+        private int acao;        
 
         public int Acao
         {
@@ -917,6 +917,136 @@ namespace GUI.Code.DTO
         {
             get { return this.obs; }
             set { this.obs = value; }
+        }
+    }
+
+    public class DTOAcrescimos
+    {
+        private int id_acrescimo;
+        private DateTime data_acrescimo;
+        private string tipo_acrescimo;
+        private double valor_acrescimo;
+        private int id_unidade;
+        private int id_usuario;
+        private string obs_acrescimo;
+        private string conta_acrescimo;
+        private string descricao_acrescimo;
+
+        public int Id_acrescimo
+        {
+            get
+            {
+                return id_acrescimo;
+            }
+
+            set
+            {
+                id_acrescimo = value;
+            }
+        }
+
+        public DateTime Data_acrescimo
+        {
+            get
+            {
+                return data_acrescimo;
+            }
+
+            set
+            {
+                data_acrescimo = value;
+            }
+        }
+
+        public string Tipo_acrescimo
+        {
+            get
+            {
+                return tipo_acrescimo;
+            }
+
+            set
+            {
+                tipo_acrescimo = value;
+            }
+        }
+
+        public double Valor_acrescimo
+        {
+            get
+            {
+                return valor_acrescimo;
+            }
+
+            set
+            {
+                valor_acrescimo = value;
+            }
+        }
+
+        public int Id_unidade
+        {
+            get
+            {
+                return id_unidade;
+            }
+
+            set
+            {
+                id_unidade = value;
+            }
+        }
+
+        public int Id_usuario
+        {
+            get
+            {
+                return id_usuario;
+            }
+
+            set
+            {
+                id_usuario = value;
+            }
+        }
+
+        public string Obs_acrescimo
+        {
+            get
+            {
+                return obs_acrescimo;
+            }
+
+            set
+            {
+                obs_acrescimo = value;
+            }
+        }
+
+        public string Conta_acrescimo
+        {
+            get
+            {
+                return conta_acrescimo;
+            }
+
+            set
+            {
+                conta_acrescimo = value;
+            }
+        }
+
+        public string Descricao_acrescimo
+        {
+            get
+            {
+                return descricao_acrescimo;
+            }
+
+            set
+            {
+                descricao_acrescimo = value;
+            }
         }
     }
 

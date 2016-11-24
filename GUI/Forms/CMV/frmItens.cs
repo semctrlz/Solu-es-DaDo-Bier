@@ -17,8 +17,9 @@ namespace GUI.Forms.CMV
         int unidade;
         DateTime diaI, diaF;
         string titulo, subtitulo, conta;
-
-        public frmItens(int un, DateTime i, DateTime f, string g, string t, string s)
+        //Verifica se quer ABC ou Tabela de itens
+        bool abcTrue, Itens;
+        public frmItens(int un, DateTime i, DateTime f, string g, string t, string s, bool abc, bool itens)
         {
             unidade = un;
             diaI = i;
@@ -26,6 +27,8 @@ namespace GUI.Forms.CMV
             conta = g;
             titulo = t;
             subtitulo = s;
+            abcTrue = abc;
+            Itens = itens;
 
 
             InitializeComponent();
@@ -85,12 +88,77 @@ namespace GUI.Forms.CMV
             }
 
             lbTitulo.Text = titulo + " - "+data+"\n" + subtitulo;
+
+
+            if (abcTrue)
+            {
+                ABC();
+            }
+            else
+            {
+                Lista();
+            }
+
+        }
+
+        private void ABC()
+        {
+            if (Itens)
+            {
+
+                DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
+                BLLCmvGraficos bll = new BLLCmvGraficos(cx);
+
+
+                dgvItens.DataSource = bll.ABCItensPorConta(unidade, diaI, diaF, conta);
+
+                dgvItens.Columns[0].HeaderText = "Codigo";
+                dgvItens.Columns[0].Width = 90;
+
+                dgvItens.Columns[1].HeaderText = "Nome";
+                dgvItens.Columns[1].Width = 300;
+
+                dgvItens.Columns[2].HeaderText = "Quant.";
+                dgvItens.Columns[2].Width = 80;
+
+                dgvItens.Columns[3].HeaderText = "Valor Unit.";
+                dgvItens.Columns[3].Width = 90;
+
+                dgvItens.Columns[4].HeaderText = "Valor Total";
+                dgvItens.Columns[4].Width = 100;
+            }
+            else
+            {
+                DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
+                BLLCmvGraficos bll = new BLLCmvGraficos(cx);
+
+                dgvItens.DataSource = bll.ABCItensGeral(unidade, diaI, diaF, conta);
+
+                dgvItens.Columns[0].HeaderText = "Codigo";
+                dgvItens.Columns[0].Width = 90;
+
+                dgvItens.Columns[1].HeaderText = "Nome";
+                dgvItens.Columns[1].Width = 300;
+
+                dgvItens.Columns[2].HeaderText = "Quant.";
+                dgvItens.Columns[2].Width = 80;
+
+                dgvItens.Columns[3].HeaderText = "Valor Unit.";
+                dgvItens.Columns[3].Width = 90;
+
+                dgvItens.Columns[4].HeaderText = "Valor Total";
+                dgvItens.Columns[4].Width = 100;
+            }
+            
+        }
+
+        private void Lista()
+        {
             DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
             BLLCmvGraficos bll = new BLLCmvGraficos(cx);
 
+
             dgvItens.DataSource = bll.TabelaItensPorConta(unidade, diaI, diaF, conta);
-
-
 
             dgvItens.Columns[0].HeaderText = "Data";
             dgvItens.Columns[0].Width = 80;
@@ -115,9 +183,7 @@ namespace GUI.Forms.CMV
 
             dgvItens.Columns[7].HeaderText = "Requisição";
             dgvItens.Columns[7].Width = 90;
-
-
-
         }
+
     }
 }

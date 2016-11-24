@@ -87,7 +87,7 @@ namespace GUI.Forms.CMV
             cbUnidade.DataSource = bllun.ListarUnidades();
             cbUnidade.DisplayMember = "cod_unidade";
             cbUnidade.ValueMember = "id_unidade";
-            cbUnidade.Text = modelou.IdUnidade.ToString();
+cbUnidade.Text = modelou.IdUnidade.ToString("00");
 
             if (modelou.PermissaoUsuario < 4)
             {
@@ -1384,7 +1384,7 @@ namespace GUI.Forms.CMV
                 {                    
                     titulo = cbGrupo01.Text + " (" + cbMes.Text + ")";
                     dia = 32;
-                    frmDetalheGrafico f = new frmDetalheGrafico(pontoAtual, titulo, grupo, diaI, diaF, unidade, false);
+                    frmDetalheGrafico f = new frmDetalheGrafico(pontoAtual, titulo, grupo, diaI, diaF, unidade, false, true);
                     f.ShowDialog();
                     f.Dispose();
 
@@ -1394,7 +1394,7 @@ namespace GUI.Forms.CMV
                     diaA = new DateTime(Convert.ToInt32(numAno.Value), Convert.ToInt32(cbMes.SelectedValue), pontoAtual);
                     titulo = cbGrupo01.Text + " (" + pontoAtual.ToString("00")+"/"+Convert.ToInt32(cbMes.SelectedValue).ToString("00") + ")";
                     dia = pontoAtual;
-                    frmDetalheGrafico f = new frmDetalheGrafico(pontoAtual, titulo, grupo, diaA, diaA, unidade, false);
+                    frmDetalheGrafico f = new frmDetalheGrafico(pontoAtual, titulo, grupo, diaA, diaA, unidade, false, true);
                     f.ShowDialog();
                     f.Dispose();
 
@@ -1421,7 +1421,7 @@ namespace GUI.Forms.CMV
                 {
                     titulo = cbGrupo02.Text + " (" + cbMes.Text + ")";
                     dia = 32;
-                    frmDetalheGrafico f = new frmDetalheGrafico(pontoAtual, titulo, grupo, diaI, diaF, unidade, false);
+                    frmDetalheGrafico f = new frmDetalheGrafico(pontoAtual, titulo, grupo, diaI, diaF, unidade, false, true);
                     f.ShowDialog();
                     f.Dispose();
 
@@ -1431,7 +1431,7 @@ namespace GUI.Forms.CMV
                     diaA = new DateTime(Convert.ToInt32(numAno.Value), Convert.ToInt32(cbMes.SelectedValue), pontoAtual);
                     titulo = cbGrupo02.Text + " (" + pontoAtual.ToString("00") + "/" + Convert.ToInt32(cbMes.SelectedValue).ToString("00") + ")";
                     dia = pontoAtual;
-                    frmDetalheGrafico f = new frmDetalheGrafico(pontoAtual, titulo, grupo, diaA, diaA, unidade, false);
+                    frmDetalheGrafico f = new frmDetalheGrafico(pontoAtual, titulo, grupo, diaA, diaA, unidade, false, true);
                     f.ShowDialog();
                     f.Dispose();
 
@@ -1458,7 +1458,7 @@ namespace GUI.Forms.CMV
                 {
                     titulo = cbGrupo03.Text + " (" + cbMes.Text + ")";
                     dia = 32;
-                    frmDetalheGrafico f = new frmDetalheGrafico(pontoAtual, titulo, grupo, diaI, diaF, unidade, false);
+                    frmDetalheGrafico f = new frmDetalheGrafico(pontoAtual, titulo, grupo, diaI, diaF, unidade, false, true);
                     f.ShowDialog();
                     f.Dispose();
 
@@ -1468,7 +1468,7 @@ namespace GUI.Forms.CMV
                     diaA = new DateTime(Convert.ToInt32(numAno.Value), Convert.ToInt32(cbMes.SelectedValue), pontoAtual);
                     titulo = cbGrupo03.Text + " (" + pontoAtual.ToString("00") + "/" + Convert.ToInt32(cbMes.SelectedValue).ToString("00") + ")";
                     dia = pontoAtual;
-                    frmDetalheGrafico f = new frmDetalheGrafico(pontoAtual, titulo, grupo, diaA, diaA, unidade, false);
+                    frmDetalheGrafico f = new frmDetalheGrafico(pontoAtual, titulo, grupo, diaA, diaA, unidade, false, true);
                     f.ShowDialog();
                     f.Dispose();
 

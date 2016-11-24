@@ -28,7 +28,7 @@
     <PublisherName>ZSolutions</PublisherName>
     <SuiteName>Soluções DaDo Bier</SuiteName>
     <AutorunEnabled>true</AutorunEnabled>
-    <ApplicationRevision>18</ApplicationRevision>
+    <ApplicationRevision>34</ApplicationRevision>
     <ApplicationVersion>0.1.1.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
@@ -743,6 +743,11 @@
   <ItemGroup>
     <Content Include="DaDo.ico" />
     <Content Include="favicon.ico" />
+    <None Include="Resources\list-2x.png" />
+    <None Include="Resources\arrow-circle-right-3x.png" />
+    <None Include="Resources\arrow-circle-left-3x.png" />
+    <None Include="Resources\arrow-circle-right-2x.png" />
+    <None Include="Resources\arrow-circle-left-2x.png" />
     <None Include="Resources\exportPdfx64.png" />
     <None Include="Resources\exportPdfx48.png" />
     <None Include="Resources\exportPdfx24.png" />

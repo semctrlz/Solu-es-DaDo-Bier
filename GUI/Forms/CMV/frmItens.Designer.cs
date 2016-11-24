@@ -92,6 +92,7 @@
             this.Controls.Add(this.pnTitulo);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmItens";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Detalhes de custo";
             this.Load += new System.EventHandler(this.frmItens_Load);
             this.pnTitulo.ResumeLayout(false);

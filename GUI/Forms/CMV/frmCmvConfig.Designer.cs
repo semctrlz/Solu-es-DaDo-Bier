@@ -36,6 +36,14 @@
             this.cbTurno = new System.Windows.Forms.ComboBox();
             this.cbContaGerencial = new System.Windows.Forms.ComboBox();
             this.dgvCusto = new System.Windows.Forms.DataGridView();
+            this.id_setor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.conta_gerencial = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nome_setor = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.divisao_custo = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.meta_percapta = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.meta_percentual = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.turno = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.del = new System.Windows.Forms.DataGridViewImageColumn();
             this.txtMetaPercent = new System.Windows.Forms.TextBox();
             this.txtMetaValor = new System.Windows.Forms.TextBox();
             this.txtDivisao = new System.Windows.Forms.TextBox();
@@ -133,14 +141,6 @@
             this.lbTipo = new System.Windows.Forms.Label();
             this.lbUnidade = new System.Windows.Forms.Label();
             this.pnBase = new System.Windows.Forms.Panel();
-            this.id_setor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.conta_gerencial = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nome_setor = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.divisao_custo = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.meta_percapta = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.meta_percentual = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.turno = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.del = new System.Windows.Forms.DataGridViewImageColumn();
             this.tabConfig.SuspendLayout();
             this.tabConfigCusto.SuspendLayout();
             this.gbDados.SuspendLayout();
@@ -267,6 +267,63 @@
             this.dgvCusto.TabStop = false;
             this.dgvCusto.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvCusto_CellContentClick);
             this.dgvCusto.SelectionChanged += new System.EventHandler(this.dgvCusto_SelectionChanged);
+            // 
+            // id_setor
+            // 
+            this.id_setor.HeaderText = "Id";
+            this.id_setor.Name = "id_setor";
+            this.id_setor.ReadOnly = true;
+            this.id_setor.Visible = false;
+            // 
+            // conta_gerencial
+            // 
+            this.conta_gerencial.HeaderText = "Conta";
+            this.conta_gerencial.Name = "conta_gerencial";
+            this.conta_gerencial.ReadOnly = true;
+            this.conta_gerencial.Width = 80;
+            // 
+            // nome_setor
+            // 
+            this.nome_setor.HeaderText = "Nome de exibição";
+            this.nome_setor.Name = "nome_setor";
+            this.nome_setor.ReadOnly = true;
+            this.nome_setor.Width = 361;
+            // 
+            // divisao_custo
+            // 
+            this.divisao_custo.HeaderText = "Divisão";
+            this.divisao_custo.Name = "divisao_custo";
+            this.divisao_custo.ReadOnly = true;
+            this.divisao_custo.Width = 65;
+            // 
+            // meta_percapta
+            // 
+            this.meta_percapta.HeaderText = "Meta $";
+            this.meta_percapta.Name = "meta_percapta";
+            this.meta_percapta.ReadOnly = true;
+            this.meta_percapta.Width = 65;
+            // 
+            // meta_percentual
+            // 
+            this.meta_percentual.HeaderText = "Meta %";
+            this.meta_percentual.Name = "meta_percentual";
+            this.meta_percentual.ReadOnly = true;
+            this.meta_percentual.Width = 65;
+            // 
+            // turno
+            // 
+            this.turno.HeaderText = "Turno";
+            this.turno.Name = "turno";
+            this.turno.ReadOnly = true;
+            this.turno.Visible = false;
+            // 
+            // del
+            // 
+            this.del.HeaderText = "Del";
+            this.del.Image = global::GUI.Properties.Resources.trash_2x;
+            this.del.Name = "del";
+            this.del.ReadOnly = true;
+            this.del.Width = 26;
             // 
             // txtMetaPercent
             // 
@@ -1314,63 +1371,6 @@
             this.pnBase.Name = "pnBase";
             this.pnBase.Size = new System.Drawing.Size(720, 686);
             this.pnBase.TabIndex = 1;
-            // 
-            // id_setor
-            // 
-            this.id_setor.HeaderText = "Id";
-            this.id_setor.Name = "id_setor";
-            this.id_setor.ReadOnly = true;
-            this.id_setor.Visible = false;
-            // 
-            // conta_gerencial
-            // 
-            this.conta_gerencial.HeaderText = "Conta";
-            this.conta_gerencial.Name = "conta_gerencial";
-            this.conta_gerencial.ReadOnly = true;
-            this.conta_gerencial.Width = 80;
-            // 
-            // nome_setor
-            // 
-            this.nome_setor.HeaderText = "Nome de exibição";
-            this.nome_setor.Name = "nome_setor";
-            this.nome_setor.ReadOnly = true;
-            this.nome_setor.Width = 361;
-            // 
-            // divisao_custo
-            // 
-            this.divisao_custo.HeaderText = "Divisão";
-            this.divisao_custo.Name = "divisao_custo";
-            this.divisao_custo.ReadOnly = true;
-            this.divisao_custo.Width = 65;
-            // 
-            // meta_percapta
-            // 
-            this.meta_percapta.HeaderText = "Meta $";
-            this.meta_percapta.Name = "meta_percapta";
-            this.meta_percapta.ReadOnly = true;
-            this.meta_percapta.Width = 65;
-            // 
-            // meta_percentual
-            // 
-            this.meta_percentual.HeaderText = "Meta %";
-            this.meta_percentual.Name = "meta_percentual";
-            this.meta_percentual.ReadOnly = true;
-            this.meta_percentual.Width = 65;
-            // 
-            // turno
-            // 
-            this.turno.HeaderText = "Turno";
-            this.turno.Name = "turno";
-            this.turno.ReadOnly = true;
-            this.turno.Visible = false;
-            // 
-            // del
-            // 
-            this.del.HeaderText = "Del";
-            this.del.Image = global::GUI.Properties.Resources.trash_2x;
-            this.del.Name = "del";
-            this.del.ReadOnly = true;
-            this.del.Width = 26;
             // 
             // frmCmvConfig
             // 

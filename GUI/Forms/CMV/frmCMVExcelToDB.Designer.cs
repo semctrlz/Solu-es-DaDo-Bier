@@ -1,4 +1,4 @@
-﻿namespace GUI
+﻿namespace GUI.Forms.CMV
 {
     partial class frmExcelToDB
     {
@@ -72,7 +72,7 @@
             this.dgvExcel.ReadOnly = true;
             this.dgvExcel.RowHeadersVisible = false;
             this.dgvExcel.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgvExcel.Size = new System.Drawing.Size(1220, 306);
+            this.dgvExcel.Size = new System.Drawing.Size(547, 306);
             this.dgvExcel.TabIndex = 1;
             // 
             // pnComandos
@@ -88,7 +88,7 @@
             this.pnComandos.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnComandos.Location = new System.Drawing.Point(0, 0);
             this.pnComandos.Name = "pnComandos";
-            this.pnComandos.Size = new System.Drawing.Size(1222, 119);
+            this.pnComandos.Size = new System.Drawing.Size(549, 119);
             this.pnComandos.TabIndex = 2;
             // 
             // btAddBd
@@ -165,7 +165,7 @@
             this.pnCola.Dock = System.Windows.Forms.DockStyle.Fill;
             this.pnCola.Location = new System.Drawing.Point(0, 119);
             this.pnCola.Name = "pnCola";
-            this.pnCola.Size = new System.Drawing.Size(1222, 308);
+            this.pnCola.Size = new System.Drawing.Size(549, 308);
             this.pnCola.TabIndex = 3;
             // 
             // pnAguarde

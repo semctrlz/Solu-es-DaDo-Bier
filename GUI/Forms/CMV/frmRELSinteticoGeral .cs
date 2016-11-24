@@ -86,7 +86,7 @@ namespace GUI.Forms.CMV
             cbUnidade.DataSource = bllun.ListarUnidades();
             cbUnidade.DisplayMember = "cod_unidade";
             cbUnidade.ValueMember = "id_unidade";
-            cbUnidade.Text = modelou.IdUnidade.ToString();
+cbUnidade.Text = modelou.IdUnidade.ToString("00");
 
             if (modelou.PermissaoUsuario < 4)
             {

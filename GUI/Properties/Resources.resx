@@ -121,8 +121,8 @@
   <data name="camera-slr-2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\camera-slr-2x1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="magnifying-glass-8x" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\magnifying-glass-8x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="camera-slr-4x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\camera-slr-4x1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="cog-4x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cog-4x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -144,6 +144,9 @@
   </data>
   <data name="account-logout" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\account-logout.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="exportPdfx64" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\exportPdfx64.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="magnifying-glass-6x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\magnifying-glass-6x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -184,6 +187,9 @@
   <data name="cloud-download-6x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cloud-download-6x1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="arrow-circle-right-2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arrow-circle-right-2x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="trash-3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\trash-3x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -204,6 +210,9 @@
   </data>
   <data name="account-logout-4x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\account-logout-4x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="exportPdfx48" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\exportPdfx48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="pencil-6x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pencil-6x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -231,9 +240,6 @@
   </data>
   <data name="fire-2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\fire-2x1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="x-6x1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\x-6x1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="list-4x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\list-4x1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -264,6 +270,12 @@
   </data>
   <data name="arrow-circle-bottom-4x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\arrow-circle-bottom-4x2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="question-mark-2x1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\question-mark-2x2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="arrow-circle-right-3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arrow-circle-right-3x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="print-4x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\print-4x1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -307,6 +319,9 @@
   <data name="x-2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\x-2x1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="magnifying-glass-8x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\magnifying-glass-8x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="project-8x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\project-8x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
@@ -316,8 +331,8 @@
   <data name="lock-unlocked-8x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\lock-unlocked-8x1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="camera-slr-4x" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\camera-slr-4x1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="x-6x1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\x-6x1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="pencil" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\pencil.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -333,6 +348,9 @@
   </data>
   <data name="image-6x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\image-6x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="arrow-circle-left-2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arrow-circle-left-2x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="Windows circle M" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Windows circle M.gif;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -358,8 +376,8 @@
   <data name="image-4x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\image-4x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="question-mark-2x1" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\question-mark-2x2.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="arrow-circle-left-3x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\arrow-circle-left-3x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="no-thumb" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\no-thumb.jpg;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
@@ -388,19 +406,16 @@
   <data name="camera-slr-8x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\camera-slr-8x1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="exportPdfx24" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\exportPdfx24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="cloud-download-8x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\cloud-download-8x1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="question-mark-2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\question-mark-2x1.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
-  <data name="exportPdfx24" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\exportPdfx24.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="exportPdfx48" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\exportPdfx48.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="exportPdfx64" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\exportPdfx64.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <data name="list-2x" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\list-2x.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>

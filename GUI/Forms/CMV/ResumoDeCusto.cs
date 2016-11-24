@@ -46,7 +46,7 @@ namespace GUI.Forms.CMV
             cbUnidade.DataSource = bllun.Localizar("");
             cbUnidade.DisplayMember = "cod_unidade";
             cbUnidade.ValueMember = "id_unidade";
-            cbUnidade.Text = modelou.IdUnidade.ToString();
+cbUnidade.Text = modelou.IdUnidade.ToString("00");
 
             unidade = modelou.IdUnidade;
 

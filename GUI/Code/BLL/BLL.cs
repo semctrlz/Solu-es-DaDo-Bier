@@ -147,7 +147,6 @@ namespace GUI.Code.BLL
             return DALobj.LocalizarPorId(id);
         }
 
-
         public DataTable ListarConexoes(int id)
         {
             DALUsuario DALobj = new DALUsuario(conexao);
@@ -396,7 +395,19 @@ namespace GUI.Code.BLL
             DALobj.Incluir(modelo);
 
         }
-        
+
+        public DataTable LocalizarConfigReceitaPorId(int id)
+        {
+            DALConfigReceita DALobj = new DALConfigReceita(conexao);
+            return DALobj.LocalizarConfigReceitaPorId(id);
+        }
+
+        public DataTable LocalizarConfigReceitaPorCodEUnidade(int cod, int id)
+        {
+            DALConfigReceita DALobj = new DALConfigReceita(conexao);
+            return DALobj.LocalizarConfigReceitaPorCodEUnidade(cod, id);
+        }
+
         public void Excluir(int id)
         {
             DALConfigReceita DALobj = new DALConfigReceita(conexao);
@@ -1179,10 +1190,17 @@ namespace GUI.Code.BLL
             return DALobj.TotalPax(unidade, diaI, diaF, turno);
         }
 
+        public DataTable ListarCustoReceitaPaxAcrescimos(int unidade, DateTime diaI)
+        {
+            DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
+            return DALobj.ListarCustoReceitaPaxAcrescimos(unidade, diaI);
+        }
 
-
-
-
+        public DataTable TotalCustoReceitaPaxAcrescimos(int unidade, DateTime diaI, DateTime diaF)
+        {
+            DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
+            return DALobj.TotalCustoReceitaPaxAcrescimos(unidade, diaI, diaF);
+        }
 
         public DataTable LocalizarCustoPorSetor(int unidade, string tipo, DateTime dataI, DateTime dataF)
         {
@@ -1371,11 +1389,19 @@ namespace GUI.Code.BLL
             this.conexao = cx;
         }
 
+        //Tabela completa de Custo (Grupo), receita (grupo), pax (grupo) Cmv $ e CMV % Por grupo
         public DataTable ListaCmvPorGrupo(int unidade, DateTime diaI, int grupoCmv, int grupoCusto)
         {
             DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
             return DALobj.ListaCMVPorGrupo(unidade, diaI, grupoCmv, grupoCusto);
         }
+
+        public DataTable Total1CMVPorGrupo(int unidade, DateTime diaI, int grupoCmv, int grupoCusto)
+        {
+            DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
+            return DALobj.Total1CMVPorGrupo(unidade, diaI, grupoCmv, grupoCusto);
+        }
+
 
         public DataTable TotalCMVPorGrupo(int unidade, DateTime diaI, int grupoCmv, int grupoCusto)
         {
@@ -1400,6 +1426,19 @@ namespace GUI.Code.BLL
         {
             DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
             return DALobj.TabelaCustoPorConta(unidade, diaI, diaF, idGrupo);
+        }
+
+        public DataTable ABCItensGeral(int unidade, DateTime diaI, DateTime diaF, string idConta)
+        {
+            DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
+            return DALobj.ABCItensGeral(unidade, diaI, diaF, idConta);
+        }
+
+
+        public DataTable ABCItensPorConta(int unidade, DateTime diaI, DateTime diaF, string idConta)
+        {
+            DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
+            return DALobj.ABCItensPorConta(unidade, diaI, diaF, idConta);
         }
 
         public DataTable TabelaItensPorConta(int unidade, DateTime diaI, DateTime diaF, string idConta)
@@ -1495,6 +1534,38 @@ namespace GUI.Code.BLL
 
 
     }
+
+    public class BLLAcrescimos
+    {
+        private DALConexao conexao;
+
+        public BLLAcrescimos(DALConexao cx)
+        {
+            this.conexao = cx;
+        }
+
+        public void Incluir(DTOAcrescimos modelo)
+        {
+            DALAcrescimos DALobj = new DALAcrescimos(conexao);
+            DALobj.Incluir(modelo);
+        }        
+
+        public void Excluir(int id)
+        {
+            DALAcrescimos DALobj = new DALAcrescimos(conexao);
+            DALobj.Excluir(id);
+        }
+
+        public DataTable LocalizarAcrescimos(int unidade, DateTime diaI)
+        {
+            DALAcrescimos DALobj = new DALAcrescimos(conexao);
+            return DALobj.LocalizarAcrescimos(unidade, diaI);
+        }
+
+
+
+    }
+
 
     #endregion
 

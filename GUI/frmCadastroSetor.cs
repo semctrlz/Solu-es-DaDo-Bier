@@ -90,7 +90,7 @@ namespace GUI
 
             if(modelou.PermissaoUsuario < 4)
             {
-                cbUnidade.Text = modelou.IdUnidade.ToString();
+    cbUnidade.Text = modelou.IdUnidade.ToString("00");
                 cbUnidade.Enabled = false;
             }
             else
