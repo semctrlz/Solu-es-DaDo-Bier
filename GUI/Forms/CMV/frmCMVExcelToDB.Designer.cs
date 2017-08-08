@@ -56,7 +56,7 @@
             this.btColarDados.TabIndex = 0;
             this.btColarDados.Text = "Colar dados";
             this.btColarDados.UseVisualStyleBackColor = true;
-            this.btColarDados.Click += new System.EventHandler(this.btColarDados_Click);
+            this.btColarDados.Click += new System.EventHandler(this.BtColarDados_Click);
             // 
             // dgvExcel
             // 
@@ -99,7 +99,7 @@
             this.btAddBd.TabIndex = 5;
             this.btAddBd.Text = "Adicionar ao Banco de dados";
             this.btAddBd.UseVisualStyleBackColor = true;
-            this.btAddBd.Click += new System.EventHandler(this.addBd_Click);
+            this.btAddBd.Click += new System.EventHandler(this.AddBd_Click);
             // 
             // lbTipoDado
             // 
@@ -210,7 +210,7 @@
             this.Name = "frmExcelToDB";
             this.Text = "Dados";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.Load += new System.EventHandler(this.frmExcelToDB_Load);
+            this.Load += new System.EventHandler(this.FrmExcelToDB_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvExcel)).EndInit();
             this.pnComandos.ResumeLayout(false);
             this.pnComandos.PerformLayout();

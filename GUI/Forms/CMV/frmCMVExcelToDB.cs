@@ -33,7 +33,7 @@ namespace GUI.Forms.CMV
             InitializeComponent();
         }
 
-        private void frmExcelToDB_Load(object sender, EventArgs e)
+        private void FrmExcelToDB_Load(object sender, EventArgs e)
         {
             DALConexao con = new DALConexao(DadosDaConexao.StringDaConexao);
             BLLUsuario bllu = new BLLUsuario(con);
@@ -49,7 +49,7 @@ namespace GUI.Forms.CMV
 
         #region Clique
         
-        private void addBd_Click(object sender, EventArgs e)
+        private void AddBd_Click(object sender, EventArgs e)
         {
             if(dgvExcel.Rows.Count > 0)
             {
@@ -62,7 +62,7 @@ namespace GUI.Forms.CMV
             }
         }
 
-        private void btColarDados_Click(object sender, EventArgs e)
+        private void BtColarDados_Click(object sender, EventArgs e)
         {
 
             PainelLoading("Por favor, aguarde enquanto o programa executa a cópia dos dados do Excel.");
@@ -138,7 +138,7 @@ namespace GUI.Forms.CMV
                     AtualizaMes(competencia.Month);
                     tipo = "pax";
                 }
-                else if (dgvExcel.Columns[0].HeaderText == "Data Movimento" && dgvExcel.Columns[1].HeaderText == "Tipo Movimento" && dgvExcel.Columns[2].HeaderText == "Tipo Operacao")
+                else if (dgvExcel.Columns[0].HeaderText == "UNI_NEG" && dgvExcel.Columns[1].HeaderText == "DT_MOV" && dgvExcel.Columns[2].HeaderText == "COD_MATERIAL")
                 {
                     lbTipoDado.Text = "Dados do relatório de Custo";
                     btColarDados.Enabled = false;
@@ -178,7 +178,7 @@ namespace GUI.Forms.CMV
             cbUnidade.DataSource = bllun.Localizar("");
             cbUnidade.DisplayMember = "cod_unidade";
             cbUnidade.ValueMember = "id_unidade";
-cbUnidade.Text = modelou.IdUnidade.ToString("00");
+            cbUnidade.Text = modelou.IdUnidade.ToString("00");
 
             unidade = modelou.IdUnidade;
 
@@ -251,7 +251,7 @@ cbUnidade.Text = modelou.IdUnidade.ToString("00");
         private void AddDB()
         {
 
-            DateTime DataI = new DateTime(Convert.ToDateTime(dgvExcel.Rows[1].Cells[0].Value).Year, Convert.ToDateTime(dgvExcel.Rows[1].Cells[0].Value).Month, 1);
+            DateTime DataI = new DateTime(Convert.ToDateTime(dgvExcel.Rows[1].Cells[1].Value).Year, Convert.ToDateTime(dgvExcel.Rows[1].Cells[1].Value).Month, 1);
 
             DateTime DataF = DataI.AddDays(-(DataI.Day - 1)).AddMonths(1).AddDays(-1);
 
@@ -333,46 +333,61 @@ cbUnidade.Text = modelou.IdUnidade.ToString("00");
             else if (tipo == "custo")
             {
 
+                /*
                 
-                
-                DateTime dataatual = Convert.ToDateTime(dgvExcel.Rows[1].Cells[0].Value);
+                DateTime dataatual = Convert.ToDateTime(dgvExcel.Rows[1].Cells[1].Value);
 
                 DateTime Diai = new DateTime(dataatual.Year, dataatual.Month, 1);
 
                 DateTime Diaf = Diai.AddDays(-(Diai.Day - 1)).AddMonths(1).AddDays(-1);
 
+ */
                 DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
-
                 DTODados cus = new DTODados();
                 BLLDados bllven = new BLLDados(cx);
                 BLLExcessoesCusto bllexc = new BLLExcessoesCusto(cx);
 
-                bllven.ExcluirCusto(Diai, Diaf, Convert.ToInt32(cbUnidade.SelectedValue));
+                //bllven.ExcluirCusto(Diai, Diaf, Convert.ToInt32(cbUnidade.SelectedValue));
+                                  
                 
                 string tipo, op;
+
+                double custo, acresc;
 
                 for (int i = 0; i < dgvExcel.RowCount; i++)
                 {
                     
-                    tipo = dgvExcel.Rows[i].Cells[3].Value.ToString();
-                    op = dgvExcel.Rows[i].Cells[2].Value.ToString();
+                    tipo = dgvExcel.Rows[i].Cells[4].Value.ToString();
+                    op = dgvExcel.Rows[i].Cells[7].Value.ToString();
 
-                    if (dgvExcel.Rows[i].Cells[5].Value.ToString() != "")
+                    if (dgvExcel.Rows[i].Cells[7].Value.ToString() != "" && Convert.ToInt32(dgvExcel.Rows[i].Cells[0].Value.ToString()) == Convert.ToInt32(cbUnidade.Text))
                     {
                         //tipo == "CONSUMO - CMV DIVERSOS - A&B" || op == "110.2R" || op == "140.3A" || op == "110.2S" || op == "110.2E" || op == "110.2Y" || op == "110.2U" || op == "210.2B"
 
+                        cus.DataCusto = Convert.ToDateTime(dgvExcel.Rows[i].Cells[1].Value);
+                        cus.TipoMovCusto = dgvExcel.Rows[i].Cells[4].Value.ToString();
+                        cus.TipoOperacaoCusto = dgvExcel.Rows[i].Cells[7].Value.ToString();
+                        cus.DescricaoCusto = dgvExcel.Rows[i].Cells[18].Value.ToString();
+                        cus.CodItemCusto = dgvExcel.Rows[i].Cells[2].Value.ToString();
+                        cus.ContaGerencialCusto = dgvExcel.Rows[i].Cells[8].Value.ToString();
+                        cus.MovimentoCusto = Convert.ToInt32(dgvExcel.Rows[i].Cells[11].Value);
+                        cus.QuantMovCusto = Convert.ToDouble(dgvExcel.Rows[i].Cells[5].Value.ToString());
 
-                        cus.DataCusto = Convert.ToDateTime(dgvExcel.Rows[i].Cells[0].Value);
-                        cus.TipoMovCusto = dgvExcel.Rows[i].Cells[1].Value.ToString();
-                        cus.TipoOperacaoCusto = dgvExcel.Rows[i].Cells[2].Value.ToString();
-                        cus.DescricaoCusto = dgvExcel.Rows[i].Cells[3].Value.ToString();
-                        cus.CodItemCusto = dgvExcel.Rows[i].Cells[4].Value.ToString();
-                        cus.ContaGerencialCusto = dgvExcel.Rows[i].Cells[5].Value.ToString();
-                        cus.MovimentoCusto = Convert.ToInt32(dgvExcel.Rows[i].Cells[6].Value);
-                        cus.QuantMovCusto = Convert.ToDouble(dgvExcel.Rows[i].Cells[8].Value.ToString());
-                        cus.ValorUnitarioCusto = Math.Round((Convert.ToDouble(dgvExcel.Rows[i].Cells[9].Value) / cus.QuantMovCusto), 4);
-                        cus.TipoDocCusto = dgvExcel.Rows[i].Cells[10].Value.ToString();
-                        cus.DocumentoCusto = dgvExcel.Rows[i].Cells[11].Value.ToString();
+                        try
+                        {
+                            custo = Convert.ToDouble(dgvExcel.Rows[i].Cells[6].Value);
+                        }
+                        catch { custo = 0; }
+
+                        try
+                        {
+                            acresc = Convert.ToDouble(dgvExcel.Rows[17].Cells[6].Value);
+                        }
+                        catch { acresc = 0; }
+
+                        cus.ValorUnitarioCusto = Math.Round(((custo + acresc) / cus.QuantMovCusto), 4);
+                        cus.TipoDocCusto = dgvExcel.Rows[i].Cells[9].Value.ToString();
+                        cus.DocumentoCusto = dgvExcel.Rows[i].Cells[10].Value.ToString();
 
                         if(cus.TipoOperacaoCusto == "800.01" || (cus.TipoOperacaoCusto == "800.02" && cus.TipoOperacaoCusto == "9.5.02.106") || cus.TipoOperacaoCusto == "110.2R" || cus.TipoOperacaoCusto == "140.3A" || cus.TipoOperacaoCusto == "110.2S" || cus.TipoOperacaoCusto == "110.2E" || cus.TipoOperacaoCusto == "110.2Y" || cus.TipoOperacaoCusto == "110.2U" || cus.TipoOperacaoCusto == "210.2B" || cus.TipoOperacaoCusto == "191.0" || cus.TipoOperacaoCusto == "800.90" || cus.TipoOperacaoCusto == "800.95")
                         {

@@ -66,7 +66,7 @@ namespace GUI
                
                 DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
                 BLLLog blllog = new BLLLog(cx);
-                blllog.excluir(idUsuario, dgvConexoes.Rows[e.RowIndex].Cells[0].Value.ToString());
+                blllog.Excluir(idUsuario, dgvConexoes.Rows[e.RowIndex].Cells[0].Value.ToString());
 
                 CaregaDGV();
 

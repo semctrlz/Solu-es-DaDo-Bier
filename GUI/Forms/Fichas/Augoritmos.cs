@@ -648,7 +648,7 @@ namespace GUI.Forms.Fichas
                 {
                     //cod_item, quant_ingrediente
 
-                    tabelaAeb = bllaeb.localizarPorCod(tabelaIngredientes.Rows[i][0].ToString());
+                    tabelaAeb = bllaeb.LocalizarPorCod(tabelaIngredientes.Rows[i][0].ToString());
 
 
                     codIngrediente = tabelaIngredientes.Rows[i][0].ToString();

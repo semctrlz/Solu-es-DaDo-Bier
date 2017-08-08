@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,50 @@ namespace GUI.Code.DTO
     public class DTOCaminhos
     {
         public static string name = System.Environment.MachineName;
+
+
+        public DTOCaminhos()
+        {
+            try
+            {
+                if (!Directory.Exists(Rede))
+
+                {
+                    Directory.CreateDirectory(Rede);
+                }
+            }
+            catch { }
+
+            try
+            {
+                if (!Directory.Exists(Pasta))
+
+                {
+                    Directory.CreateDirectory(Pasta);
+                }
+            }
+            catch { }
+
+            try
+            {
+                if (!Directory.Exists(BakcupDatabase))
+
+                {
+                    Directory.CreateDirectory(BakcupDatabase);
+                }
+            }
+            catch { }
+
+            try
+            {
+                if (!Directory.Exists(ConfigDatabase))
+
+                {
+                    Directory.CreateDirectory(ConfigDatabase);
+                }
+            }
+            catch { }
+        }
 
         public static string Rede =
      name == "BINGO" ? "" :
@@ -24,6 +69,12 @@ namespace GUI.Code.DTO
         public string BakcupDatabase
         {
             get { return this.Pasta + @"Backup Database\"; }
+        }
+
+        public string ConfigDatabase
+        {
+            get { return this.Pasta + @"Config Database\"; }
+            
         }
 
         public string Imagem
@@ -1049,6 +1100,95 @@ namespace GUI.Code.DTO
             }
         }
     }
+
+    public class DTOMetas
+    {
+        private int id_meta;
+        private int id_unidade;
+        private DateTime data_meta;
+        private string conta_meta;
+        private double meta_valor;
+        private double meta_percent;
+
+        public int Id_meta
+        {
+            get
+            {
+                return id_meta;
+            }
+
+            set
+            {
+                id_meta = value;
+            }
+        }
+
+        public int Id_unidade
+        {
+            get
+            {
+                return id_unidade;
+            }
+
+            set
+            {
+                id_unidade = value;
+            }
+        }
+
+        public DateTime Data_meta
+        {
+            get
+            {
+                return data_meta;
+            }
+
+            set
+            {
+                data_meta = value;
+            }
+        }
+
+        public string Conta_meta
+        {
+            get
+            {
+                return conta_meta;
+            }
+
+            set
+            {
+                conta_meta = value;
+            }
+        }
+
+        public double Meta_valor
+        {
+            get
+            {
+                return meta_valor;
+            }
+
+            set
+            {
+                meta_valor = value;
+            }
+        }
+
+        public double Meta_percent
+        {
+            get
+            {
+                return meta_percent;
+            }
+
+            set
+            {
+                meta_percent = value;
+            }
+        }
+    }
+
 
 
     #endregion

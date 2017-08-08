@@ -44,6 +44,8 @@
             System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmGAVSinteticoGeral));
             this.pnTopo = new System.Windows.Forms.Panel();
+            this.btPos = new System.Windows.Forms.Button();
+            this.btAnt = new System.Windows.Forms.Button();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.rdPercent = new System.Windows.Forms.RadioButton();
             this.rdValor = new System.Windows.Forms.RadioButton();
@@ -66,7 +68,6 @@
             this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel6 = new System.Windows.Forms.TableLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
-            this.cbGeral = new System.Windows.Forms.ComboBox();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -126,8 +127,6 @@
             this.lbt0102 = new System.Windows.Forms.Label();
             this.lbt0103 = new System.Windows.Forms.Label();
             this.lbt0104 = new System.Windows.Forms.Label();
-            this.btPos = new System.Windows.Forms.Button();
-            this.btAnt = new System.Windows.Forms.Button();
             this.pnTopo.SuspendLayout();
             this.groupBox3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numAno)).BeginInit();
@@ -170,6 +169,30 @@
             this.pnTopo.Name = "pnTopo";
             this.pnTopo.Size = new System.Drawing.Size(1350, 62);
             this.pnTopo.TabIndex = 0;
+            // 
+            // btPos
+            // 
+            this.btPos.BackgroundImage = global::GUI.Properties.Resources.arrow_circle_right_3x;
+            this.btPos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btPos.Location = new System.Drawing.Point(235, 22);
+            this.btPos.Margin = new System.Windows.Forms.Padding(0);
+            this.btPos.Name = "btPos";
+            this.btPos.Size = new System.Drawing.Size(30, 30);
+            this.btPos.TabIndex = 5;
+            this.btPos.UseVisualStyleBackColor = true;
+            this.btPos.Click += new System.EventHandler(this.btPos_Click);
+            // 
+            // btAnt
+            // 
+            this.btAnt.BackgroundImage = global::GUI.Properties.Resources.arrow_circle_left_3x;
+            this.btAnt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+            this.btAnt.Location = new System.Drawing.Point(98, 22);
+            this.btAnt.Margin = new System.Windows.Forms.Padding(0);
+            this.btAnt.Name = "btAnt";
+            this.btAnt.Size = new System.Drawing.Size(30, 30);
+            this.btAnt.TabIndex = 4;
+            this.btAnt.UseVisualStyleBackColor = true;
+            this.btAnt.Click += new System.EventHandler(this.btAnt_Click);
             // 
             // groupBox3
             // 
@@ -290,6 +313,7 @@
             chartArea1.AxisY.LabelStyle.Angle = -90;
             chartArea1.AxisY.MajorGrid.Interval = 0D;
             chartArea1.AxisY.MajorTickMark.Enabled = false;
+            chartArea1.AxisY.Maximum = 60D;
             chartArea1.AxisY.MaximumAutoSize = 30F;
             chartArea1.AxisY.ScrollBar.Size = 10D;
             chartArea1.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Solid;
@@ -532,11 +556,10 @@
             // 
             // tableLayoutPanel6
             // 
-            this.tableLayoutPanel6.ColumnCount = 2;
-            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 250F));
+            this.tableLayoutPanel6.ColumnCount = 1;
             this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel6.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel6.Controls.Add(this.label3, 0, 0);
-            this.tableLayoutPanel6.Controls.Add(this.cbGeral, 0, 0);
             this.tableLayoutPanel6.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel6.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel6.Margin = new System.Windows.Forms.Padding(0);
@@ -551,25 +574,13 @@
             this.label3.BackColor = System.Drawing.SystemColors.ActiveBorder;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label3.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(250, 0);
+            this.label3.Location = new System.Drawing.Point(0, 0);
             this.label3.Margin = new System.Windows.Forms.Padding(0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(1073, 30);
+            this.label3.Size = new System.Drawing.Size(1323, 30);
             this.label3.TabIndex = 12;
             this.label3.Text = "GERAL";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
-            // cbGeral
-            // 
-            this.cbGeral.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.cbGeral.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbGeral.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cbGeral.FormattingEnabled = true;
-            this.cbGeral.Location = new System.Drawing.Point(3, 3);
-            this.cbGeral.Name = "cbGeral";
-            this.cbGeral.Size = new System.Drawing.Size(244, 24);
-            this.cbGeral.TabIndex = 3;
-            this.cbGeral.SelectedIndexChanged += new System.EventHandler(this.cbGeral_SelectedIndexChanged);
             // 
             // tableLayoutPanel3
             // 
@@ -1412,30 +1423,6 @@
             this.lbt0104.TabIndex = 17;
             this.lbt0104.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btPos
-            // 
-            this.btPos.BackgroundImage = global::GUI.Properties.Resources.arrow_circle_right_3x;
-            this.btPos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btPos.Location = new System.Drawing.Point(235, 22);
-            this.btPos.Margin = new System.Windows.Forms.Padding(0);
-            this.btPos.Name = "btPos";
-            this.btPos.Size = new System.Drawing.Size(30, 30);
-            this.btPos.TabIndex = 5;
-            this.btPos.UseVisualStyleBackColor = true;
-            this.btPos.Click += new System.EventHandler(this.btPos_Click);
-            // 
-            // btAnt
-            // 
-            this.btAnt.BackgroundImage = global::GUI.Properties.Resources.arrow_circle_left_3x;
-            this.btAnt.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.btAnt.Location = new System.Drawing.Point(98, 22);
-            this.btAnt.Margin = new System.Windows.Forms.Padding(0);
-            this.btAnt.Name = "btAnt";
-            this.btAnt.Size = new System.Drawing.Size(30, 30);
-            this.btAnt.TabIndex = 4;
-            this.btAnt.UseVisualStyleBackColor = true;
-            this.btAnt.Click += new System.EventHandler(this.btAnt_Click);
-            // 
             // frmGAVSinteticoGeral
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1501,7 +1488,6 @@
         private System.Windows.Forms.ComboBox cbComparativo02;
         private System.Windows.Forms.ComboBox cbComparativo01;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel6;
-        private System.Windows.Forms.ComboBox cbGeral;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel1;

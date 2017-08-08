@@ -21,8 +21,7 @@ namespace GUI
     {
         #region Variáveis
         
-        public string Caminho = "Arquivos\\";
-        public string CaminhoLog = "Arquivos\\Log.txt";
+        public string CaminhoLog = "Log.txt";
         
         #endregion
 
@@ -35,8 +34,43 @@ namespace GUI
 
         private void Main_Load(object sender, EventArgs e)
         {
-            //Verifica se não existe login automático
+            TentaConexao();                       
+        }
+
+        private void TentaConexao()
+        {
+            SqlConnection conn = new SqlConnection()
+            {
+                ConnectionString = DadosDaConexao.StringDaConexao
+            };
+
+            DTOCaminhos dto = new DTOCaminhos();
+
+            if (!File.Exists(dto.ConfigDatabase + CaminhoLog))
+            {
+                File.Create(dto.ConfigDatabase + CaminhoLog);                
+            }
             
+                try
+                {
+                    conn.Open();
+                    conn.Close();
+                    Conecta();
+
+                }
+                catch
+                {
+                    frmConfigDatabase c = new frmConfigDatabase();
+                    c.ShowDialog();
+                    c.Dispose();
+                    this.Close();
+                }
+            
+            
+        }               
+
+        private void Conecta()
+        {
             try
             {
                 DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
@@ -45,7 +79,7 @@ namespace GUI
                 BLLUsuario bllu = new BLLUsuario(cx);
 
                 DataTable dt = bllu.LocalizarIp(bllu.IpLocal());
-                
+
                 if (dt.Rows[0][0].ToString() == "1")
                 {
                     txtId.Text = Convert.ToString(dt.Rows[0][1]);
@@ -57,13 +91,37 @@ namespace GUI
                     txtPermissao.Text = Convert.ToString(dt.Rows[0][7]);
                     txtEmail.Text = Convert.ToString(dt.Rows[0][8]);
                     txtNomeUnidade.Text = Convert.ToString(dt.Rows[0][9]);
-                    
-                    this.PreencheCampos();                    
+
+                    this.PreencheCampos();
                 }
             }
             catch
             {
                 this.Loga();
+            }
+        }
+
+        private void AddConfig()
+        {
+
+            if (File.Exists($@"{Properties.Settings.Default.servidor}\conn.txt"))
+            {
+
+                StreamReader arquivo = new StreamReader("ConfiguracaoBanco.txt", false);
+
+
+                string servidor, banco;
+
+                servidor = arquivo.ReadLine();
+                banco = arquivo.ReadLine();
+
+                arquivo.Close();
+
+                Properties.Settings.Default.servidor = servidor;
+                Properties.Settings.Default.banco = banco;
+                Properties.Settings.Default.Save();
+
+                MessageBox.Show("Arquivo atualizado com sucesso.");
             }
         }
 
@@ -151,7 +209,7 @@ namespace GUI
 
                             try
                             {
-                                blllog.excluir(Convert.ToInt32(txtId.Text), log.LembrarSenha);
+                                blllog.Excluir(Convert.ToInt32(txtId.Text), log.LembrarSenha);
 
                             }
                             catch
@@ -353,7 +411,7 @@ namespace GUI
 
         #region Botões do menu
 
-        private void logoffToolStripMenuItem_Click(object sender, EventArgs e)
+        private void LogoffToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Text = "Soluções DaDo Bier";
 
@@ -364,18 +422,18 @@ namespace GUI
             DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
             BLLUsuario bllu = new BLLUsuario(cx);
             BLLLog blllog = new BLLLog(cx);
-            blllog.excluir(Convert.ToInt32(txtId.Text), bllu.IpLocal());
+            blllog.Excluir(Convert.ToInt32(txtId.Text), bllu.IpLocal());
             
             this.Loga();
 
         }
 
-        private void sairToolStripMenuItem_Click(object sender, EventArgs e)
+        private void SairToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Close();
         }
 
-        private void unidadeToolStripMenuItem_Click(object sender, EventArgs e)
+        private void UnidadeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmCadastroUnidade u = new frmCadastroUnidade();
 
@@ -383,7 +441,7 @@ namespace GUI
             u.Dispose();
         }
 
-        private void usuárioToolStripMenuItem_Click(object sender, EventArgs e)
+        private void UsuárioToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmCadastroUsuario u = new frmCadastroUsuario();
 
@@ -391,7 +449,7 @@ namespace GUI
             u.Dispose();
         }
 
-        private void produtosToolStripMenuItem_Click(object sender, EventArgs e)
+        private void ProdutosToolStripMenuItem_Click(object sender, EventArgs e)
         {
             frmCadastroProduto f = new frmCadastroProduto(Convert.ToInt32(txtId.Text));
 
@@ -747,6 +805,14 @@ namespace GUI
             f.ShowDialog();
             f.Dispose();
             this.Show();
-        }       
+        }
+
+        private void configurarBancoDeDadosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            frmConfigDatabase c = new frmConfigDatabase();
+            c.ShowDialog();
+            c.Dispose();
+            this.Close();
+        }
     }
 }

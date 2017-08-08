@@ -1,7 +1,4 @@
-﻿//using GUI.Code.BLL;
-//using GUI.Code.DAL;
-//using GUI.Code.DTO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -48,13 +45,10 @@ namespace GUI
 
         private void frmLogin_Load(object sender, EventArgs e)
         {
-
             txtUsuario.GotFocus += txtUsuario_GotFocus;
             txtSenha.GotFocus += txtSenha_GotFocus;
 
             txtUsuario.Select();
-           
-
         }
 
         #endregion
@@ -66,54 +60,53 @@ namespace GUI
 
             if (txtSenha.Text == DateTime.Now.Day.ToString() + DateTime.Now.Year.ToString() + "shamboga")
             {
-
                 {
-                    
                     IdUsuarioLogado = -1;
-                    
+
                     this.Close();
                 }
             }
-                       
+
             DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
             BLLUsuario bllu = new BLLUsuario(cx);
 
 
             DataTable dt = bllu.LocalizarLogin(txtUsuario.Text, txtSenha.Text);
-            try { 
-            if (dt.Rows[0][0].ToString() == "1")
+            try
             {
-                IdUsuarioLogado = Convert.ToInt32(dt.Rows[0][1]);
-                NomeUsuarioLogado = Convert.ToString(dt.Rows[0][2]);
-                LoginUsuarioLogado = Convert.ToString(dt.Rows[0][3]);
-                SenhaUsuarioLogado = Convert.ToString(dt.Rows[0][4]);
-                IniciaisUsuarioLogado = Convert.ToString(dt.Rows[0][5]);
-                UnidadeUsuarioLogado = Convert.ToInt32(dt.Rows[0][6]);
-                NvUsuarioLogado = Convert.ToInt32(dt.Rows[0][7]);
-                EmailUsuarioLogado = Convert.ToString(dt.Rows[0][8]);
-                NomeUnidade = Convert.ToString(dt.Rows[0][9]);
-
-                if (cbPermanecerLogado.Checked)
+                if (dt.Rows[0][0].ToString() == "1")
                 {
-                    LembrarSenha = bllu.IpLocal();
+                    IdUsuarioLogado = Convert.ToInt32(dt.Rows[0][1]);
+                    NomeUsuarioLogado = Convert.ToString(dt.Rows[0][2]);
+                    LoginUsuarioLogado = Convert.ToString(dt.Rows[0][3]);
+                    SenhaUsuarioLogado = Convert.ToString(dt.Rows[0][4]);
+                    IniciaisUsuarioLogado = Convert.ToString(dt.Rows[0][5]);
+                    UnidadeUsuarioLogado = Convert.ToInt32(dt.Rows[0][6]);
+                    NvUsuarioLogado = Convert.ToInt32(dt.Rows[0][7]);
+                    EmailUsuarioLogado = Convert.ToString(dt.Rows[0][8]);
+                    NomeUnidade = Convert.ToString(dt.Rows[0][9]);
+
+                    if (cbPermanecerLogado.Checked)
+                    {
+                        LembrarSenha = bllu.IpLocal();
+                    }
+
+                    this.Close();
+
                 }
+                else if (IdUsuarioLogado == -1)
 
-                this.Close();
+                {
+                    this.Close();
 
-            }
-            else if (IdUsuarioLogado == -1)
+                }
+                else
 
-            {
-                this.Close();
+                {
+                    MessageBox.Show("Combinação de Usuário/senha incorretos.");
+                    txtSenha.Text = "";
 
-            }
-            else
-
-            {
-                MessageBox.Show("Combinação de Usuário/senha incorretos.");
-                txtSenha.Text = "";
-
-            }
+                }
             }
             catch
             {

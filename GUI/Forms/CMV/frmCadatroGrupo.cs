@@ -364,11 +364,12 @@ namespace GUI.CMV
 
                     DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
                     BLLCmvGrupo bll = new BLLCmvGrupo(cx);
-                    DTOCmvGrupo dto = new DTOCmvGrupo();
-
-                    dto.idCmvGrupo = Convert.ToInt32(cbGrupos.SelectedValue);
-                    dto.CodReceita = Convert.ToInt32(cbGrupoAdmin.SelectedValue);
-                    dto.idUnidade = unidade;
+                    DTOCmvGrupo dto = new DTOCmvGrupo()
+                    {
+                        idCmvGrupo = Convert.ToInt32(cbGrupos.SelectedValue),
+                        CodReceita = Convert.ToInt32(cbGrupoAdmin.SelectedValue),
+                        idUnidade = unidade
+                    };
 
                     bll.IncluirGrupoReceita(dto);
                     cbGrupoAdmin.Text = "";
@@ -393,7 +394,7 @@ namespace GUI.CMV
                 if (cbGrupos.Text != "")
                 {
 
-                    String[] C = { "", "" };
+                    String[] C = { "", "", "", "" };
 
                     DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
                     BLLCmvGrupo bll = new BLLCmvGrupo(cx);

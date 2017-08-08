@@ -153,6 +153,13 @@ namespace GUI.Code.BLL
             return DALobj.ListarConexoes(id, IpLocal());
         }
 
+        public DataTable ListarUsuarios()
+        {
+            DALUsuario DALobj = new DALUsuario(conexao);
+            return DALobj.ListarUsuarios();
+        }
+
+
         public DataTable LocalizarLogin(string usuario, string senha)
         {
             DALUsuario DALobj = new DALUsuario(conexao);
@@ -280,7 +287,7 @@ namespace GUI.Code.BLL
 
         }
 
-        public void excluir(int id, string ip)
+        public void Excluir(int id, string ip)
         {
             
             DALLLog DALobj = new DALLLog(conexao);
@@ -505,7 +512,7 @@ namespace GUI.Code.BLL
             return DALobj.localizar(unidade);
         }
 
-        public DataTable localizarValoresTotaisImpostos(int unidade)
+        public DataTable LocalizarValoresTotaisImpostos(int unidade)
         {
             DALConfigImposto DALobj = new DALConfigImposto(conexao);
             return DALobj.localizarValoresTotaisImpostos(unidade);
@@ -937,7 +944,7 @@ namespace GUI.Code.BLL
             return DALobj.Localizar(valor);
         }
 
-        public DataTable localizarPorCod(String cod)
+        public DataTable LocalizarPorCod(String cod)
         {
             DALAeB DALobj = new DALAeB(conexao);
             return DALobj.LocalizarPorCod(cod);
@@ -1390,11 +1397,27 @@ namespace GUI.Code.BLL
         }
 
         //Tabela completa de Custo (Grupo), receita (grupo), pax (grupo) Cmv $ e CMV % Por grupo
-        public DataTable ListaCmvPorGrupo(int unidade, DateTime diaI, int grupoCmv, int grupoCusto)
+        public DataTable ListaCMVGeral(int unidade, DateTime diaI, int grupoCusto)
         {
             DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
-            return DALobj.ListaCMVPorGrupo(unidade, diaI, grupoCmv, grupoCusto);
+            return DALobj.ListaCMVGeral(unidade, diaI, grupoCusto);
         }
+
+
+        //Tabela separando custo CMV e Totais de Pax e receita por Grupo
+        public DataTable TabelaCustoCMVReceitaPaxPorGrupo(int unidade, DateTime diaI, DateTime diaF, int grupoCmv, int grupoCusto)
+        {
+            DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
+            return DALobj.TabelaCustoCMVReceitaPaxPorGrupo(unidade, diaI, diaF, grupoCmv, grupoCusto);
+        }
+
+        //Tabela separando custo CMV e Totais de Pax e receita Geral
+        public DataTable TabelaCustoCMVReceitaPaxGeral(int unidade, DateTime diaI, DateTime diaF, int grupoCusto)
+        {
+            DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
+            return DALobj.TabelaCustoCMVReceitaPaxGeral(unidade, diaI, diaF, grupoCusto);
+        }
+
 
         public DataTable Total1CMVPorGrupo(int unidade, DateTime diaI, int grupoCmv, int grupoCusto)
         {
@@ -1408,6 +1431,8 @@ namespace GUI.Code.BLL
             DALGraficosCmv DALobj = new DALGraficosCmv(conexao);
             return DALobj.TotalCMVPorGrupo(unidade, diaI, grupoCmv, grupoCusto);
         }
+
+
 
 
         public DataTable TabelaCustoPorGrupo(int unidade, DateTime diaI, DateTime diaF, int idGrupo)

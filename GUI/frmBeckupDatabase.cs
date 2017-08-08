@@ -21,52 +21,45 @@ namespace GUI
         }
 
         public static string name = System.Environment.MachineName;
-
+       
         private void btBeckup_Click(object sender, EventArgs e)
         {
 
             try
             {
-                
+
                 DateTime dt = DateTime.Now;
                 SaveFileDialog d = new SaveFileDialog();
-                d.Filter = "Backup Files|*.bak";                
+                d.Filter = "Backup Files|*.bak";
                 d.FileName = $"Backup_{dt.ToString("dd")}-{dt.ToString("MM")}-{dt.ToString("yyyy")}";
                 d.ShowDialog();
-               
-                    if (d.FileName != "")
-                    {
-                        String nomeBanco = DadosDaConexao.banco;
-                        String localBackup = d.FileName;
-                        String conexao;
 
-                        if (name == "BINGO")
-                        {
-                            conexao = @"Data Source=" + DadosDaConexao.servidorB + ";Initial Catalog=master;User=" +
-                            DadosDaConexao.usuarioB + ";Password=" + DadosDaConexao.senhaB;
-                        }
-                        else
-                        {
-                            conexao = @"Data Source=" + DadosDaConexao.servidor + ";Initial Catalog=master;User=" +
-                            DadosDaConexao.usuario + ";Password=" + DadosDaConexao.senha;
-                        }
-                        SQLServerBackup.BackupDataBase(conexao, nomeBanco, d.FileName);
+                if (d.FileName != "")
+                {
+                    String nomeBanco = Properties.Settings.Default.banco;
+                    String localBackup = d.FileName;
+                    String conexao = DadosDaConexao.StringDaConexao;
 
 
-                        MessageBox.Show("Backup realizado com sucesso.");
-                       
-                }                
+                    SQLServerBackup.BackupDataBase(conexao, nomeBanco, d.FileName);
+
+
+                    MessageBox.Show("Backup realizado com sucesso.");
+
+                }
+
             }
 
             catch (Exception erro)
             {
                 MessageBox.Show(erro.Message);
             }
-
+            
         }
-
+        
         private void btRestaura_Click(object sender, EventArgs e)
         {
+        
             try
             {
                 OpenFileDialog d = new OpenFileDialog();
@@ -75,20 +68,10 @@ namespace GUI
 
                 if (d.FileName != "")
                 {
-                    String nomeBanco = DadosDaConexao.banco;
+                    String nomeBanco = Properties.Settings.Default.banco;
                     String localBackup = d.FileName;
-                    String conexao;
+                    String conexao = DadosDaConexao.StringDaConexao;
 
-                    if (name == "BINGO")
-                    {
-                        conexao = @"Data Source=" + DadosDaConexao.servidorB + ";Initial Catalog=master;User=" +
-                        DadosDaConexao.usuarioB + ";Password=" + DadosDaConexao.senhaB;
-                    }
-                    else
-                    {
-                        conexao = @"Data Source=" + DadosDaConexao.servidor + ";Initial Catalog=master;User=" +
-                        DadosDaConexao.usuario + ";Password=" + DadosDaConexao.senha;
-                    }
                     SQLServerBackup.RestauraDatabase(conexao, nomeBanco, d.FileName);
 
                     MessageBox.Show("Restauração realizada com sucesso.");
@@ -100,5 +83,6 @@ namespace GUI
                 MessageBox.Show(erro.Message);
             }
         }
+        
     }
 }

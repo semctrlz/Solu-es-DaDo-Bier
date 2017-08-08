@@ -34,17 +34,17 @@
             this.lbReceitaePax = new System.Windows.Forms.Label();
             this.dataGridViewImageColumn1 = new System.Windows.Forms.DataGridViewImageColumn();
             this.dataGridViewImageColumn2 = new System.Windows.Forms.DataGridViewImageColumn();
-            this.tit = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.conta = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nomeSetor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.custo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.valor = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.percent = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.detalhes = new System.Windows.Forms.DataGridViewImageColumn();
             this.abc = new System.Windows.Forms.DataGridViewImageColumn();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDetalhe)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
@@ -69,8 +69,8 @@
             this.dgvDetalhe.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvDetalhe.ColumnHeadersVisible = false;
             this.dgvDetalhe.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.tit,
             this.conta,
+            this.nomeSetor,
             this.custo,
             this.valor,
             this.percent,
@@ -112,19 +112,59 @@
             this.dataGridViewImageColumn2.Resizable = System.Windows.Forms.DataGridViewTriState.True;
             this.dataGridViewImageColumn2.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             // 
-            // tit
+            // pictureBox1
             // 
-            this.tit.HeaderText = "Column1";
-            this.tit.Name = "tit";
-            this.tit.ReadOnly = true;
-            this.tit.Visible = false;
+            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox1.Image = global::GUI.Properties.Resources.magnifying_glass_2x;
+            this.pictureBox1.Location = new System.Drawing.Point(540, 4);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox1.TabIndex = 2;
+            this.pictureBox1.TabStop = false;
+            // 
+            // pictureBox2
+            // 
+            this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pictureBox2.Image = global::GUI.Properties.Resources.list_2x;
+            this.pictureBox2.Location = new System.Drawing.Point(540, 29);
+            this.pictureBox2.Name = "pictureBox2";
+            this.pictureBox2.Size = new System.Drawing.Size(20, 20);
+            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
+            this.pictureBox2.TabIndex = 3;
+            this.pictureBox2.TabStop = false;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(566, 11);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(77, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "Lista de baixas";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(566, 36);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(28, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "ABC";
             // 
             // conta
             // 
             this.conta.HeaderText = "Conta gerencial";
             this.conta.Name = "conta";
             this.conta.ReadOnly = true;
-            this.conta.Width = 300;
+            this.conta.Visible = false;
+            // 
+            // nomeSetor
+            // 
+            this.nomeSetor.HeaderText = "NomeSetor";
+            this.nomeSetor.Name = "nomeSetor";
+            this.nomeSetor.ReadOnly = true;
+            this.nomeSetor.Width = 300;
             // 
             // custo
             // 
@@ -167,46 +207,6 @@
             this.abc.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.Automatic;
             this.abc.Width = 35;
             // 
-            // pictureBox1
-            // 
-            this.pictureBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox1.Image = global::GUI.Properties.Resources.magnifying_glass_2x;
-            this.pictureBox1.Location = new System.Drawing.Point(540, 4);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(20, 20);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox1.TabIndex = 2;
-            this.pictureBox1.TabStop = false;
-            // 
-            // pictureBox2
-            // 
-            this.pictureBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox2.Image = global::GUI.Properties.Resources.list_2x;
-            this.pictureBox2.Location = new System.Drawing.Point(540, 29);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(20, 20);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
-            this.pictureBox2.TabIndex = 3;
-            this.pictureBox2.TabStop = false;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(566, 11);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(77, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Lista de baixas";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(566, 36);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(28, 13);
-            this.label3.TabIndex = 5;
-            this.label3.Text = "ABC";
-            // 
             // frmDetalheGrafico
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -243,16 +243,16 @@
         private System.Windows.Forms.Label lbReceitaePax;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn1;
         private System.Windows.Forms.DataGridViewImageColumn dataGridViewImageColumn2;
-        private System.Windows.Forms.DataGridViewTextBoxColumn tit;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.PictureBox pictureBox2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.DataGridViewTextBoxColumn conta;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nomeSetor;
         private System.Windows.Forms.DataGridViewTextBoxColumn custo;
         private System.Windows.Forms.DataGridViewTextBoxColumn valor;
         private System.Windows.Forms.DataGridViewTextBoxColumn percent;
         private System.Windows.Forms.DataGridViewImageColumn detalhes;
         private System.Windows.Forms.DataGridViewImageColumn abc;
-        private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
     }
 }

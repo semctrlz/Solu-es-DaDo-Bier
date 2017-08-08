@@ -97,20 +97,22 @@ cbUnidade.Text = modelou.IdUnidade.ToString("00");
             DateTime data = DateTime.Today;
             int mesAtual = data.Month;
 
-            var dataSource = new List<Language>();
-            dataSource.Add(new Language() { Name = "Janeiro", Value = "1" });
-            dataSource.Add(new Language() { Name = "Fevereiro", Value = "2" });
-            dataSource.Add(new Language() { Name = "Março", Value = "3" });
-            dataSource.Add(new Language() { Name = "Abril", Value = "4" });
-            dataSource.Add(new Language() { Name = "Maio", Value = "5" });
-            dataSource.Add(new Language() { Name = "Junho", Value = "6" });
-            dataSource.Add(new Language() { Name = "Julho", Value = "7" });
-            dataSource.Add(new Language() { Name = "Agosto", Value = "8" });
-            dataSource.Add(new Language() { Name = "Setembro", Value = "9" });
-            dataSource.Add(new Language() { Name = "Outubro", Value = "10" });
-            dataSource.Add(new Language() { Name = "Novembro", Value = "11" });
-            dataSource.Add(new Language() { Name = "Dezembro", Value = "12" });
-            
+            var dataSource = new List<Language>
+            {
+                new Language() { Name = "Janeiro", Value = "1" },
+                new Language() { Name = "Fevereiro", Value = "2" },
+                new Language() { Name = "Março", Value = "3" },
+                new Language() { Name = "Abril", Value = "4" },
+                new Language() { Name = "Maio", Value = "5" },
+                new Language() { Name = "Junho", Value = "6" },
+                new Language() { Name = "Julho", Value = "7" },
+                new Language() { Name = "Agosto", Value = "8" },
+                new Language() { Name = "Setembro", Value = "9" },
+                new Language() { Name = "Outubro", Value = "10" },
+                new Language() { Name = "Novembro", Value = "11" },
+                new Language() { Name = "Dezembro", Value = "12" }
+            };
+
             //Adicionar ao ComboBox
             this.cbMes.DataSource = dataSource;
             this.cbMes.DisplayMember = "Name";
@@ -590,7 +592,7 @@ cbUnidade.Text = modelou.IdUnidade.ToString("00");
             BLLConfigImposto bllimp = new BLLConfigImposto(cx);
 
             //Impostos
-            consulta = bllimp.localizarValoresTotaisImpostos(unidade);
+            consulta = bllimp.LocalizarValoresTotaisImpostos(unidade);
             try
             {
                 impostoA = Convert.ToDouble(consulta.Rows[0][0]) / 100;

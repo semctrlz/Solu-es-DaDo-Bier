@@ -138,105 +138,33 @@ namespace GUI.Forms.CMV
 
         private void AtualizaDGV()
         {
-            string conta, id;
-            double custo, valor, percent;
-            String[] T = new string[] { "-1", "CONTA GERENCIAL", "CUSTO", "$", "%", "Det.", "ABC" };
+           String[] T = new string[] { "-1", "CONTA GERENCIAL", "CUSTO", "$", "%"};
             this.dgvDetalhe.Rows.Add(T);
 
             String[] V;
-
+            int grupoCusto = 01;
             DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
             BLLCmvGraficos bll = new BLLCmvGraficos(cx);
             BLLConsultaCMV bllc = new BLLConsultaCMV(cx);
 
-            DataTable TABELAC = bll.TabelaCustoPorConta(unidade, diaI, diaF, grupo);
-
-            DataTable TABELAR;
+            DataTable TABELA;
             if (geral)
             {
-                TABELAR = bllc.TotalCustoReceitaPaxAcrescimos(unidade, diaI, diaF);
-
+                TABELA = bll.TabelaCustoCMVReceitaPaxGeral(unidade, diaI, diaF, grupoCusto);
             }
             else
             {
-                TABELAR = bll.TotalReceitaPorGrupo(unidade, diaI, diaF, grupo);
+                TABELA = bll.TabelaCustoCMVReceitaPaxPorGrupo(unidade, diaI, diaF, grupo, grupoCusto);
 
             }
-            DataTable TABELACT = bll.TotalCustoPorGrupo(unidade, diaI, diaF, grupo);
-            DataTable paxTotal = bll.TotalPaxPorUnidade(unidade, diaI, diaF);
 
-
-            if (TABELAC.Rows.Count > 0)
+            if (TABELA.Rows.Count > 0)
             {
-                for (int i = 0; i < TABELAC.Rows.Count; i++)
+
+                for (int i = 0; i < TABELA.Rows.Count; i++)
                 {
-                    try
-                    {
-                        id = TABELAC.Rows[i][0].ToString();
-                    }
-                    catch
-                    {
-                        id = 0.ToString();
-                    }
-                    try
-                    {
-                        conta = TABELAC.Rows[i][1].ToString();
-                    }
-                    catch
-                    {
-                        conta = 0.ToString();
-                    }
-                    try
-                    {
-                        custo = Convert.ToDouble(TABELAC.Rows[i][2]);
-                    }
-                    catch
-                    {
-                        custo = 0;
-                    }
-                    try
-                    {
-                        if (geral)
-                        {
-                            valor = (custo * -1) / Convert.ToDouble(paxTotal.Rows[0][0]);
-                        }
-                        else
-                        {
-                            if (geral)
-                            {
-                                valor = (custo * -1) / (Convert.ToDouble(TABELAR.Rows[0][5])+ Convert.ToDouble(TABELAR.Rows[0][6]));
-                            }
-                            else
-                            {
-
-                                valor = (custo * -1) / Convert.ToDouble(TABELAR.Rows[0][0]);
-                            }
-                        }
-                    }
-                    catch
-                    {
-                        valor = 0;
-                    }
-                    try
-                    {
-                        if (geral)
-                        {
-                            percent = ((custo * -1) / (Convert.ToDouble(TABELAR.Rows[0][3]) + Convert.ToDouble(TABELAR.Rows[0][4]))) * 100;
-                        }
-                        else
-                        {
-
-                            percent = ((custo * -1) / Convert.ToDouble(TABELAR.Rows[0][2])) * 100;
-                        }
-                    }
-                    catch
-                    {
-                        percent = 0;
-                    }
-
-                    V = new string[] { id, conta, custo.ToString("#,0.00"), valor.ToString("#,0.00"), percent.ToString("#,0.00") + "%" };
+                    V = new string[] { TABELA.Rows[i][0].ToString(), TABELA.Rows[i][1].ToString(), Convert.ToDouble(TABELA.Rows[i][2]).ToString("#,0.00"), Convert.ToDouble(TABELA.Rows[i][3]).ToString("#,0.00"), Convert.ToDouble(TABELA.Rows[i][4]).ToString("#,0.00") + "%" };
                     this.dgvDetalhe.Rows.Add(V);
-
                 }
             }
             else
@@ -246,48 +174,14 @@ namespace GUI.Forms.CMV
             V = new string[] { "0", "", "", "", "" };
             this.dgvDetalhe.Rows.Add(V);
 
-            custo = Convert.ToDouble(TABELACT.Rows[0][0]);
-            if (geral)
+            if (TABELA.Rows.Count > 0)
             {
-                valor = (custo * -1) / Convert.ToDouble(paxTotal.Rows[0][0]);
-            }
-            else
-            {
-                if (geral)
-                {
-                    valor = (custo * -1) / (Convert.ToDouble(TABELAR.Rows[0][5]) + Convert.ToDouble(TABELAR.Rows[0][6]));
-                }
-                else
-                {
-
-                    valor = (custo * -1) / Convert.ToDouble(TABELAR.Rows[0][0]);
-                }
-
+                V = new string[] { "-1", "TOTAL", Convert.ToDouble(TABELA.Rows[0][5]).ToString("#,0.00"), (Convert.ToDouble(TABELA.Rows[0][5])/Convert.ToDouble(TABELA.Rows[0][7])).ToString("#,0.00"), ((Convert.ToDouble(TABELA.Rows[0][5]) / Convert.ToDouble(TABELA.Rows[0][6]))*100).ToString("#,0.00") + "%" };
+                this.dgvDetalhe.Rows.Add(V);
             }
 
-            if (geral)
-            {
-                percent = ((custo * -1) / (Convert.ToDouble(TABELAR.Rows[0][3]) + Convert.ToDouble(TABELAR.Rows[0][4]))) * 100;
-            }
-            else
-            {
 
-                percent = ((custo * -1) / Convert.ToDouble(TABELAR.Rows[0][2])) * 100;
-            }
-
-            V = new string[] { "-1", "TOTAL", custo.ToString("#,0.00"), valor.ToString("#,0.00"), percent.ToString("#,0.00") + "%" };
-            this.dgvDetalhe.Rows.Add(V);
-
-            if (geral)
-            {
-                lbReceitaePax.Text = (Convert.ToDouble(TABELAR.Rows[0][5]) + Convert.ToDouble(TABELAR.Rows[0][6])).ToString() + " clientes atendidos. Receita total R$ " + (Convert.ToDouble(TABELAR.Rows[0][3]) + Convert.ToDouble(TABELAR.Rows[0][4])).ToString("#,0.00");
-            }
-            else
-            {
-
-            lbReceitaePax.Text = TABELAR.Rows[0][1].ToString() + " clientes atendidos. Receita total R$ " + Convert.ToDouble(TABELAR.Rows[0][2]).ToString("#,0.00");
-            }
-
+            lbReceitaePax.Text = $"Total Pax = {Convert.ToDouble(TABELA.Rows[0][7]).ToString("#,0")} - total receita = R$ {Convert.ToDouble(TABELA.Rows[0][6]).ToString("#,0.00")}";
         }        
 
         private void formataDGV()
@@ -325,11 +219,13 @@ namespace GUI.Forms.CMV
                 {
                     dgvDetalhe.Rows[i].DefaultCellStyle.BackColor = Color.White;
                     dgvDetalhe.Rows[i].DefaultCellStyle.ForeColor = Color.White;
+                    dgvDetalhe.Rows[i].Cells[6].Value = new System.Drawing.Bitmap(1, 1);
+                    dgvDetalhe.Rows[i].Cells[5].Value = new System.Drawing.Bitmap(1, 1);
 
                 }
 
 
-                if (Convert.ToInt32(dgvDetalhe.Rows[i].Cells[0].Value) > 0)
+                if (Convert.ToInt32(dgvDetalhe.Rows[i].Cells[0].Value.ToString().Length) == 10)
                 {
 
                     dgvDetalhe.Rows[i].DefaultCellStyle.ForeColor = Color.Black;
@@ -337,16 +233,11 @@ namespace GUI.Forms.CMV
 
 
                 }
-
-                if (Convert.ToInt32(dgvDetalhe.Rows[i].Cells[0].Value) <= 0 )
-                {
-                    dgvDetalhe.Rows[i].Cells[5].Value = new System.Drawing.Bitmap(1, 1);
-
-                }
-
-                if (Convert.ToInt32(dgvDetalhe.Rows[i].Cells[0].Value) <= 0 && dgvDetalhe.Rows[i].Cells[1].Value.ToString() != "TOTAL")
+                
+                if (dgvDetalhe.Rows[i].Cells[0].Value.ToString() == "-1" && dgvDetalhe.Rows[i].Cells[1].Value.ToString() != "TOTAL")
                 {
                     dgvDetalhe.Rows[i].Cells[6].Value = new System.Drawing.Bitmap(1, 1);
+                    dgvDetalhe.Rows[i].Cells[5].Value = new System.Drawing.Bitmap(1, 1);
 
                 }
             }

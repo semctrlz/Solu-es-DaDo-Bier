@@ -200,9 +200,7 @@ namespace GUI.Forms.CMV
 
             cbComparativo01.Text = Properties.Settings.Default.cbComp01;
 
-            cbComparativo02.Text = Properties.Settings.Default.cbComp02;
-
-            cbGeral.Text = Properties.Settings.Default.cbGeral;
+            cbComparativo02.Text = Properties.Settings.Default.cbComp02;            
 
             liberado = true;
 
@@ -257,13 +255,7 @@ namespace GUI.Forms.CMV
             {
                 dataSource2.Add(new Language() { Name2 = tabela.Rows[i][1].ToString(), Value2 = Convert.ToInt32(tabela.Rows[i][0]).ToString() });
             }
-            var dataSource3 = new List<Language>();
-            dataSource3.Add(new Language() { Name3 = "", Value3 = "0" });
-
-            for (int i = 0; i < tabela.Rows.Count; i++)
-            {
-                dataSource3.Add(new Language() { Name3 = tabela.Rows[i][1].ToString(), Value3 = Convert.ToInt32(tabela.Rows[i][0]).ToString() });
-            }
+            
             var dataSource4 = new List<Language>();
             dataSource4.Add(new Language() { Name4 = "", Value4 = "0" });
 
@@ -291,11 +283,7 @@ namespace GUI.Forms.CMV
             this.cbComparativo02.DisplayMember = "Name2";
             this.cbComparativo02.ValueMember = "Value2";
 
-            //Atualiza grupo 03
-            this.cbGeral.DataSource = dataSource3;
-            this.cbGeral.DisplayMember = "Name3";
-            this.cbGeral.ValueMember = "Value3";
-
+           
 
         }
 
@@ -312,316 +300,51 @@ namespace GUI.Forms.CMV
              
             
         }
-
+        
         private void AtualizaGraf1()
-        {
-
-            Graf1.Series[0].Points.Clear();
-            Graf1.Series[1].Points.Clear();
-            
-            if (liberado && (cbComparativo01.Text != "" || cbComparativo02.Text != ""))
-            {
-
-                //Variáveis
-                double CMVV = 0;
-                double CMVP = 0;
-                double Custo, Receita, Pax;
-                string diaSemana = "";
-
-                lbDetalh0103.Text = "";
-                lbDetalh0104.Text = "";
-
-                DataTable tabelaCMV, TotalCmv;
-                DateTime diaI = new DateTime(Convert.ToInt32(numAno.Value), Convert.ToInt32(cbMes.SelectedValue), 1);
-                int unidade = Convert.ToInt32(cbUnidade.SelectedValue);
-
-                DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
-                BLLCmvGraficos bll = new BLLCmvGraficos(cx);
-
-                tabelaCMV = bll.ListaCmvPorGrupo(unidade, diaI, Convert.ToInt32(cbComparativo01.SelectedValue), 01);
-                TotalCmv = bll.Total1CMVPorGrupo(unidade, diaI, Convert.ToInt32(cbComparativo01.SelectedValue), 01);
-                Custo = 0;
-                Receita = 0;
-                Pax = 0;
-
-                #region Grupo01
-
-                if(Convert.ToDouble(TotalCmv.Rows[0][7]) > 0 && Convert.ToDouble(TotalCmv.Rows[0][8]) > 0 && Convert.ToDouble(TotalCmv.Rows[0][9]) > 0)
-                { 
-                    for (int i = 0; i < tabelaCMV.Rows.Count; i++)
-                    {
-                        diaSemana = Dia(Convert.ToDateTime(tabelaCMV.Rows[i][0]));
-
-                        Custo += (Convert.ToDouble(tabelaCMV.Rows[i][1]) + Convert.ToDouble(tabelaCMV.Rows[i][2])) * -1;
-                        Receita += Convert.ToDouble(tabelaCMV.Rows[i][3]) + Convert.ToDouble(tabelaCMV.Rows[i][4]);
-                        Pax += Convert.ToDouble(tabelaCMV.Rows[i][6]) + Convert.ToDouble(tabelaCMV.Rows[i][7]);
-
-                        if (rdPercent.Checked)
-                        {
-                            try
-                            {
-                                if (Convert.ToDouble(tabelaCMV.Rows[i][1]) == 0 || Convert.ToDouble(tabelaCMV.Rows[i][3]) == 0)
-                                {
-                                    CMVP = 0;
-                                }
-                                else
-                                {
-                                    CMVP = ((Convert.ToDouble(tabelaCMV.Rows[i][1]) + Convert.ToDouble(tabelaCMV.Rows[i][2])) * -1) / (Convert.ToDouble(tabelaCMV.Rows[i][3]) + Convert.ToDouble(tabelaCMV.Rows[i][4]));
-                                }
-                            }
-                            catch
-                            {
-                                CMVP = 0;
-                            }
-
-                            Graf1.Series["G1"].Points.AddXY(diaSemana, CMVP * 100);
-
-                        }
-                        else
-                        {
-                            try
-                            {
-                                if (Convert.ToDouble(tabelaCMV.Rows[i][1]) == 0 || Convert.ToDouble(tabelaCMV.Rows[i][6]) == 0)
-                                {
-                                    CMVV = 0;
-                                }
-                                else
-                                {
-                                    CMVV = ((Convert.ToDouble(tabelaCMV.Rows[i][1]) + Convert.ToDouble(tabelaCMV.Rows[i][2])) * -1) / (Convert.ToDouble(tabelaCMV.Rows[i][6]) + Convert.ToDouble(tabelaCMV.Rows[i][7]));
-                                }
-                            }
-                            catch
-                            {
-                                CMVP = 0;
-                            }
-
-                            Graf1.Series["G1"].Points.AddXY(diaSemana, CMVV);
-                        }
-                    }
-
-                    if (rdPercent.Checked)
-                    {
-                        try
-                        {
-                            Graf1.Series["G1"].Points.AddXY(("Total"), (Math.Round(Custo / Receita, 4) * 100));
-                        }
-                        catch
-                        {
-                            Graf1.Series["G1"].Points.AddXY(("Total"), 0);
-                        }
-                    }
-                    else
-                    {
-                        try
-                        {
-                            Graf1.Series["G1"].Points.AddXY(("Total"), Math.Round(Custo / Pax, 2));
-                        }
-                        catch
-                        {
-                            Graf1.Series["G1"].Points.AddXY(("Total"), 0);
-                        }
-                    }
-
-                    if (Custo == 0 || Receita == 0 || Pax == 0)
-                    {
-                        lbDetalh0103.Text = "";
-                        lbDetalh0104.Text = "";
-                    }
-                    else
-                    {
-                        lbDetalh0103.Text = (Math.Round(Custo / Pax, 2)).ToString("R$ 0,0.00");
-                        lbDetalh0104.Text = (Math.Round(Custo / Receita, 4) * 100).ToString("0.00") + "%";
-                    }
-
-                }
-
-                #endregion
-
-                #region Grupo 2
-
-
-                Custo = 0;
-                Receita = 0;
-                Pax = 0;
-                lbDetalh0203.Text = "";
-                lbDetalh0204.Text = "";
-                tabelaCMV = bll.ListaCmvPorGrupo(unidade, diaI, Convert.ToInt32(cbComparativo02.SelectedValue), 01);
-                TotalCmv = bll.Total1CMVPorGrupo(unidade, diaI, Convert.ToInt32(cbComparativo02.SelectedValue), 01);
-
-                if (Convert.ToDouble(TotalCmv.Rows[0][7]) > 0 && Convert.ToDouble(TotalCmv.Rows[0][8]) > 0 && Convert.ToDouble(TotalCmv.Rows[0][9]) > 0)
-                {
-
-                    for (int i = 0; i < tabelaCMV.Rows.Count; i++)
-                    {
-                        diaSemana = Dia(Convert.ToDateTime(tabelaCMV.Rows[i][0]));
-
-                        Custo += (Convert.ToDouble(tabelaCMV.Rows[i][1]) + Convert.ToDouble(tabelaCMV.Rows[i][2])) * -1;
-                        Receita += Convert.ToDouble(tabelaCMV.Rows[i][3]) + Convert.ToDouble(tabelaCMV.Rows[i][4]);
-                        Pax += Convert.ToDouble(tabelaCMV.Rows[i][6]) + Convert.ToDouble(tabelaCMV.Rows[i][7]);
-
-                        if (rdPercent.Checked)
-                        {
-                            try
-                            {
-                                if (Convert.ToDouble(tabelaCMV.Rows[i][1]) == 0 || Convert.ToDouble(tabelaCMV.Rows[i][3]) == 0)
-                                {
-                                    CMVP = 0;
-                                }
-                                else
-                                {
-                                    CMVP = ((Convert.ToDouble(tabelaCMV.Rows[i][1]) + Convert.ToDouble(tabelaCMV.Rows[i][2])) * -1) / (Convert.ToDouble(tabelaCMV.Rows[i][3]) + Convert.ToDouble(tabelaCMV.Rows[i][4]));
-                                }
-                            }
-                            catch
-                            {
-                                CMVP = 0;
-                            }
-
-                            Graf1.Series["G2"].Points.AddXY(diaSemana, CMVP * 100);
-
-                        }
-                        else
-                        {
-                            try
-                            {
-                                if (Convert.ToDouble(tabelaCMV.Rows[i][1]) == 0 || Convert.ToDouble(tabelaCMV.Rows[i][6]) == 0)
-                                {
-                                    CMVV = 0;
-                                }
-                                else
-                                {
-                                    CMVV = ((Convert.ToDouble(tabelaCMV.Rows[i][1]) + Convert.ToDouble(tabelaCMV.Rows[i][2])) * -1) / (Convert.ToDouble(tabelaCMV.Rows[i][6]) + Convert.ToDouble(tabelaCMV.Rows[i][7]));
-                                }
-                            }
-                            catch
-                            {
-                                CMVP = 0;
-                            }
-
-                            Graf1.Series["G2"].Points.AddXY(diaSemana, CMVV);
-                        }
-                    }
-
-
-                    if (rdPercent.Checked)
-                    {
-                        Graf1.Series["G2"].Points.AddXY(("Total"), (Math.Round(Custo / Receita, 4) * 100));
-                    }
-                    else
-                    {
-                        Graf1.Series["G2"].Points.AddXY(("Total"), Math.Round(Custo / Pax, 2));
-
-                    }
-
-                    if (Custo == 0 || Receita == 0 || Pax == 0)
-                    {
-                        lbDetalh0203.Text = "";
-                        lbDetalh0204.Text = "";
-                    }
-                    else
-                    {
-                        lbDetalh0203.Text = (Math.Round(Custo / Pax, 2)).ToString("R$ 0,0.00");
-                        lbDetalh0204.Text = (Math.Round(Custo / Receita, 4) * 100).ToString("0.00") + "%";
-                    }
-                }
-                else
-                {
-
-                }
-            }
-            #endregion
-
-        }
-
-        private void AtualizaGraf2()
         {
             Graf2.Series[0].Points.Clear();
             Graf2.Series[1].Points.Clear();
 
-            if (liberado && cbGeral.Text != "")
+            if (liberado)
             {
-                //Variáveis
-                double CMVV = 0;
-                double Custo, Receita, Pax;
+                //Variáveis                
                 double meta = 0;
                 string diaSemana = "";
 
-                DataTable tabelaCMV, tabelaMeta, TotalCmv;
+                DataTable tabelaCMV, tabelaMeta;
                 DateTime diaI = new DateTime(Convert.ToInt32(numAno.Value), Convert.ToInt32(cbMes.SelectedValue), 1);
                 int unidade = Convert.ToInt32(cbUnidade.SelectedValue);
 
                 DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
                 BLLCmvGraficos bll = new BLLCmvGraficos(cx);
 
-                tabelaCMV = bll.ListaCmvPorGrupo(unidade, diaI, Convert.ToInt32(cbGeral.SelectedValue), 01);
-                tabelaMeta = bll.MetaPorGrupo(Convert.ToInt32(cbGeral.SelectedValue));
-                TotalCmv = bll.Total1CMVPorGrupo(unidade, diaI, Convert.ToInt32(cbGeral.SelectedValue), 01);
+                tabelaCMV = bll.ListaCMVGeral(unidade, diaI, 01);
+                tabelaMeta = bll.MetaPorGrupo(1030);
 
-                Custo = 0;
-                Receita = 0;
-                Pax = 0;
+
                 meta = Convert.ToDouble(tabelaMeta.Rows[0][0]);
 
-
-                if (Convert.ToDouble(TotalCmv.Rows[0][7]) > 0 && Convert.ToDouble(TotalCmv.Rows[0][8]) > 0 && Convert.ToDouble(TotalCmv.Rows[0][9]) > 0)
+                if (Convert.ToDouble(tabelaCMV.Rows[0][14]) != 0 && Convert.ToDouble(tabelaCMV.Rows[0][15]) != 0 && Convert.ToDouble(tabelaCMV.Rows[0][16]) != 0)
                 {
-
-
                     if (tabelaCMV.Rows.Count > 0)
                     {
                         for (int i = 0; i < tabelaCMV.Rows.Count; i++)
                         {
                             diaSemana = Dia(Convert.ToDateTime(tabelaCMV.Rows[i][0]));
 
-                            Custo += ((Convert.ToDouble(tabelaCMV.Rows[i][1]) + Convert.ToDouble(tabelaCMV.Rows[i][2])) * -1);
-                            Receita += Convert.ToDouble(tabelaCMV.Rows[i][3]) + Convert.ToDouble(tabelaCMV.Rows[i][4]);
-                            Pax += Convert.ToDouble(tabelaCMV.Rows[i][6]) + Convert.ToDouble(tabelaCMV.Rows[i][7]);
-
                             if (rdPercent.Checked)
                             {
-                                try
-                                {
-                                    if (Convert.ToDouble(tabelaCMV.Rows[i][1]) == 0 || Convert.ToDouble(tabelaCMV.Rows[i][3]) == 0)
-                                    {
-                                        CMVV = 0;
-                                    }
-                                    else
-                                    {
-                                        CMVV = ((Convert.ToDouble(tabelaCMV.Rows[i][1]) + Convert.ToDouble(tabelaCMV.Rows[i][2])) * -1) / (Convert.ToDouble(tabelaCMV.Rows[i][3]) + Convert.ToDouble(tabelaCMV.Rows[i][4]));
-                                    }
-                                }
-                                catch
-                                {
-                                    CMVV = 0;
-                                }
-                                meta = Convert.ToDouble(tabelaMeta.Rows[0][1]);
-                                Graf2.Series["Valores"].Points.AddXY(diaSemana, Math.Round(CMVV * 100, 2));
-                                Graf2.Series["Meta"].Points.AddXY(diaSemana, Math.Round(meta * 100, 2));
 
+                                meta = Convert.ToDouble(tabelaMeta.Rows[0][1]);
+                                Graf2.Series["Valores"].Points.AddXY(diaSemana, Math.Round(Convert.ToDecimal(tabelaCMV.Rows[i][8]), 2));
+                                Graf2.Series["Meta"].Points.AddXY(diaSemana, Math.Round(meta * 100, 2));
                             }
                             else
                             {
-                                try
-                                {
-                                    if (Convert.ToDouble(tabelaCMV.Rows[i][1]) == 0 || Convert.ToDouble(tabelaCMV.Rows[i][6]) == 0)
-                                    {
-                                        CMVV = 0;
-                                    }
-                                    else
-                                    {
-                                        CMVV = ((Convert.ToDouble(tabelaCMV.Rows[i][1]) + Convert.ToDouble(tabelaCMV.Rows[i][2])) * -1) / (Convert.ToDouble(tabelaCMV.Rows[i][6]) + Convert.ToDouble(tabelaCMV.Rows[i][7]));
-                                    }
-                                }
-                                catch
-                                {
-                                    CMVV = 0;
-                                }
                                 meta = Convert.ToDouble(tabelaMeta.Rows[0][0]);
-                                Graf2.Series["Valores"].Points.AddXY(diaSemana, Math.Round(CMVV, 2));
+                                Graf2.Series["Valores"].Points.AddXY(diaSemana, Math.Round(Convert.ToDecimal(tabelaCMV.Rows[i][10]), 2));
                                 Graf2.Series["Meta"].Points.AddXY(diaSemana, Math.Round(meta, 2));
-
-
-
                             }
                         }
                     }
@@ -632,25 +355,30 @@ namespace GUI.Forms.CMV
                         if (rdPercent.Checked)
                         {
                             meta = Convert.ToDouble(tabelaMeta.Rows[0][1]);
-                            Graf2.Series["Valores"].Points.AddXY(("Total"), (Math.Round(Custo / Receita, 4) * 100));
+                            Graf2.Series["Valores"].Points.AddXY(("Total"), (Math.Round((Convert.ToDecimal(tabelaCMV.Rows[0][14]) * -1) / Convert.ToDecimal(tabelaCMV.Rows[0][15]), 4) * 100));
                             Graf2.Series["Meta"].Points.AddXY("Total", (meta * 100));
+                            Graf2.ChartAreas[0].AxisY.Maximum = Convert.ToDouble((Math.Round((Convert.ToDecimal(tabelaCMV.Rows[0][14]) * -1) / Convert.ToDecimal(tabelaCMV.Rows[0][15]), 4) * 100) * 2);
                         }
                         else
                         {
                             meta = Convert.ToDouble(tabelaMeta.Rows[0][0]);
-                            Graf2.Series["Valores"].Points.AddXY(("Total"), Math.Round(Custo / Pax, 2));
+                            Graf2.Series["Valores"].Points.AddXY(("Total"), Math.Round((Convert.ToDecimal(tabelaCMV.Rows[0][14]) * -1) / Convert.ToDecimal(tabelaCMV.Rows[0][16]), 2));
                             Graf2.Series["Meta"].Points.AddXY("Total", meta);
 
+                            Graf2.ChartAreas[0].AxisY.Maximum = Convert.ToDouble(Math.Round((Convert.ToDecimal(tabelaCMV.Rows[0][14]) * -1) / Convert.ToDecimal(tabelaCMV.Rows[0][16]), 2)) * 2;
                         }
-                        if (Custo == 0 || Receita == 0 || Pax == 0)
+
+
+
+                        if (Convert.ToDecimal(tabelaCMV.Rows[0][14]) == 0 || Convert.ToDecimal(tabelaCMV.Rows[0][15]) == 0 || Convert.ToDecimal(tabelaCMV.Rows[0][16]) == 0)
                         {
                             lbDetalh0303.Text = "";
                             lbDetalh0304.Text = "";
                         }
                         else
                         {
-                            lbDetalh0303.Text = (Math.Round(Custo / Pax, 2)).ToString("R$ 0,0.00");
-                            lbDetalh0304.Text = (Math.Round(Custo / Receita, 4) * 100).ToString("0.00") + "%";
+                            lbDetalh0303.Text = Convert.ToDouble(Math.Round((Convert.ToDecimal(tabelaCMV.Rows[0][14]) * -1) / Convert.ToDecimal(tabelaCMV.Rows[0][16]), 2)).ToString("R$ 0,0.00");
+                            lbDetalh0304.Text = Convert.ToDouble((Math.Round((Convert.ToDecimal(tabelaCMV.Rows[0][14]) * -1) / Convert.ToDecimal(tabelaCMV.Rows[0][15]), 4)) * 100).ToString("0.00") + "%";
                         }
                     }
                     catch
@@ -661,10 +389,124 @@ namespace GUI.Forms.CMV
                 }
                 else { }
 
+                double TotalCusto = 0;
+                double TotalAcrescimo = 0;
+
+
+
+                foreach (DataRow linha in tabelaCMV.Rows)
+                {
+                    TotalCusto += Convert.ToDouble(linha["custo"]);
+                    TotalAcrescimo += Convert.ToDouble(linha["ACusto"]);
+                }
+
+
             }
+        }
+
+        private void AtualizaGraf2()
+        {
+            Graf2.Series[0].Points.Clear();
+            Graf2.Series[1].Points.Clear();
+
+            if (liberado)
+            {
+                //Variáveis                
+                double meta = 0;
+                string diaSemana = "";
+
+                DataTable tabelaCMV, tabelaMeta;
+                DateTime diaI = new DateTime(Convert.ToInt32(numAno.Value), Convert.ToInt32(cbMes.SelectedValue), 1);
+                int unidade = Convert.ToInt32(cbUnidade.SelectedValue);
+
+                DALConexao cx = new DALConexao(DadosDaConexao.StringDaConexao);
+                BLLCmvGraficos bll = new BLLCmvGraficos(cx);
+
+                tabelaCMV = bll.ListaCMVGeral(unidade, diaI, 01);
+                tabelaMeta = bll.MetaPorGrupo(1030);
+
+
+                meta = Convert.ToDouble(tabelaMeta.Rows[0][0]);
+
+                if (Convert.ToDouble(tabelaCMV.Rows[0][14]) != 0 && Convert.ToDouble(tabelaCMV.Rows[0][15]) != 0 && Convert.ToDouble(tabelaCMV.Rows[0][16]) != 0)
+                {
+                    if (tabelaCMV.Rows.Count > 0)
+                    {
+                        for (int i = 0; i < tabelaCMV.Rows.Count; i++)
+                        {
+                            diaSemana = Dia(Convert.ToDateTime(tabelaCMV.Rows[i][0]));
+
+                            if (rdPercent.Checked)
+                            {
+
+                                meta = Convert.ToDouble(tabelaMeta.Rows[0][1]);
+                                Graf2.Series["Valores"].Points.AddXY(diaSemana, Math.Round(Convert.ToDecimal(tabelaCMV.Rows[i][8]), 2));
+                                Graf2.Series["Meta"].Points.AddXY(diaSemana, Math.Round(meta * 100, 2));
+                            }
+                            else
+                            {
+                                meta = Convert.ToDouble(tabelaMeta.Rows[0][0]);
+                                Graf2.Series["Valores"].Points.AddXY(diaSemana, Math.Round(Convert.ToDecimal(tabelaCMV.Rows[i][10]), 2));
+                                Graf2.Series["Meta"].Points.AddXY(diaSemana, Math.Round(meta, 2));
+                            }
+                        }
+                    }
+                    else { }
+
+                    try
+                    {
+                        if (rdPercent.Checked)
+                        {
+                            meta = Convert.ToDouble(tabelaMeta.Rows[0][1]);
+                            Graf2.Series["Valores"].Points.AddXY(("Total"), (Math.Round((Convert.ToDecimal(tabelaCMV.Rows[0][14]) * -1) / Convert.ToDecimal(tabelaCMV.Rows[0][15]), 4) * 100));
+                            Graf2.Series["Meta"].Points.AddXY("Total", (meta * 100));
+                            Graf2.ChartAreas[0].AxisY.Maximum = Convert.ToDouble((Math.Round((Convert.ToDecimal(tabelaCMV.Rows[0][14]) * -1) / Convert.ToDecimal(tabelaCMV.Rows[0][15]), 4) * 100) * 2);
+                        }
+                        else
+                        {
+                            meta = Convert.ToDouble(tabelaMeta.Rows[0][0]);
+                            Graf2.Series["Valores"].Points.AddXY(("Total"), Math.Round((Convert.ToDecimal(tabelaCMV.Rows[0][14]) * -1) / Convert.ToDecimal(tabelaCMV.Rows[0][16]), 2));
+                            Graf2.Series["Meta"].Points.AddXY("Total", meta);
+
+                            Graf2.ChartAreas[0].AxisY.Maximum = Convert.ToDouble(Math.Round((Convert.ToDecimal(tabelaCMV.Rows[0][14]) * -1) / Convert.ToDecimal(tabelaCMV.Rows[0][16]), 2)) * 2;
+                        }
+
+
+
+                        if (Convert.ToDecimal(tabelaCMV.Rows[0][14]) == 0 || Convert.ToDecimal(tabelaCMV.Rows[0][15]) == 0 || Convert.ToDecimal(tabelaCMV.Rows[0][16]) == 0)
+                        {
+                            lbDetalh0303.Text = "";
+                            lbDetalh0304.Text = "";
+                        }
+                        else
+                        {
+                            lbDetalh0303.Text = Convert.ToDouble(Math.Round((Convert.ToDecimal(tabelaCMV.Rows[0][14]) * -1) / Convert.ToDecimal(tabelaCMV.Rows[0][16]), 2)).ToString("R$ 0,0.00");
+                            lbDetalh0304.Text = Convert.ToDouble((Math.Round((Convert.ToDecimal(tabelaCMV.Rows[0][14]) * -1) / Convert.ToDecimal(tabelaCMV.Rows[0][15]), 4)) * 100).ToString("0.00") + "%";
+                        }
+                    }
+                    catch
+
+                    {
+
+                    }
+                }
+                else { }
+
+                double TotalCusto = 0;
+                double TotalAcrescimo = 0;
+
+
+                 
+                foreach (DataRow linha in tabelaCMV.Rows) 
+                {
+                    TotalCusto += Convert.ToDouble(linha["custo"]);
+                    TotalAcrescimo += Convert.ToDouble(linha["ACusto"]);
+                }
+
+               
+            }
+
             
-
-
         }
 
         private void AtualizaPizza1()
@@ -764,10 +606,10 @@ namespace GUI.Forms.CMV
             lbt0203.Text = cbComparativo02.Text + " REALIZADO $";
             lbt0204.Text = cbComparativo02.Text + " REALIZADO %";
 
-            lbt0301.Text = cbGeral.Text + " META $";
-            lbt0302.Text = cbGeral.Text + " META %";
-            lbt0303.Text = cbGeral.Text + " REALIZADO $";
-            lbt0304.Text = cbGeral.Text + " REALIZADO %";
+            lbt0301.Text = "META GERAL $";
+            lbt0302.Text = "META GERAL %";
+            lbt0303.Text = "REALIZADO GERAL $";
+            lbt0304.Text = "REALIZADO GERAL %";
 
 
             //PREENCHE PIZZA 01
@@ -1015,8 +857,7 @@ namespace GUI.Forms.CMV
                     }
                 }
 
-
-                grupo = Convert.ToInt32(cbGeral.SelectedValue);
+                                
                 DataTable totalPax = bll.TotalPaxPorUnidade(unidade, diaI, diaF);
                 totalCusto = bll.TotalCustoPorGrupo(unidade, diaI, diaF, grupo);
                 totalReceita = bll.TotalReceitaPorGrupo(unidade, diaI, diaF, grupo);
@@ -1230,15 +1071,15 @@ namespace GUI.Forms.CMV
 
             string titulo;
             int dia;
-            int grupo = Convert.ToInt32(cbGeral.SelectedValue);
+            
 
             if (pontoAtual > 0)
             {
                 if (pontoAtual > diaF.Day)
                 {
-                    titulo = cbGeral.Text + " (" + cbMes.Text + ")";
+                    titulo = "GERAL (" + cbMes.Text + ")";
                     dia = 32;
-                    frmDetalheGrafico f = new frmDetalheGrafico(pontoAtual, titulo, grupo, diaI, diaF, unidade, true, true);
+                    frmDetalheGrafico f = new frmDetalheGrafico(pontoAtual, titulo, 1, diaI, diaF, unidade, true, true);
                     f.ShowDialog();
                     f.Dispose();
 
@@ -1246,9 +1087,9 @@ namespace GUI.Forms.CMV
                 else
                 {
                     diaA = new DateTime(Convert.ToInt32(numAno.Value), Convert.ToInt32(cbMes.SelectedValue), pontoAtual);
-                    titulo = cbGeral.Text + " (" + pontoAtual.ToString("00") + "/" + Convert.ToInt32(cbMes.SelectedValue).ToString("00") + ")";
+                    titulo = "GERAL (" + pontoAtual.ToString("00") + "/" + Convert.ToInt32(cbMes.SelectedValue).ToString("00") + ")";
                     dia = pontoAtual;
-                    frmDetalheGrafico f = new frmDetalheGrafico(pontoAtual, titulo, grupo, diaA, diaA, unidade, true, true);
+                    frmDetalheGrafico f = new frmDetalheGrafico(pontoAtual, titulo, 1, diaA, diaA, unidade, true, true);
                     f.ShowDialog();
                     f.Dispose();
 
@@ -1289,19 +1130,7 @@ namespace GUI.Forms.CMV
             AtualizaGraf1();
             AtualizaDetalhes();
 
-        }
-
-        private void cbGeral_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (liberado)
-            {
-                Properties.Settings.Default.cbGeral = cbGeral.Text;
-                Properties.Settings.Default.Save();
-            }
-
-            AtualizaGraf2();
-            AtualizaDetalhes();
-        }
+        }             
 
         private void btAnt_Click(object sender, EventArgs e)
         {

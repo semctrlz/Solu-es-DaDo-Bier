@@ -85,7 +85,7 @@ namespace GUI.Forms.Fichas
             BLLSubCategoria bllSCat = new BLLSubCategoria(cx);
             DataTable tabelaSCat = bllSCat.Listar();
 
-            var dataSource1 = new List<Language>();
+            List<Language> dataSource1 = NewMethod();
             dataSource1.Add(new Language() { setor = "", Value = "0" });
 
             for (int i = 0; i < tabelaSetor.Rows.Count; i++)
@@ -121,6 +121,11 @@ namespace GUI.Forms.Fichas
             this.cbSubCategoria.DisplayMember = "scat";
             this.cbSubCategoria.ValueMember = "Value2";
 
+        }
+
+        private static List<Language> NewMethod()
+        {
+            return new List<Language>();
         }
 
         private void CarregaDgv()

@@ -684,7 +684,7 @@ cbUnidade.Text = modelou.IdUnidade.ToString("00");
                 {
                     //cod_item, quant_ingrediente
 
-                    tabelaAeb = bllaeb.localizarPorCod(tabelaIngredientes.Rows[i][0].ToString());
+                    tabelaAeb = bllaeb.LocalizarPorCod(tabelaIngredientes.Rows[i][0].ToString());
                     
                     string codIngrediente, nomeingrediente, um;
                     double quant, custoUnit, custoTotal, fc;

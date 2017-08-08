@@ -58,5 +58,41 @@ namespace GUI.Properties {
                 this["cbGeral"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string servidor {
+            get {
+                return ((string)(this["servidor"]));
+            }
+            set {
+                this["servidor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string banco {
+            get {
+                return ((string)(this["banco"]));
+            }
+            set {
+                this["banco"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string pastaConfig {
+            get {
+                return ((string)(this["pastaConfig"]));
+            }
+            set {
+                this["pastaConfig"] = value;
+            }
+        }
     }
 }

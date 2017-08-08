@@ -17,23 +17,8 @@ namespace GUI.Code.DAL
     
     public class DadosDaConexao
     {
-        public static String servidor = @"tcp:SERVIDOR\SQLEXPRESSZ,49172";
-        public static String banco = "ControleDeMateriais";
-        public static String usuario = "sa";
-        public static String senha = "dce285";
-
-        public static String servidorB = @"BINGO\SQLEXPRESSZ";
-        public static String bancoB = "ControleDeMateriais";
-        public static String usuarioB = "sa";
-        public static String senhaB = "shamboga152099";
-
-
-        public static string name = System.Environment.MachineName;
-
-
-        public static string StringDaConexao =
-     name == "BINGO" ? @"Data Source=" + servidorB + ";Initial Catalog = " + bancoB + "; Persist Security Info=True;User ID = " + usuarioB + "; Password=" + senhaB :
-     @"Data Source=" + servidor + ";Initial Catalog=" + banco + ";Persist Security Info=True;User ID=" + usuario + ";Password=" + senha;
+        
+        public static string StringDaConexao = @"Data Source=BINGO\SQLEXPRESS;Initial Catalog=ControleDeMateriais;Integrated Security=True;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
     }
 
@@ -193,6 +178,15 @@ namespace GUI.Code.DAL
             da.Fill(tabela);
             return tabela;
         }
+
+        public DataTable ListarUsuarios()
+        {
+            DataTable tabela = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter($"select nome_usuario from usuario;", conexao.StringConexao);
+            da.Fill(tabela);
+            return tabela;
+        }
+
 
         public DTOUsuario CarregaModeloUsuario(int codigo)
         {
@@ -1166,7 +1160,6 @@ namespace GUI.Code.DAL
 
         }
 
-
         public DTOConfigUnidade CarregaModeloConfig(String tipoConfig, int unidade)
         {
             DTOConfigUnidade modelo = new DTOConfigUnidade();
@@ -1392,7 +1385,6 @@ namespace GUI.Code.DAL
             return modelo;
 
         }
-
         
         public void IncluirPax(DTODados modelo)
         {
@@ -1444,8 +1436,7 @@ namespace GUI.Code.DAL
             conexao.Desconectar();
 
         }
-
-
+        
         public DataTable LocalizarPax(DateTime data, int unidade, int turno)
         {
             DataTable tabela = new DataTable();
@@ -1464,7 +1455,6 @@ namespace GUI.Code.DAL
             return tabela;
 
         }
-
 
         public DTODados CarregaModeloPax(DateTime data, int unidade)
         {
@@ -2218,7 +2208,6 @@ namespace GUI.Code.DAL
             cmd.ExecuteNonQuery();            
             conexao.Desconectar();
         }
-
         
         public DataTable LocalizarAcrescimos(int unidade, DateTime data)
         {
@@ -2413,122 +2402,162 @@ namespace GUI.Code.DAL
 
 
         //Tabela completa de Custo (Grupo), receita (grupo), pax (grupo) Cmv $ e CMV % Por grupo
-        public DataTable ListaCMVPorGrupo(int unidade, DateTime diaI, int grupoCmv, int grupoCusto)
+        public DataTable ListaCMVGeral(int unidade, DateTime diaI, int grupoCusto)
         {
             DataTable tabela = new DataTable();
             SqlDataAdapter da = new SqlDataAdapter("declare @datai date; " +
-            "declare @dataf date; " +
-            "declare @unidade int; " +
-            "declare @grupoCusto int; " +
-            "declare @grupoCMV int; " +
+"declare @dataf date; " +
+"declare @unidade int; " +
+"declare @grupoCusto int; " +
+"declare @custo float; " +
+"declare @venda float; " +
+"declare @pax float; " +
 
-            $"set @grupoCusto = {grupoCusto}; " +
-            $"set @grupoCMV = {grupoCmv}; " +
-            $"set @unidade = {unidade}; " +
-            $"set @datai = '{diaI}' " +
+$"set @grupoCusto = {grupoCusto}; " +
+$"set @unidade = {unidade}; " +
+$"set @datai = '{diaI}' " +
 
-            "set @dataf = DATEADD(DAY, DATEDIFF(day, @datai, (DATEADD(MONTH, 1, @datai))) - 1, @datai); " +
+"set @dataf = DATEADD(DAY, DATEDIFF(day, @datai, (DATEADD(MONTH, 1, @datai))) - 1, @datai); " +
 
-            "with " +
-                "CTE_M as " +
-                    "( " +
-                        "select @datai as data " +
-                        "union all " +
-                        "select DATEADD(day, 1, data) " +
-                        "from CTE_M " +
-                        "where (data < @dataf) " +
-                    "), " +
+"set @venda = (isnull((select sum(valor_venda-(valor_venda*(ci.total_a/100))) as venda_Liquida_A from venda v " +
+"join config_imposto ci on ci.id_unidade = @unidade " +
+"left join config_receita c on v.grupo_venda = c.cod_venda and c.id_unidade = @unidade " +
+"where v.id_unidade = @unidade and v.data_venda between @datai and @dataf and c.tipo_cod_venda = 'A' and v.id_unidade = @unidade),0)+ " +
+"isnull((select sum(valor_venda-(valor_venda*(ci.total_b/100))) as venda_Liquida_B from venda v " +
+"join config_imposto ci on ci.id_unidade = @unidade " +
+"left join config_receita c on v.grupo_venda = c.cod_venda and c.id_unidade = @unidade " +
+"where v.id_unidade = @unidade and v.data_venda between @datai and @dataf and c.tipo_cod_venda = 'B' and v.id_unidade = @unidade),0)+ " +
+"(ISNULL((select sum(valor_acrescimo) as acrescimo from acrescimo where id_unidade = @unidade and data_acrescimo between @datai and @dataf and tipo_acrescimo = 'r'),0))) " +
 
-
-                "CTE_AC as " +
-
-                    "( " +
-                        "select a.data_acrescimo, sum(a.valor_acrescimo) as valor from acrescimo a " +
-                        "join cmv_grupo_custo gc on gc.id_cmv_grupo = @grupoCMV " +
-                        "join cmv_grupo g on g.id_cmv_grupo = gc.id_cmv_grupo " +
-                        "join config_custo cc on gc.id_config_custo = cc.id_config_custo " +
-
-                        "where a.conta_acrescimo = cc.cod_setor and a.data_acrescimo between @datai and @dataf and a.id_unidade = @unidade " +
-                        "group by a.data_acrescimo " +
-
-                    "), " +
-
-                "CTE_AR as " +
-
-                    "( " +
-                        "select a.data_acrescimo, sum(a.valor_acrescimo) as valor from acrescimo a " +
-                        "where a.data_acrescimo between @datai and @dataf and a.id_unidade = @unidade and a.tipo_acrescimo = 'r' " +
-                        "group by a.data_acrescimo " +
-
-                    "),  " +
-
-                "CTE_AP as " +
-
-                    "( " +
-                        "select a.data_acrescimo, sum(a.valor_acrescimo) as valor from acrescimo a " +
-                        "where a.data_acrescimo between @datai and @dataf and a.id_unidade = @unidade and a.tipo_acrescimo = 'p' " +
-                        "group by a.data_acrescimo " +
-
-                    "), " +
+"set @pax = ((select isnull(round(sum(v.pax),0),0) as pax from pax v " +
+"join config_imposto ci on ci.id_unidade = @unidade " +
+"where v.id_unidade = @unidade and v.data_pax between @datai and @dataf and v.id_unidade = @unidade)+ " +
+"(select isnull(sum(valor_acrescimo),0) as pax from acrescimo where data_acrescimo between @datai and @dataf and id_unidade = @unidade and tipo_acrescimo = 'p')) " +
 
 
-                "CTE_C as " +
-
-                    "(" +
-                    "select c.data_custo, sum(quant_mov_custo * valor_unitario_custo * cc.divisao_custo_setor) as custo from custo c " +
-                    "join cmv_grupo_custo gc on gc.id_cmv_grupo = @grupoCMV " +
-                    "join cmv_grupo g on g.id_cmv_grupo = gc.id_cmv_grupo " +
-                    "join config_custo cc on gc.id_config_custo = cc.id_config_custo " +
-
-                    "where c.conta_gerencial_custo = cc.cod_setor and c.data_custo between @datai and @dataf and c.id_unidade = @unidade and c.grupo = @grupoCusto " +
-                    "group by c.data_custo " +
-
-                    "), " +
-
-                "CTE_R as " +
-
-                    "( " +
-                        "select v.data_venda, sum(v.valor_venda) as receita, sum(v.quant_total_venda) as pax from venda v " +
-                        "join cmv_grupo_receita gr on gr.id_cmv_grupo = @grupoCMV " +
-                        "join cmv_grupo g on g.id_cmv_grupo = gr.id_cmv_grupo " +
-                        "where v.id_unidade = @unidade and v.grupo_venda = gr.cod_receita and v.data_venda between @datai and @dataf " +
-                        "group by v.data_venda " +
-                    "), " +
+"set @custo = ((select sum(quant_mov_custo * valor_unitario_custo) as custo from custo cus " +
+"where cus.data_custo between @datai and @dataf and cus.id_unidade = @unidade and cus.grupo = @grupoCusto)+ " +
+"ISNULL((select sum(valor_acrescimo) as acrescimo from acrescimo where id_unidade = @unidade and data_acrescimo between @datai and @dataf and tipo_acrescimo = 'c'),0)); " +
 
 
-                "CTE_P as " +
+"with " +
+"CTE_M as " +
+"( " +
+"select @datai as data " +
+"union all " +
+"select DATEADD(day, 1, data) " +
+"from CTE_M " +
+"where (data < @dataf) " +
+"), " +
 
-                    "( " +
-                        "select data_pax, sum(pax) as total_pax from pax " +
-                        "where id_unidade = @unidade and data_pax between @datai and @dataf " +
-                        "group by data_pax " +
-                    ") " +
+"CTE_AC as " +
+
+"( " +
+"select a.data_acrescimo, sum(a.valor_acrescimo) as valor from acrescimo a " +
+"where a.tipo_acrescimo = 'c' and a.data_acrescimo between @datai and @dataf and a.id_unidade = @unidade " +
+"group by a.data_acrescimo " +
+
+"), " +
+
+"CTE_AR as " +
+
+"( " +
+"select a.data_acrescimo, sum(a.valor_acrescimo) as valor from acrescimo a " +
+"where a.data_acrescimo between @datai and @dataf and a.id_unidade = @unidade and a.tipo_acrescimo = 'r' " +
+"group by a.data_acrescimo " +
+
+"), " +
+
+"CTE_AP as " +
+
+"( " +
+"select a.data_acrescimo, sum(a.valor_acrescimo) as valor from acrescimo a " +
+"where a.data_acrescimo between @datai and @dataf and a.id_unidade = @unidade and a.tipo_acrescimo = 'p' " +
+"group by a.data_acrescimo " +
+"), " +
+
+"CTE_C as " +
+
+"( " +
+"select c.data_custo, sum(quant_mov_custo * valor_unitario_custo) as custo from custo c " +
+
+"where c.data_custo between @datai and @dataf and c.id_unidade = @unidade and c.grupo = @grupoCusto " +
+"group by c.data_custo " +
+
+"), " +
+
+"CTE_RA as " +
+
+"( " +
+"select data_venda, sum(valor_venda-(valor_venda*(isnull(ci.total_a,0)/100))) as venda_Liquida_A, sum(valor_venda) as ReceitaBrutaA, sum(quant_total_venda) as pax from venda v " +
+
+"join config_imposto ci on ci.id_unidade = @unidade " +
+
+"left join config_receita c on v.grupo_venda = c.cod_venda and c.id_unidade = @unidade " +
+
+"where v.id_unidade = @unidade and v.data_venda between @datai and @dataf and c.tipo_cod_venda = 'A' and v.id_unidade = @unidade " +
+
+"group by data_venda " +
+"), " +
 
 
-                "select " +
-                    "t.data, sum(ISNULL(c.custo,0)) as custo,  " +
+"CTE_RB as " +
 
-                    "sum(ISNULL(ac.valor, 0)) as ACusto, " +
-                    "sum(ISNULL(r.receita, 0)) as receita, " +
-                    "sum(ISNULL(ar.valor, 0)) as AReceita, " +
-                    "sum(ISNULL(r.pax, 0)) as pax_grupo, " +
-                    "sum(ISNULL(p.total_pax, 0)) as Pax_Total, " +
-                    "sum(ISNULL(ap.valor, 0)) as APax, " +
-                    "ISNULL(round(sum((c.custo * -1) / r.receita) * 100, 2),0) as cmvPercent2,  " +
-                    "ISNULL(round(sum((c.custo * -1) / r.pax), 2), 0) as cmvValorGrupo, " +
-                    "ISNULL(round(sum((c.custo * -1) / p.total_pax), 2), 0) as cmvValorTotal  " +
-                    "from CTE_M as t " +
+"( " +
+"select data_venda, sum(valor_venda-(valor_venda*(isnull(ci.total_b,0)/100))) as venda_Liquida_B, sum(valor_venda) as ReceitaBrutaB, sum(quant_total_venda) as pax from venda v " +
 
-                    "left join CTE_C c on c.data_custo = t.data " +
-                    "left join CTE_R r on r.data_venda = t.data " +
-                    "left join CTE_P p on p.data_pax = t.data " +
-                    "left join CTE_AC ac on ac.data_acrescimo = t.data " +
-                    "left join CTE_AR ar on ar.data_acrescimo = t.data " +
-                    "left join CTE_AP ap on ap.data_acrescimo = t.data " +
-                    "Group by t.data " +
-                    "order by " +
+"join config_imposto ci on ci.id_unidade = @unidade " +
 
-                    "t.data; ", conexao.StringConexao);
+"left join config_receita c on v.grupo_venda = c.cod_venda and c.id_unidade = @unidade " +
+
+"where v.id_unidade = @unidade and v.data_venda between @datai and @dataf and c.tipo_cod_venda = 'B' and v.id_unidade = @unidade " +
+
+"group by data_venda " +
+"), " +
+
+"CTE_P as " +
+
+"( " +
+"select data_pax, sum(pax) as total_pax from pax " +
+"where id_unidade = @unidade and data_pax between @datai and @dataf " +
+"group by data_pax " +
+") " +
+
+
+
+"select t.data, sum(ISNULL(c.custo,0)) as custo, " +
+
+"sum(ISNULL(ac.valor, 0)) as ACusto, " +
+"sum(ISNULL(ra.ReceitaBrutaA + rb.ReceitaBrutaB, 0)) as receitaBruta, " +
+"sum(ISNULL(ar.valor, 0)) as AReceita, " +
+"sum(ISNULL(ra.pax, 0) + isnull(rb.pax, 0)) as pax_grupo, " +
+"sum(ISNULL(p.total_pax, 0)) as Pax_Total, " +
+"sum(ISNULL(ap.valor, 0)) as APax, " +
+"ISNULL(round(sum((c.custo * -1) / (rb.venda_Liquida_B + ra.venda_Liquida_A)) * 100, 2), 0) as cmvPercent, " +
+"ISNULL(round(sum((c.custo * -1) / ra.pax), 2), 0) as cmvValorGrupo, " +
+"ISNULL(round(sum((c.custo * -1) / p.total_pax), 2), 0) as cmvValorTotal, " +
+"ISNULL(sum(ra.venda_Liquida_A),0) as Receita_Sem_imposto_A, " +
+"ISNULL(sum(rb.venda_Liquida_B),0) as Receita_Sem_imposto_B, " +
+"ISNULL(sum(rb.venda_Liquida_B + ra.venda_Liquida_A),0) as ReceitaLiquida, " +
+"ISNULL(@custo,0) as CustoTotal, " +
+"ISNULL(@venda,0) as VendaTotal, " +
+"ISNULL(@pax,0) as PaxTotal " +
+
+"from CTE_M as t " +
+
+"left join CTE_C c on c.data_custo = t.data " +
+"left join CTE_RA ra on ra.data_venda = t.data " +
+
+"left join CTE_RB rb on rb.data_venda = t.data " +
+"left join CTE_P p on p.data_pax = t.data " +
+"left join CTE_AC ac on ac.data_acrescimo = t.data " +
+"left join CTE_AR ar on ar.data_acrescimo = t.data " +
+"left join CTE_AP ap on ap.data_acrescimo = t.data " +
+
+"Group by t.data " +
+"order by " +
+
+"t.data; ", conexao.StringConexao);
 
             da.Fill(tabela);
             return tabela;
@@ -2654,11 +2683,156 @@ namespace GUI.Code.DAL
             return tabela;
         }
 
+        //Tabela separando custo CMV e Totais de Pax e receita por Grupo
+        public DataTable TabelaCustoCMVReceitaPaxPorGrupo(int unidade, DateTime diaI, DateTime diaF, int grupoCmv, int grupoCusto)
+        {
+            DataTable tabela = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(
+            "declare @datai date; " +
+            "declare @dataf date; " +
+            "declare @unidade int; " +
+            "declare @grupoCusto int; " +
+            "declare @grupoCMV int; " +
+            "declare @venda float; " +
+            "declare @pax int; " +
+            "declare @custo float; " +
+
+            $"set @grupoCusto = {grupoCusto}; " +
+            $"set @grupoCMV = {grupoCmv}; " +
+            $"set @unidade = {unidade}; " +
+            $"set @datai = '{diaI}' " +
+            $"set @dataf = '{diaF}' " +
+
+"set @venda = (isnull((select sum(valor_venda - (valor_venda * (ci.total_a / 100))) as venda_Liquida_A from venda v " +
+            "join cmv_grupo_receita gr on gr.id_cmv_grupo = @grupoCMV " +
+
+            "join config_imposto ci on ci.id_unidade = @unidade " +
+            "join cmv_grupo g on g.id_cmv_grupo = gr.id_cmv_grupo " +
+
+            "left join config_receita c on v.grupo_venda = c.cod_venda and c.id_unidade = @unidade " +
+            "where v.id_unidade = @unidade and v.grupo_venda = gr.cod_receita and v.data_venda between @datai and @dataf  and c.tipo_cod_venda = 'A' and v.id_unidade = @unidade),0)+ " +
+            "isnull((select sum(valor_venda - (valor_venda * (ci.total_b / 100))) as venda_Liquida_B from venda v " +
+            "join cmv_grupo_receita gr on gr.id_cmv_grupo = @grupoCMV " +
+
+            "join config_imposto ci on ci.id_unidade = @unidade " +
+            "join cmv_grupo g on g.id_cmv_grupo = gr.id_cmv_grupo " +
+
+            "left join config_receita c on v.grupo_venda = c.cod_venda and c.id_unidade = @unidade " +
+            "where v.id_unidade = @unidade and v.grupo_venda = gr.cod_receita and v.data_venda between @datai and @dataf  and c.tipo_cod_venda = 'B' and v.id_unidade = @unidade),0)+  " +
+            "(ISNULL((select sum(valor_acrescimo) as acrescimo from acrescimo where id_unidade = @unidade and data_acrescimo between @datai and @dataf and tipo_acrescimo = 'r'),0))) " +
+
+"set @pax = (select round(sum(v.quant_total_venda), 0) as pax from venda v " +
+            "join cmv_grupo_receita gr on gr.id_cmv_grupo = @grupoCMV " +
+
+            "join config_imposto ci on ci.id_unidade = @unidade " +
+            "join cmv_grupo g on g.id_cmv_grupo = gr.id_cmv_grupo " +
+
+            "left join config_receita c on v.grupo_venda = c.cod_venda and c.id_unidade = @unidade " +
+            "where v.id_unidade = @unidade and v.grupo_venda = gr.cod_receita and v.data_venda between @datai and @dataf and v.id_unidade = @unidade) " +
 
 
-       
+            "set @custo = ((select sum(quant_mov_custo * valor_unitario_custo) as custo from custo cus " +
+
+            "where cus.data_custo between @datai and @dataf and cus.id_unidade = @unidade and cus.grupo = @grupoCusto)+ " +
+            "ISNULL((select sum(valor_acrescimo) as acrescimo from acrescimo where id_unidade = @unidade and data_acrescimo between @datai and @dataf and tipo_acrescimo = 'c'),0)); " +
+
+            "with " +
+                "CTE_A as " +
+                    "( " +
+                        "select conta_acrescimo, sum(valor_acrescimo) as valor from acrescimo " +
+                        "where data_acrescimo between @datai and @dataf and id_unidade = @unidade " +
+                        "group by conta_acrescimo " +
+                    ") " +
+
+"select c.conta_gerencial_custo, ISNULL(c.conta_gerencial_custo + ' - ' + cg.nome_setor, 'CONTA NÃO CADASTRADA') as NomeConta, " +
+            "round((sum(c.quant_mov_custo * c.valor_unitario_custo * -1)) + ISNULL(a.valor * -1, 0), 2) as custo, " +
+            "round(((sum(quant_mov_custo * valor_unitario_custo * -1)) + ISNULL(a.valor * -1, 0) / @pax), 2) as CMVValor, " +
+            "round(((sum(quant_mov_custo * valor_unitario_custo * -1)) + ISNULL(a.valor * -1, 0) / @venda), 4) * 100 as CMVPercent, " +
+            "ROUND(@custo, 2) as CustoTotal, round(@venda, 2) as vendaTotal, @pax as paxTotal " +
+
+            "from custo c " +
+            "left join config_custo cg on cg.cod_setor = c.conta_gerencial_custo and cg.id_unidade = @unidade " +
+            "left join cmv_grupo_custo cc on cc.id_config_custo = cg.id_config_custo and cc.id_cmv_grupo = @grupoCMV " +
+            "left join CTE_A a on a.conta_acrescimo = c.conta_gerencial_custo " +
+
+            "where c.data_custo between @datai and @dataf and c.id_unidade = @unidade and c.grupo = @grupoCusto and cc.id_cmv_grupo = @grupoCMV " +
+
+            "group by c.conta_gerencial_custo, CG.nome_setor, a.valor order by custo desc; ", conexao.StringConexao);
+
+            da.Fill(tabela);
+            return tabela;
+        }
+
+        //Tabela separando custo CMV e Totais de Pax e receita Geral
+        public DataTable TabelaCustoCMVReceitaPaxGeral(int unidade, DateTime diaI, DateTime diaF, int grupoCusto)
+        {
+            DataTable tabela = new DataTable();
+            SqlDataAdapter da = new SqlDataAdapter(" "+
+            "declare @datai date; " +
+            "declare @dataf date; " +
+            "declare @unidade int; " +
+            "declare @grupoCusto int; " +
+            "declare @grupoCMV int; " +
+            "declare @venda float; " +
+            "declare @pax int; " +
+            "declare @custo float; " +
+
+            $"set @grupoCusto = {grupoCusto}; " +
+            $"set @unidade = {unidade}; " +
+            $"set @datai = '{diaI}' " +
+            $"set @dataf = '{diaF}' " +
+
+"set @venda = (isnull((select sum(valor_venda-(valor_venda*(ci.total_a/100))) as venda_Liquida_A from venda v " +
+
+            "join config_imposto ci on ci.id_unidade = @unidade " +
+
+            "left join config_receita c on v.grupo_venda = c.cod_venda and c.id_unidade = @unidade " +
+            "where v.id_unidade = @unidade and v.data_venda between @datai and @dataf  and c.tipo_cod_venda = 'A' and v.id_unidade = @unidade),0)+ " +
+
+            "isnull((select sum(valor_venda - (valor_venda * (ci.total_b / 100))) as venda_Liquida_B from venda v " +
+
+            "join config_imposto ci on ci.id_unidade = @unidade " +
+
+            "left join config_receita c on v.grupo_venda = c.cod_venda and c.id_unidade = @unidade " +
+            "where v.id_unidade = @unidade and v.data_venda between @datai and @dataf  and c.tipo_cod_venda = 'B' and v.id_unidade = @unidade),0)+ " +
+            "(ISNULL((select sum(valor_acrescimo) as acrescimo from acrescimo where id_unidade = @unidade and data_acrescimo between @datai and @dataf and tipo_acrescimo = 'r'),0))) " +
+
+"set @pax = (select round(sum(v.pax),0) as pax from pax v " +
+            "where v.id_unidade = @unidade and v.data_pax between @datai and @dataf  and v.id_unidade = @unidade) " +
 
 
+"set @custo = ((select sum(quant_mov_custo * valor_unitario_custo) as custo from custo cus " +
+
+            "where cus.data_custo between @datai and @dataf and cus.id_unidade = @unidade and cus.grupo = @grupoCusto)+ " +
+            "ISNULL((select sum(valor_acrescimo) as acrescimo from acrescimo where id_unidade = @unidade and data_acrescimo between @datai and @dataf and tipo_acrescimo = 'c'),0)); " +
+
+            "with " +
+                "CTE_A as " +
+                    "( " +
+                        "select conta_acrescimo, sum(valor_acrescimo) as valor from acrescimo " +
+                        "where data_acrescimo between @datai and @dataf and id_unidade = @unidade " +
+                        "group by conta_acrescimo " +
+                    ") " +
+
+"select c.conta_gerencial_custo, ISNULL(c.conta_gerencial_custo + ' - ' + cg.nome_setor, 'CONTA NÃO CADASTRADA') as NomeConta,  " +
+            "round((sum(c.quant_mov_custo * c.valor_unitario_custo * -1)) + ISNULL(a.valor * -1, 0), 2) as custo, " +
+            "round((((sum(quant_mov_custo * valor_unitario_custo * -1)) + ISNULL(a.valor * -1, 0)) / @pax), 2) as CMVValor, " +
+            "round((((sum(quant_mov_custo * valor_unitario_custo * -1)) + ISNULL(a.valor * -1, 0)) / @venda), 4) * 100 as CMVPercent, " +
+            "ROUND(@custo, 2) as CustoTotal, round(@venda, 2) as vendaTotal, @pax as paxTotal " +
+
+            "from custo c " +
+
+            "left join config_custo cg on cg.cod_setor = c.conta_gerencial_custo and cg.id_unidade = @unidade " +
+
+            "left join CTE_A a on a.conta_acrescimo = c.conta_gerencial_custo " +
+
+            "where c.data_custo between @datai and @dataf and c.id_unidade = @unidade and c.grupo = @grupoCusto " +
+
+            "group by c.conta_gerencial_custo, CG.nome_setor, a.valor order by custo desc; ", conexao.StringConexao);
+
+            da.Fill(tabela);
+            return tabela;
+        }
 
         public DataTable TotalCMVPorGrupo(int unidade, DateTime diaI, int grupoCmv, int grupoCusto)
         {
@@ -2976,7 +3150,66 @@ $"where id_unidade = {unidade} order by turno, tipo_setor, nome_setor; ", conexa
         
 
     }
-        
+
+    //Metas
+    public class DALCMVMetas
+    {
+
+        private DALConexao conexao;
+
+        public DALCMVMetas(DALConexao cx)
+        {
+            this.conexao = cx;
+        }
+
+        //Incluir Metas
+
+        public void Incluir(DTOMetas modelo)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conexao.ObjetoConexao;
+            cmd.CommandText = "INSERT INTO CMVmetas (id_unidade, data_meta, conta_meta, meta_valor, meta_percent) " +
+     "VALUES " +
+
+           "(@unidade, @data, @conta, @valor, @percent);";
+
+            cmd.Parameters.AddWithValue("@unidade", modelo.Id_unidade);
+            cmd.Parameters.AddWithValue("@data", modelo.Data_meta);
+            cmd.Parameters.AddWithValue("@conta", modelo.Conta_meta);
+            cmd.Parameters.AddWithValue("@valor", modelo.Meta_valor);
+            cmd.Parameters.AddWithValue("@percent", modelo.Meta_percent);
+           
+            conexao.Conectar();
+            cmd.ExecuteNonQuery();
+            conexao.Desconectar();
+
+        }
+
+        public void ExcluirPorId(int id)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conexao.ObjetoConexao;
+            cmd.CommandText = $"delete from CMVmetas where id_metas = {id};";
+                        
+            conexao.Conectar();
+            cmd.ExecuteNonQuery();
+            conexao.Desconectar();
+        }
+
+        public void ExcluirPorData(DateTime dataI, DateTime dataF, int id)
+        {
+            SqlCommand cmd = new SqlCommand();
+            cmd.Connection = conexao.ObjetoConexao;
+            cmd.CommandText = $"delete from CMVmetas where id_unidade = {id} and data_meta between '{dataI}' and '{dataF}';";
+
+            conexao.Conectar();
+            cmd.ExecuteNonQuery();
+            conexao.Desconectar();
+        }
+
+    }
+
+
     //Materiais
 
     public class DALFornecedores

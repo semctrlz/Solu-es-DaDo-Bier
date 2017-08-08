@@ -41,6 +41,10 @@
             this.del = new System.Windows.Forms.DataGridViewImageColumn();
             this.gbAdmin = new System.Windows.Forms.GroupBox();
             this.dgvAdmin = new System.Windows.Forms.DataGridView();
+            this.id_config_receita = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.id_gr = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.cod_admin = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.cbGrupos = new System.Windows.Forms.ComboBox();
             this.lbGrupo = new System.Windows.Forms.Label();
             this.cbConta = new System.Windows.Forms.ComboBox();
@@ -66,10 +70,6 @@
             this.btSalvar = new System.Windows.Forms.Button();
             this.txtNome = new System.Windows.Forms.TextBox();
             this.cbGrupoAdmin = new System.Windows.Forms.ComboBox();
-            this.id_config_receita = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.id_gr = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.cod_admin = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.delete = new System.Windows.Forms.DataGridViewImageColumn();
             this.groupBox1.SuspendLayout();
             this.gbConta.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvContas)).BeginInit();
@@ -209,6 +209,35 @@
             this.dgvAdmin.TabIndex = 0;
             this.dgvAdmin.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvAdmin_CellContentClick);
             this.dgvAdmin.SelectionChanged += new System.EventHandler(this.dgvAdmin_SelectionChanged);
+            // 
+            // id_config_receita
+            // 
+            this.id_config_receita.HeaderText = "id";
+            this.id_config_receita.Name = "id_config_receita";
+            this.id_config_receita.ReadOnly = true;
+            this.id_config_receita.Visible = false;
+            // 
+            // id_gr
+            // 
+            this.id_gr.HeaderText = "id_gr";
+            this.id_gr.Name = "id_gr";
+            this.id_gr.ReadOnly = true;
+            this.id_gr.Visible = false;
+            // 
+            // cod_admin
+            // 
+            this.cod_admin.HeaderText = "Grupo Adm";
+            this.cod_admin.Name = "cod_admin";
+            this.cod_admin.ReadOnly = true;
+            this.cod_admin.Width = 300;
+            // 
+            // delete
+            // 
+            this.delete.HeaderText = "";
+            this.delete.Image = global::GUI.Properties.Resources.trash_2x;
+            this.delete.Name = "delete";
+            this.delete.ReadOnly = true;
+            this.delete.Width = 26;
             // 
             // cbGrupos
             // 
@@ -463,35 +492,6 @@
             this.cbGrupoAdmin.Name = "cbGrupoAdmin";
             this.cbGrupoAdmin.Size = new System.Drawing.Size(301, 21);
             this.cbGrupoAdmin.TabIndex = 11;
-            // 
-            // id_config_receita
-            // 
-            this.id_config_receita.HeaderText = "id";
-            this.id_config_receita.Name = "id_config_receita";
-            this.id_config_receita.ReadOnly = true;
-            this.id_config_receita.Visible = false;
-            // 
-            // id_gr
-            // 
-            this.id_gr.HeaderText = "id_gr";
-            this.id_gr.Name = "id_gr";
-            this.id_gr.ReadOnly = true;
-            this.id_gr.Visible = false;
-            // 
-            // cod_admin
-            // 
-            this.cod_admin.HeaderText = "Grupo Adm";
-            this.cod_admin.Name = "cod_admin";
-            this.cod_admin.ReadOnly = true;
-            this.cod_admin.Width = 300;
-            // 
-            // delete
-            // 
-            this.delete.HeaderText = "";
-            this.delete.Image = global::GUI.Properties.Resources.trash_2x;
-            this.delete.Name = "delete";
-            this.delete.ReadOnly = true;
-            this.delete.Width = 26;
             // 
             // frmCadatroGrupo
             // 

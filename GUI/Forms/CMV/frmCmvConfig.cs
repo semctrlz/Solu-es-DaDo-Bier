@@ -1642,6 +1642,11 @@ namespace GUI
             });
         }
 
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
         private void btSalvarImpostos_Click(object sender, EventArgs e)
         {
 
@@ -1663,6 +1668,15 @@ namespace GUI
 
             try
             {
+                try
+                {
+                    blli.Excluir(Convert.ToInt32(cbUnidade.SelectedValue));
+                }
+                catch
+                {
+
+                }
+
                 blli.Incluir(dto);
                 MessageBox.Show("Impostos salvos com sucesso.");
             }
